@@ -15,25 +15,9 @@ public class EditionController {
     @Autowired
     private EditionService editionService;
 
-
-    @RequestMapping(value = "/create", method = RequestMethod.POST)
-    public String createEdition(){
-        return "POST La Edición";
-    }
-
     @RequestMapping(value = "/getAll", method = RequestMethod.GET)
-    public String getEdition(){
-        return "GET La Edición";
-    }
-
-    @RequestMapping(value = "/update", method = RequestMethod.PUT)
-    public String updateEdition(){
-        return "UPDATE La Edición";
-    }
-
-    @RequestMapping(value = "/delete", method = RequestMethod.DELETE)
-    public String deleteEdition(){
-        return "DELETE La Edición";
+    public String getEdition() throws JsonProcessingException {
+        return editionService.getAll();
     }
 
     @RequestMapping(value = "/getById", method = RequestMethod.GET)

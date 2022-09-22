@@ -5,16 +5,14 @@ import java.sql.DriverManager;
 import java.sql.SQLException;
 
 public class DBCConnection {
-
     private static Connection connection;
-
-    public static Connection getConnection(){
-        if (connection != null){
+    public static Connection getConnection() {
+        if (connection != null) {
             return connection;
         }
-        String dbURL = "jdbc:postgresql://localhost:5432/ACTMainDB";
+        String dbURL = "jdbc:postgresql://localhost:5432/ArtCityTour";
         String userName = "postgres";
-        String password = "Admin";
+        String password = "123456";
         Connection conn = null;
         try {
             conn = DriverManager.getConnection(dbURL, userName, password);
