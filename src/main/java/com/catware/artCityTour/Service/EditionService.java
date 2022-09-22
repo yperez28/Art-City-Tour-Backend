@@ -29,7 +29,7 @@ public class EditionService {
 
     public String getEditionById(Long id) throws JsonProcessingException {
         Edition edition = editionRepository.getEditionById(id);
-        edition.setSponsors(editionRepository.getSponsorsByEdition(edition.getId()));
+        edition.setSponsors(editionRepository.getSponsorsByEdition(id));
 
         return objectMapper.writeValueAsString(edition);
     }

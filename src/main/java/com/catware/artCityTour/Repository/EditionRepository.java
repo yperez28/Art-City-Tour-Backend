@@ -41,7 +41,7 @@ public class EditionRepository {
                 e.printStackTrace();
             }
             return editions;
-        }catch (EmptyResultDataAccessException e) {
+        } catch (EmptyResultDataAccessException e) {
             return new ArrayList<>();
         }
     }
@@ -96,7 +96,9 @@ public class EditionRepository {
             } catch (Exception e) {
                 e.printStackTrace();
             }
+
             return sponsors;
+
         } catch (EmptyResultDataAccessException e) {
             return new ArrayList<>();
         }
