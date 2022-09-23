@@ -1,6 +1,8 @@
 package com.catware.artCityTour.Service;
 
+import com.catware.artCityTour.Model.Itinerary;
 import com.catware.artCityTour.Model.User;
+import com.catware.artCityTour.Repository.ItineraryRepository;
 import com.catware.artCityTour.Repository.UserRepository;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -36,19 +38,21 @@ public class UserService {
 
     public String saveUser(String name, String lastname, String email, String password, String identification, String phoneNumber, String address, String photo, Integer age) throws JsonProcessingException {
         User result = userRepository.saveUser(name, lastname, email, password, identification, phoneNumber, address, photo, age);
-
         return objectMapper.writeValueAsString(result);
     }
 
     public String updateUser(String name, String lastname, String email, String password, String identification, String phoneNumber, String address, String photo, Integer age, Long id) throws JsonProcessingException {
         Integer result = userRepository.updateUser(name, lastname, email, password, identification, phoneNumber, address, photo, age, id);
-
         return objectMapper.writeValueAsString(result);
     }
 
     public String deleteUser(Long id) throws JsonProcessingException {
+        ItineraryRepository itineraryRepository = new ItineraryRepository();
+        List<Itinerary> itinerary =  itineraryRepository.getItineraryByUser(id);
+        for (Itinerary itin:itinerary ) {
+            itineraryRepository.deleteItinerary(itin.getId());
+        }
         Integer result = userRepository.deleteUser(id);
-
         return objectMapper.writeValueAsString(result);
     }
 }

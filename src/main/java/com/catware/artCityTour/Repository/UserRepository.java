@@ -175,12 +175,15 @@ public class UserRepository {
 
     public Integer deleteUser(Long id) {
         try {
-            String query = "DELETE FROM usuario WHERE \"ID\" = ?";
-            PreparedStatement statement = connection.prepareStatement(query);
-            statement.setLong(1, id);
-            Integer result = statement.executeUpdate();
+            String membrxusuQuery = "DELETE FROM membresiaxpersona WHERE usuarioid = ?";
+            String mainQuery = "DELETE FROM usuario WHERE \"ID\" = ?";
+            PreparedStatement mainStatement = connection.prepareStatement(mainQuery);
+            mainStatement.setLong(1, id);
+            PreparedStatement membrxusuStatement = connection.prepareStatement(membrxusuQuery);
+            membrxusuStatement.setLong(1, id);
+            membrxusuStatement.executeUpdate();
+            Integer result = mainStatement.executeUpdate();
             connection.close();
-
             return result;
 
         } catch (SQLException e) {

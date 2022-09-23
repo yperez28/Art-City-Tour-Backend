@@ -14,6 +14,7 @@ public class Event {
     private LocalTime startHour;
     private LocalTime endHour;
     private Place place;
+    private Long placeid;
 
     public Event(Long id, LocalTime startHour, LocalTime endHour, Place place) {
         this.id = id;

@@ -1,10 +1,7 @@
 package com.catware.artCityTour.Repository;
 
 import com.catware.artCityTour.Conection.DBCConnection;
-import com.catware.artCityTour.Model.Event;
 import com.catware.artCityTour.Model.Itinerary;
-import com.catware.artCityTour.Model.Place;
-import com.catware.artCityTour.Model.User;
 import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.stereotype.Repository;
 
@@ -22,27 +19,22 @@ public class ItineraryRepository {
 
     public List<Itinerary> getAll() {
         try {
-            String query = "SELECT ";
+            String query = "SELECT * FROM itinerario";
             List<Itinerary> itineraries = new ArrayList<>();
             PreparedStatement statement;
-
             try {
                 statement = connection.prepareStatement(query);
                 ResultSet resultSet = statement.executeQuery();
-
                 while (resultSet.next()) {
                     Itinerary itinerary = new Itinerary();
-
-
+                    itinerary.setId(resultSet.getLong(1));
+                    itinerary.setUserId(resultSet.getLong(2));
                     itineraries.add(itinerary);
                 }
-
             } catch (SQLException e) {
                 e.printStackTrace();
             }
-
             return itineraries;
-
         } catch (EmptyResultDataAccessException e) {
             return new ArrayList<>();
         }
@@ -50,7 +42,7 @@ public class ItineraryRepository {
 
     public Itinerary saveItinerary(Long id, Long userId) {
         try {
-            String query = "INSERT INTO \"Itinerario\" VALUES (?, ?)";
+            String query = "INSERT INTO itinerario VALUES (?, ?)";
             PreparedStatement statement = connection.prepareStatement(query);
             statement.setLong(1, id);
             statement.setLong(2, id);
@@ -71,7 +63,7 @@ public class ItineraryRepository {
 
     public Itinerary updateItinerary(Long id, Long userId) {
         try {
-            String query = "UPDATE \"Itinerario\" SET usuarioid=? WHERE \"ID\"=?";
+            String query = "UPDATE itinerario SET usuarioid=? WHERE \"ID\"=?";
             PreparedStatement statement = connection.prepareStatement(query);
             statement.setLong(1, userId);
             statement.setLong(2, id);
@@ -91,37 +83,61 @@ public class ItineraryRepository {
 
     public Integer deleteItinerary(Long id) {
         try {
-            String query = "DELETE FROM \"Itinerario\" WHERE \"ID\" = ?";
-            PreparedStatement statement = connection.prepareStatement(query);
-            statement.setLong(1, id);
-
-            Integer result = statement.executeUpdate();
+            String evenxitinQuery = "DELETE FROM eventoxitinerario WHERE itinerarioid = ?";
+            String mainQuery = "DELETE FROM itinerario WHERE \"ID\" = ?";
+            PreparedStatement evenxitinStatement = connection.prepareStatement(evenxitinQuery);
+            PreparedStatement mainStatement = connection.prepareStatement(mainQuery);
+            evenxitinStatement.setLong(1, id);
+            mainStatement.setLong(1, id);
+            evenxitinStatement.executeUpdate();
+            Integer result = mainStatement.executeUpdate();
             connection.close();
-
             return result;
-
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }
     }
 
     public Itinerary getItineraryById(Long id) {
-        String query = "SELECT ";
-
-        try {
-            PreparedStatement statement = connection.prepareStatement(query);
-            statement.setLong(1, id);
-            ResultSet resultSet = statement.executeQuery();
+            String query = "SELECT * FROM itinerario WHERE \"ID\" = ?";
             Itinerary itinerary = new Itinerary();
-
-            while(resultSet.next()) {
-
+            try {
+                PreparedStatement statement;
+                statement = connection.prepareStatement(query);
+                statement.setLong(1, id);
+                ResultSet resultSet = statement.executeQuery();
+                while (resultSet.next()) {
+                    itinerary.setId(resultSet.getLong(1));
+                    itinerary.setUserId(resultSet.getLong(2));
+                }
+            } catch (SQLException e) {
+                e.printStackTrace();
             }
-
             return itinerary;
+    }
+    public List<Itinerary> getItineraryByUser(Long id) {
+        try {
+            String query = "SELECT * FROM itinerario WHERE usuarioid = ?";
+            List<Itinerary> itineraries = new ArrayList<>();
+            try {
+                PreparedStatement statement;
+                statement = connection.prepareStatement(query);
+                statement.setLong(1, id);
+                ResultSet resultSet = statement.executeQuery();
+                while (resultSet.next()) {
+                    Itinerary itinerary = new Itinerary();
+                    itinerary.setId(resultSet.getLong(1));
+                    itinerary.setUserId(resultSet.getLong(2));
+                    itineraries.add(itinerary);
+                }
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+            return itineraries;
 
-        } catch (SQLException e) {
-            throw new RuntimeException(e);
+        } catch (EmptyResultDataAccessException e) {
+            return new ArrayList<>();
         }
     }
+
 }

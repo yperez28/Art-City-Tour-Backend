@@ -11,11 +11,12 @@ public class Itinerary {
 
     private Long id;
     private Long userId;
-    private List<Event> event;
+    private List<Event> events;
 
-    public Itinerary(Long id, Long userId) {
+    public Itinerary(Long id, Long userId, List<Event> events) {
         this.id = id;
         this.userId = userId;
+        this.events = events;
     }
 
     public Itinerary() {
