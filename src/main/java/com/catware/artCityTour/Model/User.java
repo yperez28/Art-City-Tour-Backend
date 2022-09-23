@@ -25,14 +25,6 @@ public class User {
         this.memberships = memberships;
     }
 
-    public User(String name, String lastname, String email, String password, List<Membership> memberships, List<Itinerary> itineraries) {
-        this.name = name;
-        this.lastname = lastname;
-        this.email = email;
-        this.password = password;
-        this.memberships = memberships;
-    }
-
     public User() {
     }
 }
