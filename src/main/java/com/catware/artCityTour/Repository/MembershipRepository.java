@@ -1,6 +1,5 @@
 package com.catware.artCityTour.Repository;
 import com.catware.artCityTour.Conection.DBCConnection;
-import com.catware.artCityTour.Model.Edition;
 import com.catware.artCityTour.Model.Membership;
 import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.stereotype.Repository;
@@ -28,9 +27,9 @@ public class MembershipRepository {
                 while(resultSet.next()) {
                     Membership membership = new Membership();
                     membership.setId(resultSet.getLong(1));
-                    membership.setNombre(resultSet.getString(2));
-                    membership.setDetalles(resultSet.getString(3));
-                    membership.setImagen(resultSet.getString(4));
+                    membership.setName(resultSet.getString(2));
+                    membership.setDetails(resultSet.getString(3));
+                    membership.setPhoto(resultSet.getString(4));
                     resultArray.add(membership);
                 }
             } catch (SQLException e) {
@@ -52,9 +51,9 @@ public class MembershipRepository {
             Membership membership = new Membership();
             while(resultSet.next()) {
                 membership.setId(resultSet.getLong(1));
-                membership.setNombre(resultSet.getString(2));
-                membership.setDetalles(resultSet.getString(3));
-                membership.setImagen(resultSet.getString(4));
+                membership.setName(resultSet.getString(2));
+                membership.setDetails(resultSet.getString(3));
+                membership.setPhoto(resultSet.getString(4));
             }
             return membership;
         } catch (SQLException e) {

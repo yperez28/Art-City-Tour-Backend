@@ -6,6 +6,7 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.web.bind.annotation.RequestParam;
 
 import java.util.List;
 
@@ -33,14 +34,14 @@ public class UserService {
         return objectMapper.writeValueAsString(user);
     }
 
-    public String saveUser(String name, String lastname, String email, String password) throws JsonProcessingException {
-        Integer result = userRepository.saveUser(name, lastname, email, password);
+    public String saveUser(String name, String lastname, String email, String password, String identification, String phoneNumber, String address, String photo, Integer age) throws JsonProcessingException {
+        User result = userRepository.saveUser(name, lastname, email, password, identification, phoneNumber, address, photo, age);
 
         return objectMapper.writeValueAsString(result);
     }
 
-    public String updateUser(String name, String lastname, String email, String password, Long id) throws JsonProcessingException {
-        Integer result = userRepository.updateUser(name, lastname, email, password, id);
+    public String updateUser(String name, String lastname, String email, String password, String identification, String phoneNumber, String address, String photo, Integer age, Long id) throws JsonProcessingException {
+        Integer result = userRepository.updateUser(name, lastname, email, password, identification, phoneNumber, address, photo, age, id);
 
         return objectMapper.writeValueAsString(result);
     }

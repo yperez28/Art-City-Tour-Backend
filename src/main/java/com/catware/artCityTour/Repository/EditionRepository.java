@@ -81,15 +81,10 @@ public class EditionRepository {
 
                 while(resultSet.next()) {
                     Sponsor sponsor = new Sponsor();
-                    String sponsorName = resultSet.getString(2);
-                    Blob blobImage = resultSet.getBlob(3);
-                    byte[] byteImage = blobImage.getBytes(1, (int)blobImage.length());
-                    FileOutputStream file = new FileOutputStream("../Img/" + sponsorName + ".jpg");
-                    file.write(byteImage);
-                    file.close();
 
                     sponsor.setId(resultSet.getLong(1));
-                    sponsor.setName(sponsorName);
+                    sponsor.setName(resultSet.getString(2));
+                    sponsor.setPhoto(resultSet.getString(3));
 
                     sponsors.add(sponsor);
                 }

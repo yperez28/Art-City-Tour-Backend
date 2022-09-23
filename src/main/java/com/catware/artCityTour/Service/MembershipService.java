@@ -22,14 +22,14 @@ public class MembershipService {
     public String getAll() throws JsonProcessingException {
         List<Membership> membership = membershipRepository.getAll();
         for (Membership mem:membership) {
-            mem.setProcessedDetalles(Arrays.asList(mem.getDetalles().split("-")));
+            mem.setProcessedDetails(Arrays.asList(mem.getDetails().split("-")));
         }
         return objectMapper.writeValueAsString(membership);
     }
 
     public String getMembershipById(Long id) throws JsonProcessingException {
         Membership membership = membershipRepository.getMembershipById(id);
-        membership.setProcessedDetalles(Arrays.asList(membership.getDetalles().split("-")));
+        membership.setProcessedDetails(Arrays.asList(membership.getDetails().split("-")));
         return objectMapper.writeValueAsString(membership);
     }
 

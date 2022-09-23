@@ -9,18 +9,20 @@ import java.util.List;
 public class Membership {
 
     private Long id;
-    private String nombre;
-    private String detalles;
-    private String imagen;
-    private List<String> processedDetalles;
+    private String name;
+    private String details;
+    private String photo;
+    private Integer price;
+    private List<String> processedDetails;
 
 
-    public Membership(long id, String nombre, String detalles, String imagen, List<String> processedDetalles) {
+    public Membership(long id, String name, String details, String photo, Integer price, List<String> processedDetails) {
         this.id = id;
-        this.nombre = nombre;
-        this.detalles = detalles;
-        this.imagen = imagen;
-        this.processedDetalles = processedDetalles;
+        this.name = name;
+        this.details = details;
+        this.photo = photo;
+        this.price = price;
+        this.processedDetails = processedDetails;
     }
 
     public Membership() {

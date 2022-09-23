@@ -16,8 +16,8 @@ public class UserController {
     private UserService userService;
 
     @RequestMapping(value = "/create", method = RequestMethod.GET)
-    public String createUser(@RequestParam String name, @RequestParam String lastname, @RequestParam String email, @RequestParam String password) throws JsonProcessingException {
-        return userService.saveUser(name, lastname, email, password);
+    public String createUser(@RequestParam String name, @RequestParam String lastname, @RequestParam String email, @RequestParam String password, @RequestParam String identification, @RequestParam String phoneNumber, @RequestParam String address, @RequestParam String photo, @RequestParam Integer age) throws JsonProcessingException {
+        return userService.saveUser(name, lastname, email, password, identification, phoneNumber, address, photo, age);
     }
 
     @RequestMapping(value = "/getAll", method = RequestMethod.GET)
@@ -26,8 +26,8 @@ public class UserController {
     }
 
     @RequestMapping(value = "/update", method = RequestMethod.GET)
-    public String updateUser(@RequestParam String name, @RequestParam String lastname, @RequestParam String email, @RequestParam String password, @RequestParam Long id) throws JsonProcessingException {
-        return userService.updateUser(name, lastname, email, password, id);
+    public String updateUser(@RequestParam String name, @RequestParam String lastname, @RequestParam String email, @RequestParam String password, @RequestParam String identification, @RequestParam String phoneNumber, @RequestParam String address, @RequestParam String photo, @RequestParam Integer age, @RequestParam Long id) throws JsonProcessingException {
+        return userService.updateUser(name, lastname, email, password, identification, phoneNumber, address, photo, age, id);
     }
 
     @RequestMapping(value = "/delete", method = RequestMethod.GET)

@@ -1,7 +1,6 @@
 package com.catware.artCityTour.Repository;
 
 import com.catware.artCityTour.Conection.DBCConnection;
-import com.catware.artCityTour.Model.Itinerary;
 import com.catware.artCityTour.Model.Membership;
 import com.catware.artCityTour.Model.User;
 import org.springframework.dao.EmptyResultDataAccessException;
@@ -36,6 +35,11 @@ public class UserRepository {
                     user.setLastname(resultSet.getString(3));
                     user.setEmail(resultSet.getString(4));
                     user.setPassword(resultSet.getString(5));
+                    user.setIdentification(resultSet.getString(6));
+                    user.setPhoneNumber(resultSet.getString(7));
+                    user.setAddress(resultSet.getString(8));
+                    user.setPhoto(resultSet.getString(9));
+                    user.setAge(resultSet.getInt(10));
 
                     users.add(user);
                 }
@@ -65,6 +69,11 @@ public class UserRepository {
                 user.setLastname(resultSet.getString(3));
                 user.setEmail(resultSet.getString(4));
                 user.setPassword(resultSet.getString(5));
+                user.setIdentification(resultSet.getString(6));
+                user.setPhoneNumber(resultSet.getString(7));
+                user.setAddress(resultSet.getString(8));
+                user.setPhoto(resultSet.getString(9));
+                user.setAge(resultSet.getInt(10));
             }
 
             return user;
@@ -78,7 +87,7 @@ public class UserRepository {
         try {
             List<Membership> memberships = new ArrayList<>();
             PreparedStatement statement;
-            String query = "SELECT membresiaid, membresia.nombre, membresia.detalles, membresia.imagen FROM membresiaxpersona INNER JOIN membresia ON membresiaxpersona.membresiaid = membresia.\"ID\" WHERE usuarioid = ?";
+            String query = "SELECT membresiaid, membresia.nombre, membresia.detalles, membresia.imagen, membresia.precio FROM membresiaxpersona INNER JOIN membresia ON membresiaxpersona.membresiaid = membresia.\"ID\" WHERE usuarioid = ?";
 
             try {
                 statement = connection.prepareStatement(query);
@@ -88,8 +97,10 @@ public class UserRepository {
                 while (resultSet.next()) {
                     Membership membership =  new Membership();
                     membership.setId(resultSet.getLong(1));
-                    membership.setNombre(resultSet.getString(2));
-                    membership.setDetalles(resultSet.getString(3));
+                    membership.setName(resultSet.getString(2));
+                    membership.setDetails(resultSet.getString(3));
+                    membership.setPhoto(resultSet.getString(4));
+                    membership.setPrice(resultSet.getInt(5));
 
                     memberships.add(membership);
                 }
@@ -104,33 +115,55 @@ public class UserRepository {
         }
     }
 
-    public Integer saveUser(String name, String lastname, String email, String password) {
+    public User saveUser(String name, String lastname, String email, String password, String identification, String phoneNumber, String address, String photo, Integer age) {
         try {
-            String query = "INSERT INTO usuario (nombre, apellido, correo, contrasenna) VALUES (?, ?, ?, ?)";
+            String query = "INSERT INTO usuario (nombre, apellido, correo, contrasenna, cedula, numeroTelefono, direccion, imagen, edad) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)";
             PreparedStatement statement = connection.prepareStatement(query);
             statement.setString(1, name);
             statement.setString(2, lastname);
             statement.setString(3, email);
             statement.setString(4, password);
+            statement.setString(5, identification);
+            statement.setString(6, phoneNumber);
+            statement.setString(7, address);
+            statement.setString(8, photo);
+            statement.setInt(9, age);
 
             Integer result = statement.executeUpdate();
+            User user = new User();
+            if (result > 0) {
+                user.setName(name);
+                user.setLastname(lastname);
+                user.setEmail(email);
+                user.setPassword(password);
+                user.setIdentification(identification);
+                user.setPhoneNumber(phoneNumber);
+                user.setAddress(address);
+                user.setPhoto(photo);
+                user.setAge(age);
+            }
 
-            return result;
+            return user;
 
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }
     }
 
-    public Integer updateUser (String name, String lastname, String email, String password, Long id) {
+    public Integer updateUser (String name, String lastname, String email, String password, String identification, String phoneNumber, String address, String photo, Integer age, Long id) {
         try {
-            String query = "UPDATE usuario SET nombre=?, apellido=?, correo=?, contrasenna=? WHERE \"ID\" = ?";
+            String query = "UPDATE usuario SET nombre=?, apellido=?, correo=?, contrasenna=?, cedula=?, numeroTelefono=?, direccion=?, imagen=?, edad=? WHERE \"ID\" = ?";
             PreparedStatement statement = connection.prepareStatement(query);
             statement.setString(1, name);
             statement.setString(2, lastname);
             statement.setString(3, email);
             statement.setString(4, password);
-            statement.setLong(5, id);
+            statement.setString(5, identification);
+            statement.setString(6, phoneNumber);
+            statement.setString(7, address);
+            statement.setString(8, photo);
+            statement.setInt(9, age);
+            statement.setLong(10, id);
 
             Integer result = statement.executeUpdate();
 
