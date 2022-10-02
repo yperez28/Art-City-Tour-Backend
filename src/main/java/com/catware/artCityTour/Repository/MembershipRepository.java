@@ -54,6 +54,7 @@ public class MembershipRepository {
                 membership.setName(resultSet.getString(2));
                 membership.setDetails(resultSet.getString(3));
                 membership.setPhoto(resultSet.getString(4));
+                membership.setPrecio(resultSet.getInt(5));
             }
             return membership;
         } catch (SQLException e) {

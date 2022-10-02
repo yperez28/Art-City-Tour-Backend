@@ -19,7 +19,7 @@ public class EditionController {
     }
 
     @CrossOrigin
-    @RequestMapping(value = "/getById", method = RequestMethod.GET)
+    @RequestMapping(value = "/getById", method = RequestMethod.GET) //cambiar esto por un getCurrent
     public String getEditionById(@RequestParam Long id) throws JsonProcessingException {
         return editionService.getEditionById(id);
     }
