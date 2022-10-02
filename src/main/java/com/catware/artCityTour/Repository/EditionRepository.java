@@ -29,12 +29,12 @@ public class EditionRepository {
 
                  while (resultSet.next()) {
                      Edition edition = new Edition();
-
                      edition.setId(resultSet.getLong(1));
                      edition.setName(resultSet.getString(2));
                      edition.setDetails(resultSet.getString(3));
                      edition.setDate(resultSet.getDate(4).toLocalDate());
-
+                     edition.setImagePath(resultSet.getString(5));
+                     edition.setSecondImagePath(resultSet.getString(6));
                      editions.add(edition);
                  }
             } catch (SQLException e) {
@@ -60,6 +60,8 @@ public class EditionRepository {
                 edition.setName(resultSet.getString(2));
                 edition.setDetails(resultSet.getString(3));
                 edition.setDate(resultSet.getDate(4).toLocalDate());
+                edition.setImagePath(resultSet.getString(5));
+                edition.setSecondImagePath(resultSet.getString(6)); //esto se puede extraer a un método de parametros comnunes
             }
 
             return edition;
