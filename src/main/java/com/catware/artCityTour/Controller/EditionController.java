@@ -6,7 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 @RestController()
-@RequestMapping(value = "/edition") //Agregar campo en BD para saber si es la actual o no
+@RequestMapping(value = "/edition")
 public class EditionController {
 
     @Autowired
@@ -22,5 +22,11 @@ public class EditionController {
     @RequestMapping(value = "/getById", method = RequestMethod.GET) //cambiar esto por un getCurrent
     public String getEditionById(@RequestParam Long id) throws JsonProcessingException {
         return editionService.getEditionById(id);
+    }
+
+    @CrossOrigin
+    @RequestMapping(value = "/getCurrent", method = RequestMethod.GET)
+    public String getEditionById() throws JsonProcessingException {
+        return editionService.getCurrentEdition();
     }
 }

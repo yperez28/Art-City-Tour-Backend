@@ -4,22 +4,21 @@ import lombok.Getter;
 import lombok.Setter;
 
 import java.time.LocalTime;
-import java.util.List;
 
 @Getter
 @Setter
 public class Event {
 
     private Long id;
-    private LocalTime startHour;
-    private LocalTime endHour;
+    private LocalTime start_hour;
+    private LocalTime end_hour;
     private Place place;
     private Long placeid;
 
     public Event(Long id, LocalTime startHour, LocalTime endHour, Place place) {
         this.id = id;
-        this.startHour = startHour;
-        this.endHour = endHour;
+        this.start_hour = startHour;
+        this.end_hour = endHour;
         this.place = place;
     }
 

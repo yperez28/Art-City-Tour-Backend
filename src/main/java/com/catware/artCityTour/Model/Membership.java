@@ -12,7 +12,7 @@ public class Membership {
     private String name;
     private String details;
     private String photo;
-    private Integer precio;
+    private double price;
     private List<String> processedDetails;
 
 
@@ -21,7 +21,7 @@ public class Membership {
         this.name = name;
         this.details = details;
         this.photo = photo;
-        this.precio = precio;
+        this.price = precio;
         this.processedDetails = processedDetails;
     }
 
