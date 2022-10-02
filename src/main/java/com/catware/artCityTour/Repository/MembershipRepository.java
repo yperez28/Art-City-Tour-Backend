@@ -30,6 +30,7 @@ public class MembershipRepository {
                     membership.setName(resultSet.getString(2));
                     membership.setDetails(resultSet.getString(3));
                     membership.setPhoto(resultSet.getString(4));
+                    membership.setPrice(resultSet.getDouble(5));
                     resultArray.add(membership);
                 }
             } catch (SQLException e) {
@@ -54,6 +55,7 @@ public class MembershipRepository {
                 membership.setName(resultSet.getString(2));
                 membership.setDetails(resultSet.getString(3));
                 membership.setPhoto(resultSet.getString(4));
+                membership.setPrice(resultSet.getDouble(5));
             }
             return membership;
         } catch (SQLException e) {

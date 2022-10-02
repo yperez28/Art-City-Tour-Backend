@@ -14,8 +14,8 @@ public class ItineraryController {
 
     @CrossOrigin
     @RequestMapping(value = "/create", method = RequestMethod.GET)
-    public String createItinerary(@RequestParam Long id, @RequestParam Long userId ) throws JsonProcessingException {
-        return itineraryService.saveItinerary(id, userId);
+    public String createItinerary(@RequestParam Long userId ) throws JsonProcessingException {
+        return itineraryService.saveItinerary(userId);
     }
 
     @CrossOrigin

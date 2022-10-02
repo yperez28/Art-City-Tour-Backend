@@ -98,4 +98,26 @@ public class EditionRepository {
             return new ArrayList<>();
         }
     }
+
+    public Edition getCurrentEdition() {
+        String query = "SELECT * FROM edicion WHERE actual=true";
+
+        try {
+            PreparedStatement statement = connection.prepareStatement(query);
+            ResultSet resultSet = statement.executeQuery();
+            Edition edition = new Edition();
+
+            while (resultSet.next()) {
+                edition.setId(resultSet.getLong(1));
+                edition.setName(resultSet.getString(2));
+                edition.setDetails(resultSet.getString(3));
+                edition.setDate(resultSet.getDate(4).toLocalDate());
+            }
+
+            return edition;
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
 }

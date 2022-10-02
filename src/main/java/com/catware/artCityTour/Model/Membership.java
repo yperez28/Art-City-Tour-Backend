@@ -12,7 +12,7 @@ public class Membership {
     private String name;
     private String details;
     private String photo;
-    private Integer price;
+    private double price;
     private List<String> processedDetails;
 
 

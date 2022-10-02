@@ -23,14 +23,18 @@ public class EditionService {
         for (Edition edition: editions) {
             edition.setSponsors(editionRepository.getSponsorsByEdition(edition.getId()));
         }
-
         return objectMapper.writeValueAsString(editions);
     }
 
     public String getEditionById(Long id) throws JsonProcessingException {
         Edition edition = editionRepository.getEditionById(id);
         edition.setSponsors(editionRepository.getSponsorsByEdition(id));
+        return objectMapper.writeValueAsString(edition);
+    }
 
+    public String getCurrentEdition() throws JsonProcessingException {
+        Edition edition = editionRepository.getCurrentEdition();
+        edition.setSponsors(editionRepository.getSponsorsByEdition(edition.getId()));
         return objectMapper.writeValueAsString(edition);
     }
 

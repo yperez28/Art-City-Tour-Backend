@@ -40,28 +40,26 @@ public class ItineraryRepository {
         }
     }
 
-    public Itinerary saveItinerary(Long id, Long userId) {
+    public Integer saveItinerary(Long userId) {
         try {
-            String query = "INSERT INTO itinerario VALUES (?, ?)";
+            String query = "INSERT INTO itinerario(userid) VALUES (?)";
             PreparedStatement statement = connection.prepareStatement(query);
-            statement.setLong(1, id);
-            statement.setLong(2, id);
+            statement.setLong(1, userId);
 
             Integer result = statement.executeUpdate();
             Itinerary itinerary = new Itinerary();
             if (result > 0) {
-                 itinerary.setId(id);
                  itinerary.setUserId(userId);
             }
 
-            return itinerary;
+            return result;
 
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }
     }
 
-    public Itinerary updateItinerary(Long id, Long userId) {
+    public Integer updateItinerary(Long id, Long userId) {
         try {
             String query = "UPDATE itinerario SET usuarioid=? WHERE \"ID\"=?";
             PreparedStatement statement = connection.prepareStatement(query);
@@ -75,7 +73,7 @@ public class ItineraryRepository {
                 itinerary.setUserId(userId);
             }
 
-            return itinerary;
+            return result;
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }

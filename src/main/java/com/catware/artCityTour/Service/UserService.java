@@ -37,7 +37,7 @@ public class UserService {
     }
 
     public String saveUser(String name, String lastname, String email, String password, String identification, String phoneNumber, String address, String photo, Integer age) throws JsonProcessingException {
-        User result = userRepository.saveUser(name, lastname, email, password, identification, phoneNumber, address, photo, age);
+        Integer result = userRepository.saveUser(name, lastname, email, password, identification, phoneNumber, address, photo, age);
         return objectMapper.writeValueAsString(result);
     }
 

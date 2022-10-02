@@ -115,7 +115,7 @@ public class UserRepository {
         }
     }
 
-    public User saveUser(String name, String lastname, String email, String password, String identification, String phoneNumber, String address, String photo, Integer age) {
+    public Integer saveUser(String name, String lastname, String email, String password, String identification, String phoneNumber, String address, String photo, Integer age) {
         try {
             String query = "INSERT INTO usuario (nombre, apellido, correo, contrasenna, cedula, numeroTelefono, direccion, imagen, edad) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)";
             PreparedStatement statement = connection.prepareStatement(query);
@@ -143,7 +143,7 @@ public class UserRepository {
                 user.setAge(age);
             }
 
-            return user;
+            return result;
 
         } catch (SQLException e) {
             throw new RuntimeException(e);
