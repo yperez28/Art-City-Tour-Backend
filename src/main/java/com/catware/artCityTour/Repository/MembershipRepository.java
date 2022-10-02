@@ -18,7 +18,7 @@ public class MembershipRepository {
 
     public List<Membership> getAll(){
         try {
-            String query = "SELECT * FROM membresia";
+            String query = "SELECT * FROM membership";
             PreparedStatement statement;
             List<Membership> resultArray = new ArrayList<>();
             try {
@@ -43,7 +43,7 @@ public class MembershipRepository {
     }
 
     public Membership getMembershipById(Long id){
-        String query = "SELECT * FROM membresia WHERE \"ID\"=?";
+        String query = "SELECT * FROM membership WHERE id=?";
         PreparedStatement statement;
         try {
             statement = connection.prepareStatement(query);
@@ -60,6 +60,38 @@ public class MembershipRepository {
             return membership;
         } catch (SQLException e) {
             throw new RuntimeException(e);
+        }
+    }
+
+    public List<Membership> getMembershipsByUser(Long id) {
+        try {
+            List<Membership> memberships = new ArrayList<>();
+            PreparedStatement statement;
+            String query = "SELECT * FROM membership INNER JOIN membershipxuser ON membership.id = membershipxuser.membershipid WHERE userid = ?";
+
+            try {
+                statement = connection.prepareStatement(query);
+                statement.setLong(1, id);
+                ResultSet resultSet = statement.executeQuery();
+
+                while (resultSet.next()) {
+                    Membership membership =  new Membership();
+                    membership.setId(resultSet.getLong(1));
+                    membership.setName(resultSet.getString(2));
+                    membership.setDetails(resultSet.getString(3));
+                    membership.setPhoto(resultSet.getString(4));
+                    membership.setPrice(resultSet.getInt(5));
+
+                    memberships.add(membership);
+                }
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+
+            return memberships;
+
+        } catch (EmptyResultDataAccessException e) {
+            return new ArrayList<>();
         }
     }
 }

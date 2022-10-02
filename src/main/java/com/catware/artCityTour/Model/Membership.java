@@ -21,7 +21,7 @@ public class Membership {
         this.name = name;
         this.details = details;
         this.photo = photo;
-        this.precio = precio;
+        this.price = precio;
         this.processedDetails = processedDetails;
     }
 

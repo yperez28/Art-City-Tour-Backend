@@ -3,6 +3,7 @@ package com.catware.artCityTour.Service;
 import com.catware.artCityTour.Model.Itinerary;
 import com.catware.artCityTour.Model.User;
 import com.catware.artCityTour.Repository.ItineraryRepository;
+import com.catware.artCityTour.Repository.MembershipRepository;
 import com.catware.artCityTour.Repository.UserRepository;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -19,11 +20,13 @@ public class UserService {
     private ObjectMapper objectMapper;
     @Autowired
     private UserRepository userRepository;
+    @Autowired
+    private MembershipRepository membershipRepository;
 
     public String getAll() throws JsonProcessingException {
         List<User> users = userRepository.getAll();
         for (User user: users) {
-            user.setMemberships(userRepository.getMembershipsByUser(user.getId()));
+            user.setMemberships(membershipRepository.getMembershipsByUser(user.getId()));
         }
 
         return objectMapper.writeValueAsString(users);
@@ -31,7 +34,7 @@ public class UserService {
 
     public String getUserById(Long id) throws JsonProcessingException {
         User user = userRepository.getUserById(id);
-        user.setMemberships(userRepository.getMembershipsByUser(id));
+        user.setMemberships(membershipRepository.getMembershipsByUser(id));
 
         return objectMapper.writeValueAsString(user);
     }

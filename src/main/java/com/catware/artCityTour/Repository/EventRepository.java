@@ -3,8 +3,6 @@ package com.catware.artCityTour.Repository;
 
 import com.catware.artCityTour.Conection.DBCConnection;
 import com.catware.artCityTour.Model.Event;
-import com.catware.artCityTour.Model.Itinerary;
-import com.catware.artCityTour.Model.Place;
 import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.stereotype.Repository;
 
@@ -22,7 +20,7 @@ public class EventRepository {
 
     public List<Event> getEventByItinerary(Long id){
         try {
-            String query = "SELECT * FROM evento INNER JOIN eventoxitinerario ON evento.\"ID\" = eventoid WHERE itinerarioid = ?";
+            String query = "SELECT * FROM event INNER JOIN eventxitinerary ON event.id = eventid WHERE itineraryid = ?";
             List<Event> events = new ArrayList<>();
             PreparedStatement statement;
             try {
@@ -34,8 +32,8 @@ public class EventRepository {
                     Event event = new Event();
                     event.setId(resultSet.getLong(1));
                     event.setPlaceid(resultSet.getLong(2));
-                    event.setStartHour((resultSet.getTime(3)).toLocalTime());
-                    event.setEndHour(((resultSet.getTime(4)).toLocalTime()));
+                    event.setStarthour((resultSet.getTime(3)).toLocalTime());
+                    event.setEndhour(((resultSet.getTime(4)).toLocalTime()));
                     event.setPlace(placeRepository.getPlaceByEvent(event.getPlaceid()));
                     events.add(event);
                 }

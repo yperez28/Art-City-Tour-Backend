@@ -19,7 +19,7 @@ public class EditionRepository {
 
     public List<Edition> getAll(){
         try {
-            String query = "SELECT * FROM edicion";
+            String query = "SELECT * FROM edition";
             PreparedStatement statement;
             List<Edition> editions = new ArrayList<>();
 
@@ -47,7 +47,7 @@ public class EditionRepository {
     }
 
     public Edition getEditionById(Long id){
-        String query = "SELECT * FROM edicion WHERE \"ID\"=?";
+        String query = "SELECT * FROM edition WHERE id = ?";
 
         try {
             PreparedStatement statement = connection.prepareStatement(query);
@@ -68,39 +68,9 @@ public class EditionRepository {
         }
     }
 
-    public List<Sponsor> getSponsorsByEdition(Long id) {
-        List<Sponsor> sponsors = new ArrayList<>();
-        PreparedStatement statement;
-        String query = "SELECT patrocinadorid, patrocinador.nombre, patrocinador.imagen FROM patrocinadorxedicion INNER JOIN patrocinador ON patrocinadorxedicion.patrocinadorid = patrocinador.\"ID\" WHERE edicionid = ?";
-
-        try {
-            try {
-                statement = connection.prepareStatement(query);
-                statement.setLong(1, id);
-                ResultSet resultSet = statement.executeQuery();
-
-                while(resultSet.next()) {
-                    Sponsor sponsor = new Sponsor();
-
-                    sponsor.setId(resultSet.getLong(1));
-                    sponsor.setName(resultSet.getString(2));
-                    sponsor.setPhoto(resultSet.getString(3));
-
-                    sponsors.add(sponsor);
-                }
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
-
-            return sponsors;
-
-        } catch (EmptyResultDataAccessException e) {
-            return new ArrayList<>();
-        }
-    }
 
     public Edition getCurrentEdition() {
-        String query = "SELECT * FROM edicion WHERE actual=true";
+        String query = "SELECT * FROM edition WHERE current=true";
 
         try {
             PreparedStatement statement = connection.prepareStatement(query);

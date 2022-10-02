@@ -19,7 +19,7 @@ public class ItineraryRepository {
 
     public List<Itinerary> getAll() {
         try {
-            String query = "SELECT * FROM itinerario";
+            String query = "SELECT * FROM itinerary";
             List<Itinerary> itineraries = new ArrayList<>();
             PreparedStatement statement;
             try {
@@ -42,7 +42,7 @@ public class ItineraryRepository {
 
     public Integer saveItinerary(Long userId) {
         try {
-            String query = "INSERT INTO itinerario(userid) VALUES (?)";
+            String query = "INSERT INTO itinerary(userid) VALUES (?)";
             PreparedStatement statement = connection.prepareStatement(query);
             statement.setLong(1, userId);
 
@@ -61,7 +61,7 @@ public class ItineraryRepository {
 
     public Integer updateItinerary(Long id, Long userId) {
         try {
-            String query = "UPDATE itinerario SET usuarioid=? WHERE \"ID\"=?";
+            String query = "UPDATE itinerary SET userid=? WHERE id=?";
             PreparedStatement statement = connection.prepareStatement(query);
             statement.setLong(1, userId);
             statement.setLong(2, id);
@@ -81,8 +81,8 @@ public class ItineraryRepository {
 
     public Integer deleteItinerary(Long id) {
         try {
-            String evenxitinQuery = "DELETE FROM eventoxitinerario WHERE itinerarioid = ?";
-            String mainQuery = "DELETE FROM itinerario WHERE \"ID\" = ?";
+            String evenxitinQuery = "DELETE FROM eventoxitinerario WHERE itineraryid = ?";
+            String mainQuery = "DELETE FROM itinerary WHERE id = ?";
             PreparedStatement evenxitinStatement = connection.prepareStatement(evenxitinQuery);
             PreparedStatement mainStatement = connection.prepareStatement(mainQuery);
             evenxitinStatement.setLong(1, id);
@@ -97,7 +97,7 @@ public class ItineraryRepository {
     }
 
     public Itinerary getItineraryById(Long id) {
-            String query = "SELECT * FROM itinerario WHERE \"ID\" = ?";
+            String query = "SELECT * FROM itinerary WHERE id = ?";
             Itinerary itinerary = new Itinerary();
             try {
                 PreparedStatement statement;
@@ -115,7 +115,7 @@ public class ItineraryRepository {
     }
     public List<Itinerary> getItineraryByUser(Long id) {
         try {
-            String query = "SELECT * FROM itinerario WHERE usuarioid = ?";
+            String query = "SELECT * FROM itinerary WHERE userid = ?";
             List<Itinerary> itineraries = new ArrayList<>();
             try {
                 PreparedStatement statement;
