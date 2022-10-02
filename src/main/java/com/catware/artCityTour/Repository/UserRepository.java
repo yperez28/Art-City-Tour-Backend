@@ -36,7 +36,7 @@ public class UserRepository {
                     user.setEmail(resultSet.getString(4));
                     user.setPassword(resultSet.getString(5));
                     user.setIdentification(resultSet.getString(6));
-                    user.setPhonenumber(resultSet.getString(7));
+                    user.setPhoneNumber(resultSet.getString(7));
                     user.setAddress(resultSet.getString(8));
                     user.setPhoto(resultSet.getString(9));
                     user.setAge(resultSet.getInt(10));
@@ -70,7 +70,7 @@ public class UserRepository {
                 user.setEmail(resultSet.getString(4));
                 user.setPassword(resultSet.getString(5));
                 user.setIdentification(resultSet.getString(6));
-                user.setPhonenumber(resultSet.getString(7));
+                user.setPhoneNumber(resultSet.getString(7));
                 user.setAddress(resultSet.getString(8));
                 user.setPhoto(resultSet.getString(9));
                 user.setAge(resultSet.getInt(10));
@@ -98,7 +98,7 @@ public class UserRepository {
             statement.setString(8, photo);
             statement.setInt(9, age);
 
-            Integer result = statement.executeUpdate();
+            int result = statement.executeUpdate();
             User user = new User();
             if (result > 0) {
                 user.setName(name);
@@ -106,7 +106,7 @@ public class UserRepository {
                 user.setEmail(email);
                 user.setPassword(password);
                 user.setIdentification(identification);
-                user.setPhonenumber(phoneNumber);
+                user.setPhoneNumber(phoneNumber);
                 user.setAddress(address);
                 user.setPhoto(photo);
                 user.setAge(age);
@@ -134,9 +134,7 @@ public class UserRepository {
             statement.setInt(9, age);
             statement.setLong(10, id);
 
-            Integer result = statement.executeUpdate();
-
-            return result;
+            return statement.executeUpdate();
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }
@@ -144,13 +142,13 @@ public class UserRepository {
 
     public Integer deleteUser(Long id) {
         try {
-            String membrxusuQuery = "DELETE FROM membershipxuser WHERE userid = ?";
+            String membrXusuQuery = "DELETE FROM membershipxuser WHERE userid = ?";
             String mainQuery = "DELETE FROM user WHERE id = ?";
             PreparedStatement mainStatement = connection.prepareStatement(mainQuery);
             mainStatement.setLong(1, id);
-            PreparedStatement membrxusuStatement = connection.prepareStatement(membrxusuQuery);
-            membrxusuStatement.setLong(1, id);
-            membrxusuStatement.executeUpdate();
+            PreparedStatement membrXusuStatement = connection.prepareStatement(membrXusuQuery);
+            membrXusuStatement.setLong(1, id);
+            membrXusuStatement.executeUpdate();
             Integer result = mainStatement.executeUpdate();
             connection.close();
             return result;

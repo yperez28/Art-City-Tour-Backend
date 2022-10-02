@@ -15,7 +15,7 @@ public class User {
     private String email;
     private String password;
     private String identification;
-    private String phone_number;
+    private String phoneNumber;
     private String address;
 
     private String photo;
@@ -30,7 +30,7 @@ public class User {
         this.email = email;
         this.password = password;
         this.identification = identification;
-        this.phone_number = phonenumber;
+        this.phoneNumber = phonenumber;
         this.address = address;
         this.photo = photo;
         this.age = age;

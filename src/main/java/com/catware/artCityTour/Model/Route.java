@@ -9,13 +9,13 @@ import java.util.List;
 @Setter
 public class Route {
     private Long id;
-    private String nombre;
-    private List<Place> lugares;
+    private String name;
+    private List<Place> places;
 
-    public Route(Long id, String name, List<Place> lugares) {
+    public Route(Long id, String name, List<Place> places) {
         this.id = id;
-        this.nombre = name;
-        this.lugares = lugares;
+        this.name = name;
+        this.places = places;
     }
 
     public Route() {

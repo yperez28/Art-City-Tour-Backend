@@ -2,12 +2,8 @@ package com.catware.artCityTour.Repository;
 
 import com.catware.artCityTour.Conection.DBCConnection;
 import com.catware.artCityTour.Model.Edition;
-import com.catware.artCityTour.Model.Sponsor;
 import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.stereotype.Repository;
-
-import java.io.FileNotFoundException;
-import java.io.FileOutputStream;
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
@@ -84,6 +80,8 @@ public class EditionRepository {
                 edition.setName(resultSet.getString(2));
                 edition.setDetails(resultSet.getString(3));
                 edition.setDate(resultSet.getDate(4).toLocalDate());
+                edition.setImagePath(resultSet.getString(5));
+                edition.setSecondImagePath(resultSet.getString(6));
             }
 
             return edition;

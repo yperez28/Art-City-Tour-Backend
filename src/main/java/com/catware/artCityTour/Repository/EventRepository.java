@@ -31,10 +31,10 @@ public class EventRepository {
                 while (resultSet.next()) {
                     Event event = new Event();
                     event.setId(resultSet.getLong(1));
-                    event.setPlaceid(resultSet.getLong(2));
-                    event.setStart_hour((resultSet.getTime(3)).toLocalTime());
-                    event.setEnd_hour(((resultSet.getTime(4)).toLocalTime()));
-                    event.setPlace(placeRepository.getPlaceByEvent(event.getPlaceid()));
+                    event.setPlaceId(resultSet.getLong(2));
+                    event.setStartHour((resultSet.getTime(3)).toLocalTime());
+                    event.setEndHour(((resultSet.getTime(4)).toLocalTime()));
+                    event.setPlace(placeRepository.getPlaceByEvent(event.getPlaceId()));
                     events.add(event);
                 }
             } catch (SQLException e) {

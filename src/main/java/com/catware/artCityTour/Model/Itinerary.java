@@ -10,12 +10,12 @@ import java.util.List;
 public class Itinerary {
 
     private Long id;
-    private Long userid;
+    private Long userId;
     private List<Event> events;
 
-    public Itinerary(Long id, Long userid, List<Event> events) {
+    public Itinerary(Long id, Long userId, List<Event> events) {
         this.id = id;
-        this.userid = userid;
+        this.userId = userId;
         this.events = events;
     }
 

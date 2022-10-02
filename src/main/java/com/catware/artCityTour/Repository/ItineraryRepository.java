@@ -28,7 +28,7 @@ public class ItineraryRepository {
                 while (resultSet.next()) {
                     Itinerary itinerary = new Itinerary();
                     itinerary.setId(resultSet.getLong(1));
-                    itinerary.setUserid(resultSet.getLong(2));
+                    itinerary.setUserId(resultSet.getLong(2));
                     itineraries.add(itinerary);
                 }
             } catch (SQLException e) {
@@ -46,10 +46,10 @@ public class ItineraryRepository {
             PreparedStatement statement = connection.prepareStatement(query);
             statement.setLong(1, userId);
 
-            Integer result = statement.executeUpdate();
+            int result = statement.executeUpdate();
             Itinerary itinerary = new Itinerary();
             if (result > 0) {
-                 itinerary.setUserid(userId);
+                 itinerary.setUserId(userId);
             }
 
             return result;
@@ -66,11 +66,11 @@ public class ItineraryRepository {
             statement.setLong(1, userId);
             statement.setLong(2, id);
 
-            Integer result = statement.executeUpdate();
+            int result = statement.executeUpdate();
             Itinerary itinerary = new Itinerary();
             if (result > 0) {
                 itinerary.setId(id);
-                itinerary.setUserid(userId);
+                itinerary.setUserId(userId);
             }
 
             return result;
@@ -81,13 +81,13 @@ public class ItineraryRepository {
 
     public Integer deleteItinerary(Long id) {
         try {
-            String evenxitinQuery = "DELETE FROM eventoxitinerario WHERE itineraryid = ?";
+            String evenXitinQuery = "DELETE FROM eventoxitinerario WHERE itineraryid = ?";
             String mainQuery = "DELETE FROM itinerary WHERE id = ?";
-            PreparedStatement evenxitinStatement = connection.prepareStatement(evenxitinQuery);
+            PreparedStatement evenXitinStatement = connection.prepareStatement(evenXitinQuery);
             PreparedStatement mainStatement = connection.prepareStatement(mainQuery);
-            evenxitinStatement.setLong(1, id);
+            evenXitinStatement.setLong(1, id);
             mainStatement.setLong(1, id);
-            evenxitinStatement.executeUpdate();
+            evenXitinStatement.executeUpdate();
             Integer result = mainStatement.executeUpdate();
             connection.close();
             return result;
@@ -106,7 +106,7 @@ public class ItineraryRepository {
                 ResultSet resultSet = statement.executeQuery();
                 while (resultSet.next()) {
                     itinerary.setId(resultSet.getLong(1));
-                    itinerary.setUserid(resultSet.getLong(2));
+                    itinerary.setUserId(resultSet.getLong(2));
                 }
             } catch (SQLException e) {
                 e.printStackTrace();
@@ -125,7 +125,7 @@ public class ItineraryRepository {
                 while (resultSet.next()) {
                     Itinerary itinerary = new Itinerary();
                     itinerary.setId(resultSet.getLong(1));
-                    itinerary.setUserid(resultSet.getLong(2));
+                    itinerary.setUserId(resultSet.getLong(2));
                     itineraries.add(itinerary);
                 }
             } catch (SQLException e) {
