@@ -32,8 +32,8 @@ public class EventRepository {
                     Event event = new Event();
                     event.setId(resultSet.getLong(1));
                     event.setPlaceid(resultSet.getLong(2));
-                    event.setStarthour((resultSet.getTime(3)).toLocalTime());
-                    event.setEndhour(((resultSet.getTime(4)).toLocalTime()));
+                    event.setStart_hour((resultSet.getTime(3)).toLocalTime());
+                    event.setEnd_hour(((resultSet.getTime(4)).toLocalTime()));
                     event.setPlace(placeRepository.getPlaceByEvent(event.getPlaceid()));
                     events.add(event);
                 }

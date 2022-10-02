@@ -28,7 +28,7 @@ public class ItineraryRepository {
                 while (resultSet.next()) {
                     Itinerary itinerary = new Itinerary();
                     itinerary.setId(resultSet.getLong(1));
-                    itinerary.setUserId(resultSet.getLong(2));
+                    itinerary.setUserid(resultSet.getLong(2));
                     itineraries.add(itinerary);
                 }
             } catch (SQLException e) {
@@ -49,7 +49,7 @@ public class ItineraryRepository {
             Integer result = statement.executeUpdate();
             Itinerary itinerary = new Itinerary();
             if (result > 0) {
-                 itinerary.setUserId(userId);
+                 itinerary.setUserid(userId);
             }
 
             return result;
@@ -70,7 +70,7 @@ public class ItineraryRepository {
             Itinerary itinerary = new Itinerary();
             if (result > 0) {
                 itinerary.setId(id);
-                itinerary.setUserId(userId);
+                itinerary.setUserid(userId);
             }
 
             return result;
@@ -106,7 +106,7 @@ public class ItineraryRepository {
                 ResultSet resultSet = statement.executeQuery();
                 while (resultSet.next()) {
                     itinerary.setId(resultSet.getLong(1));
-                    itinerary.setUserId(resultSet.getLong(2));
+                    itinerary.setUserid(resultSet.getLong(2));
                 }
             } catch (SQLException e) {
                 e.printStackTrace();
@@ -125,7 +125,7 @@ public class ItineraryRepository {
                 while (resultSet.next()) {
                     Itinerary itinerary = new Itinerary();
                     itinerary.setId(resultSet.getLong(1));
-                    itinerary.setUserId(resultSet.getLong(2));
+                    itinerary.setUserid(resultSet.getLong(2));
                     itineraries.add(itinerary);
                 }
             } catch (SQLException e) {

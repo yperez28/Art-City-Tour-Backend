@@ -15,8 +15,9 @@ public class User {
     private String email;
     private String password;
     private String identification;
-    private String phonenumber;
+    private String phone_number;
     private String address;
+
     private String photo;
     private Integer age;
     private List<Membership> memberships;
@@ -29,7 +30,7 @@ public class User {
         this.email = email;
         this.password = password;
         this.identification = identification;
-        this.phonenumber = phonenumber;
+        this.phone_number = phonenumber;
         this.address = address;
         this.photo = photo;
         this.age = age;
