@@ -100,7 +100,7 @@ public class UserRepository {
                     membership.setName(resultSet.getString(2));
                     membership.setDetails(resultSet.getString(3));
                     membership.setPhoto(resultSet.getString(4));
-                    membership.setPrice(resultSet.getInt(5));
+                    membership.setPrecio(resultSet.getInt(5));
 
                     memberships.add(membership);
                 }

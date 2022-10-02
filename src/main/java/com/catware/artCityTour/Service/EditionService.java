@@ -12,6 +12,7 @@ import java.util.List;
 @Service
 public class EditionService {
 
+    //lista de todas las ediciones que se cargue cuando se inicie el proyecto -- clase intermedia
     @Autowired
     private ObjectMapper objectMapper;
 
@@ -19,7 +20,7 @@ public class EditionService {
     private EditionRepository editionRepository;
 
     public String getAll() throws JsonProcessingException {
-        List<Edition> editions = editionRepository.getAll();
+        List<Edition> editions = editionRepository.getAll(); //claseIntermediaMemoria.getAll()
         for (Edition edition: editions) {
             edition.setSponsors(editionRepository.getSponsorsByEdition(edition.getId()));
         }

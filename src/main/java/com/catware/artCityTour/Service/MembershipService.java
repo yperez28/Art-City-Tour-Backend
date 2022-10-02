@@ -29,7 +29,7 @@ public class MembershipService {
 
     public String getMembershipById(Long id) throws JsonProcessingException {
         Membership membership = membershipRepository.getMembershipById(id);
-        membership.setProcessedDetails(Arrays.asList(membership.getDetails().split("-")));
+//        membership.setProcessedDetails(Arrays.asList(membership.getDetails().split("-")));
         return objectMapper.writeValueAsString(membership);
     }
 
