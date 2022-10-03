@@ -2,9 +2,9 @@
 -----------------------------------------------------------------------------------------------------------------------------------
 
 --------------------------------------------ADD COLUMN TO EDITION TABLE FOR IMAGES-------------------------------------------------
-ALTER TABLE edicion --cambiar esto por los nombres nuevos de las tablas
+ALTER TABLE edition
 ADD COLUMN image_path text;
 
-ALTER TABLE edicion
+ALTER TABLE edition
 ADD COLUMN second_image_path text;
 -----------------------------------------------------------------------------------------------------------------------------------
