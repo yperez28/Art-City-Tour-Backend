@@ -12,16 +12,16 @@ public class Membership {
     private String name;
     private String details;
     private String photo;
-    private Integer price;
+    private double price;
     private List<String> processedDetails;
 
 
-    public Membership(long id, String name, String details, String photo, Integer price, List<String> processedDetails) {
+    public Membership(long id, String name, String details, String photo, Integer precio, List<String> processedDetails) {
         this.id = id;
         this.name = name;
         this.details = details;
         this.photo = photo;
-        this.price = price;
+        this.price = precio;
         this.processedDetails = processedDetails;
     }
 

@@ -19,7 +19,7 @@ public class UserRepository {
     private final Connection connection = DBCConnection.getConnection();
     public List<User> getAll() {
         try {
-            String query = "SELECT * FROM usuario";
+            String query = "SELECT * FROM user";
             List<User> users = new ArrayList<>();
             PreparedStatement statement;
 
@@ -36,7 +36,7 @@ public class UserRepository {
                     user.setEmail(resultSet.getString(4));
                     user.setPassword(resultSet.getString(5));
                     user.setIdentification(resultSet.getString(6));
-                    user.setPhoneNumber(resultSet.getString(7));
+                    user.setPhonenumber(resultSet.getString(7));
                     user.setAddress(resultSet.getString(8));
                     user.setPhoto(resultSet.getString(9));
                     user.setAge(resultSet.getInt(10));
@@ -55,7 +55,7 @@ public class UserRepository {
     }
 
     public User getUserById(Long id) {
-        String query = "SELECT * FROM usuario WHERE \"ID\" = ?";
+        String query = "SELECT * FROM user WHERE id = ?";
 
         try {
             PreparedStatement statement = connection.prepareStatement(query);
@@ -70,7 +70,7 @@ public class UserRepository {
                 user.setEmail(resultSet.getString(4));
                 user.setPassword(resultSet.getString(5));
                 user.setIdentification(resultSet.getString(6));
-                user.setPhoneNumber(resultSet.getString(7));
+                user.setPhonenumber(resultSet.getString(7));
                 user.setAddress(resultSet.getString(8));
                 user.setPhoto(resultSet.getString(9));
                 user.setAge(resultSet.getInt(10));
@@ -83,41 +83,10 @@ public class UserRepository {
         }
     }
 
-    public List<Membership> getMembershipsByUser(Long id) {
+
+    public Integer saveUser(String name, String lastname, String email, String password, String identification, String phoneNumber, String address, String photo, Integer age) {
         try {
-            List<Membership> memberships = new ArrayList<>();
-            PreparedStatement statement;
-            String query = "SELECT membresiaid, membresia.nombre, membresia.detalles, membresia.imagen, membresia.precio FROM membresiaxpersona INNER JOIN membresia ON membresiaxpersona.membresiaid = membresia.\"ID\" WHERE usuarioid = ?";
-
-            try {
-                statement = connection.prepareStatement(query);
-                statement.setLong(1, id);
-                ResultSet resultSet = statement.executeQuery();
-
-                while (resultSet.next()) {
-                    Membership membership =  new Membership();
-                    membership.setId(resultSet.getLong(1));
-                    membership.setName(resultSet.getString(2));
-                    membership.setDetails(resultSet.getString(3));
-                    membership.setPhoto(resultSet.getString(4));
-                    membership.setPrice(resultSet.getInt(5));
-
-                    memberships.add(membership);
-                }
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
-
-            return memberships;
-
-        } catch (EmptyResultDataAccessException e) {
-            return new ArrayList<>();
-        }
-    }
-
-    public User saveUser(String name, String lastname, String email, String password, String identification, String phoneNumber, String address, String photo, Integer age) {
-        try {
-            String query = "INSERT INTO usuario (nombre, apellido, correo, contrasenna, cedula, numeroTelefono, direccion, imagen, edad) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)";
+            String query = "INSERT INTO user (name, lastname, email, password, identification, phonenumber, address, photo, age) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)";
             PreparedStatement statement = connection.prepareStatement(query);
             statement.setString(1, name);
             statement.setString(2, lastname);
@@ -137,13 +106,13 @@ public class UserRepository {
                 user.setEmail(email);
                 user.setPassword(password);
                 user.setIdentification(identification);
-                user.setPhoneNumber(phoneNumber);
+                user.setPhonenumber(phoneNumber);
                 user.setAddress(address);
                 user.setPhoto(photo);
                 user.setAge(age);
             }
 
-            return user;
+            return result;
 
         } catch (SQLException e) {
             throw new RuntimeException(e);
@@ -152,7 +121,7 @@ public class UserRepository {
 
     public Integer updateUser (String name, String lastname, String email, String password, String identification, String phoneNumber, String address, String photo, Integer age, Long id) {
         try {
-            String query = "UPDATE usuario SET nombre=?, apellido=?, correo=?, contrasenna=?, cedula=?, numeroTelefono=?, direccion=?, imagen=?, edad=? WHERE \"ID\" = ?";
+            String query = "UPDATE user SET name=?, lastname=?, email=?, password=?, identification=?, phonenumber=?, address=?, photo=?, age=? WHERE id= ?";
             PreparedStatement statement = connection.prepareStatement(query);
             statement.setString(1, name);
             statement.setString(2, lastname);
@@ -175,8 +144,8 @@ public class UserRepository {
 
     public Integer deleteUser(Long id) {
         try {
-            String membrxusuQuery = "DELETE FROM membresiaxpersona WHERE usuarioid = ?";
-            String mainQuery = "DELETE FROM usuario WHERE \"ID\" = ?";
+            String membrxusuQuery = "DELETE FROM membershipxuser WHERE userid = ?";
+            String mainQuery = "DELETE FROM user WHERE id = ?";
             PreparedStatement mainStatement = connection.prepareStatement(mainQuery);
             mainStatement.setLong(1, id);
             PreparedStatement membrxusuStatement = connection.prepareStatement(membrxusuQuery);

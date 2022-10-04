@@ -32,13 +32,19 @@ public class ItineraryService {
         return objectMapper.writeValueAsString(itineraries);
     }
 
-    public String saveItinerary(Long id, Long userId) throws JsonProcessingException {
-        Itinerary result = itineraryRepository.saveItinerary(id, userId);
+    public String getItineraryById(Long id) throws JsonProcessingException {
+        Itinerary itinerary = itineraryRepository.getItineraryById(id);
+        itinerary.setEvents(eventRepository.getEventByItinerary(itinerary.getId()));
+        return objectMapper.writeValueAsString(itinerary);
+    }
+
+    public String saveItinerary(Long userId) throws JsonProcessingException {
+        Integer result = itineraryRepository.saveItinerary(userId);
         return objectMapper.writeValueAsString(result);
     }
 
     public String updateItinerary(Long id, Long userId) throws JsonProcessingException {
-        Itinerary result = itineraryRepository.updateItinerary(id, userId);
+        Integer result = itineraryRepository.updateItinerary(id, userId);
         return objectMapper.writeValueAsString(result);
     }
 
@@ -47,9 +53,4 @@ public class ItineraryService {
         return objectMapper.writeValueAsString(result);
     }
 
-    public String getItineraryById(Long id) throws JsonProcessingException {
-        Itinerary itinerary = itineraryRepository.getItineraryById(id);
-        itinerary.setEvents(eventRepository.getEventByItinerary(itinerary.getId()));
-        return objectMapper.writeValueAsString(itinerary);
-    }
 }

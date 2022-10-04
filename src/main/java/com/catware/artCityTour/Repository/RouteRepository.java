@@ -1,7 +1,6 @@
 package com.catware.artCityTour.Repository;
 
 import com.catware.artCityTour.Conection.DBCConnection;
-import com.catware.artCityTour.Model.Membership;
 import com.catware.artCityTour.Model.Place;
 import com.catware.artCityTour.Model.Route;
 import org.springframework.dao.EmptyResultDataAccessException;
@@ -21,7 +20,7 @@ public class RouteRepository {
 
     public List<Route> getAll(){
         try {
-            String query = "SELECT * FROM ruta";
+            String query = "SELECT * FROM route";
             PreparedStatement statement;
             List<Route> resultArray = new ArrayList<>();
             try {
@@ -43,7 +42,7 @@ public class RouteRepository {
     }
 
     public Route getRouteById(Long id){
-        String query = "SELECT * FROM ruta WHERE \"ID\"=?";
+        String query = "SELECT * FROM route WHERE id =?";
         PreparedStatement statement;
         try {
             statement = connection.prepareStatement(query);
@@ -60,29 +59,4 @@ public class RouteRepository {
         }
     }
 
-    public List<Place> getPlacesByRoute(Long id){
-        try {
-            String query = "SELECT lugarid, lugar.nombre ,lugar.detalles , lugar.imagen FROM lugarxruta INNER JOIN lugar ON lugarxruta.lugarid = lugar.\"ID\" WHERE rutaid = ?";
-            PreparedStatement statement;
-            List<Place> resultArray = new ArrayList<>();
-            try {
-                statement = connection.prepareStatement(query);
-                statement.setLong(1, id);
-                ResultSet resultSet = statement.executeQuery();
-                while(resultSet.next()) {
-                    Place place = new Place();
-                    place.setId(resultSet.getLong(1));
-                    place.setNombre(resultSet.getString(2));
-                    place.setDetalles(resultSet.getString(3));
-                    place.setImagen(resultSet.getString(4));
-                    resultArray.add(place);
-                }
-            } catch (SQLException e) {
-                e.printStackTrace();
-            }
-            return resultArray;
-        }catch (EmptyResultDataAccessException e){
-            return new ArrayList<>();
-        }
-    }
 }
