@@ -2,8 +2,6 @@ package com.catware.artCityTour.Repository;
 
 import com.catware.artCityTour.Conection.DBCConnection;
 import com.catware.artCityTour.Model.Edition;
-import com.catware.artCityTour.Service.TextService;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.stereotype.Repository;
 import java.sql.*;
@@ -13,7 +11,6 @@ import java.util.List;
 @Repository
 public class EditionRepository {
     private final Connection connection = DBCConnection.getConnection();
-
     public List<Edition> getAll(){
         try {
             String query = "SELECT * FROM edition";
@@ -30,8 +27,6 @@ public class EditionRepository {
                      edition.setName(resultSet.getString(2));
                      edition.setDetails(resultSet.getString(3));
                      edition.setDate(resultSet.getDate(4).toLocalDate());
-                     edition.setImagePath(resultSet.getString(6));
-                     edition.setSecondImagePath(resultSet.getString(7));
                      editions.add(edition);
                  }
             } catch (SQLException e) {
@@ -57,8 +52,6 @@ public class EditionRepository {
                 edition.setName(resultSet.getString(2));
                 edition.setDetails(resultSet.getString(3));
                 edition.setDate(resultSet.getDate(4).toLocalDate());
-                edition.setImagePath(resultSet.getString(6));
-                edition.setSecondImagePath(resultSet.getString(7)); //esto se puede extraer a un método de parametros comnunes
             }
 
             return edition;
@@ -81,8 +74,6 @@ public class EditionRepository {
                 edition.setName(resultSet.getString(2));
                 edition.setDetails(resultSet.getString(3));
                 edition.setDate(resultSet.getDate(4).toLocalDate());
-                edition.setImagePath(resultSet.getString(6));
-                edition.setSecondImagePath(resultSet.getString(7));
             }
 
             return edition;

@@ -10,6 +10,7 @@ public class Sponsor {
     private Long id;
     private String name;
     private String photo;
+    private Long imageId;
 
     public Sponsor(Long id, String name, String photo) {
         this.id = id;

@@ -14,20 +14,15 @@ public class Edition {
     private String details;
     private LocalDate date;
     private List<Sponsor> sponsors;
-    private String imagePath;
-    private String secondImagePath;
+    private List<Image> images;
 
-    public Edition(long id, String name, String details, LocalDate date, List<Sponsor> sponsors, String imagePath, String secondImagePath) {
+    public Edition(long id, String name, String details, LocalDate date, List<Sponsor> sponsors) {
         this.id = id;
         this.name = name;
         this.details = details;
         this.date = date;
         this.sponsors = sponsors;
-        this.imagePath = imagePath;
-        this.secondImagePath = secondImagePath;
     }
 
-    public Edition() {
-
-    }
+    public Edition() {}
 }
