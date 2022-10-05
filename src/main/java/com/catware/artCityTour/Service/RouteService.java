@@ -18,19 +18,19 @@ public class RouteService {
     @Autowired
     private RouteRepository routeRepository;
     @Autowired
-    private PlaceRepository placeRepository;
+    private PlaceService placeService;
 
     public String getAll() throws JsonProcessingException {
         List<Route> routes = routeRepository.getAll();
         for (Route route:routes) {
-            route.setPlaces(placeRepository.getPlacesByRoute(route.getId())); //usar el servicio no el repositorio
+            route.setPlaces(placeService.getPlaceById(route.getId())); //usar el servicio no el repositorio
         }
         return objectMapper.writeValueAsString(routes);
     }
 
     public String getRouteById(Long id) throws JsonProcessingException {
         Route route = routeRepository.getRouteById(id);
-        route.setPlaces(placeRepository.getPlacesByRoute(route.getId()));
+        route.setPlaces(placeService.getPlaceById(route.getId()));
         return objectMapper.writeValueAsString(route);
     }
 }
