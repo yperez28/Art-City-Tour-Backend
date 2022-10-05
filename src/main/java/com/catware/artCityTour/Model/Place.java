@@ -9,13 +9,15 @@ public class Place {
     private Long id;
     private String name;
     private String details;
-    private String photo;
 
-    public Place(long id, String name, String details, String photo) {
+    private Image image;
+    private Long imageId;
+
+    public Place(long id, String name, String details, Long photo) {
         this.id = id;
         this.name = name;
         this.details = details;
-        this.photo = photo;
+        this.imageId = photo;
     }
 
     public Place() {

@@ -23,7 +23,7 @@ public class RouteService {
     public String getAll() throws JsonProcessingException {
         List<Route> routes = routeRepository.getAll();
         for (Route route:routes) {
-            route.setPlaces(placeRepository.getPlacesByRoute(route.getId()));
+            route.setPlaces(placeRepository.getPlacesByRoute(route.getId())); //usar el servicio no el repositorio
         }
         return objectMapper.writeValueAsString(routes);
     }
