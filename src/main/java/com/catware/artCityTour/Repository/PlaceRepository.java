@@ -29,7 +29,7 @@ public class PlaceRepository {
                 place.setId(placeResult.getLong(1));
                 place.setName(placeResult.getString(2));
                 place.setDetails(placeResult.getString(3));
-                place.setPhoto(placeResult.getString(4));
+                place.setImageId(placeResult.getLong(4));
             }
             return place;
         } catch (SQLException e) {
@@ -51,7 +51,7 @@ public class PlaceRepository {
                     place.setId(resultSet.getLong(1));
                     place.setName(resultSet.getString(2));
                     place.setDetails(resultSet.getString(3));
-                    place.setPhoto(resultSet.getString(4));
+                    place.setImageId(resultSet.getLong(4));
                     resultArray.add(place);
                 }
             } catch (SQLException e) {

@@ -32,8 +32,7 @@ public class SponsorRepository {
 
                     sponsor.setId(resultSet.getLong(1));
                     sponsor.setName(resultSet.getString(2));
-                    sponsor.setPhoto(resultSet.getString(3));
-
+                    sponsor.setImageId(resultSet.getLong(3));
                     sponsors.add(sponsor);
                 }
             } catch (Exception e) {

@@ -2,21 +2,15 @@ package com.catware.artCityTour.Repository;
 
 import com.catware.artCityTour.Conection.DBCConnection;
 import com.catware.artCityTour.Model.Edition;
-import com.catware.artCityTour.Model.Sponsor;
 import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.stereotype.Repository;
-
-import java.io.FileNotFoundException;
-import java.io.FileOutputStream;
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
 
 @Repository
 public class EditionRepository {
-
     private final Connection connection = DBCConnection.getConnection();
-
     public List<Edition> getAll(){
         try {
             String query = "SELECT * FROM edition";
@@ -29,12 +23,10 @@ public class EditionRepository {
 
                  while (resultSet.next()) {
                      Edition edition = new Edition();
-
                      edition.setId(resultSet.getLong(1));
                      edition.setName(resultSet.getString(2));
                      edition.setDetails(resultSet.getString(3));
                      edition.setDate(resultSet.getDate(4).toLocalDate());
-
                      editions.add(edition);
                  }
             } catch (SQLException e) {

@@ -1,7 +1,6 @@
 package com.catware.artCityTour.Repository;
 
 import com.catware.artCityTour.Conection.DBCConnection;
-import com.catware.artCityTour.Model.Place;
 import com.catware.artCityTour.Model.Route;
 import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.stereotype.Repository;
@@ -29,7 +28,7 @@ public class RouteRepository {
                 while(resultSet.next()) {
                     Route route = new Route();
                     route.setId(resultSet.getLong(1));
-                    route.setNombre(resultSet.getString(2));
+                    route.setName(resultSet.getString(2));
                     resultArray.add(route);
                 }
             } catch (SQLException e) {
@@ -51,7 +50,7 @@ public class RouteRepository {
             Route route = new Route();
             while(resultSet.next()) {
                 route.setId(resultSet.getLong(1));
-                route.setNombre(resultSet.getString(2));
+                route.setName(resultSet.getString(2));
             }
             return route;
         } catch (SQLException e) {

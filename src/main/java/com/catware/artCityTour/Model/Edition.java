@@ -14,6 +14,7 @@ public class Edition {
     private String details;
     private LocalDate date;
     private List<Sponsor> sponsors;
+    private List<Image> images;
 
     public Edition(long id, String name, String details, LocalDate date, List<Sponsor> sponsors) {
         this.id = id;
@@ -23,7 +24,5 @@ public class Edition {
         this.sponsors = sponsors;
     }
 
-    public Edition() {
-
-    }
+    public Edition() {}
 }
