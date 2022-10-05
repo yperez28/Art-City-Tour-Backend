@@ -19,17 +19,20 @@ public class MembershipService {
     @Autowired
     private MembershipRepository membershipRepository;
 
+    @Autowired
+    private ImageService imageService;
+
     public String getAll() throws JsonProcessingException {
         List<Membership> membership = membershipRepository.getAll();
         for (Membership mem:membership) {
-            mem.setProcessedDetails(Arrays.asList(mem.getDetails().split("-")));
+            mem.setPhoto(imageService.getImageById(mem.getImageId()));
         }
         return objectMapper.writeValueAsString(membership);
     }
 
     public String getMembershipById(Long id) throws JsonProcessingException {
         Membership membership = membershipRepository.getMembershipById(id);
-//        membership.setProcessedDetails(Arrays.asList(membership.getDetails().split("-")));
+        membership.setPhoto(imageService.getImageById(membership.getImageId()));
         return objectMapper.writeValueAsString(membership);
     }
 
