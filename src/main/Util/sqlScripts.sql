@@ -41,3 +41,19 @@ DROP COLUMN photo,
 ADD COLUMN image_id integer,
 ADD CONSTRAINT user_image_fk FOREIGN KEY (image_id) REFERENCES image (image_id);
 -----------------------------------------------------------------------------------------------------------------------------------
+--NEWS  TABLE ITERATION2
+
+CREATE TABLE public.news
+(
+    id integer NOT NULL GENERATED ALWAYS AS IDENTITY ( INCREMENT 1 START 1 MINVALUE 1 MAXVALUE 2147483647 CACHE 1 ),
+    title character varying(100) COLLATE pg_catalog."default" NOT NULL,
+    description character varying(1200) COLLATE pg_catalog."default" NOT NULL,
+    image_id integer,
+    date date,
+    CONSTRAINT news_pkey PRIMARY KEY (id),
+    CONSTRAINT news_image_id_fkey FOREIGN KEY (image_id)
+        REFERENCES public.image (image_id) MATCH SIMPLE
+        ON UPDATE NO ACTION
+        ON DELETE NO ACTION
+)
+

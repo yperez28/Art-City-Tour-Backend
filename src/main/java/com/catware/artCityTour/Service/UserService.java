@@ -39,13 +39,20 @@ public class UserService {
         return objectMapper.writeValueAsString(user);
     }
 
-    public String saveUser(String name, String lastname, String email, String password, String identification, String phoneNumber, String address, String photo, Integer age) throws JsonProcessingException {
+    /*public String saveUser(String name, String lastname, String email, String password, String identification, String phoneNumber, String address, String photo, Integer age) throws JsonProcessingException {
         Integer result = userRepository.saveUser(name, lastname, email, password, identification, phoneNumber, address, photo, age);
+        return objectMapper.writeValueAsString(result);
+    }*/
+
+    public String saveUser(String jsonData) throws JsonProcessingException {
+        User user =  objectMapper.readValue(jsonData, User.class);
+        Integer result = userRepository.saveUser(user.getName(), user.getLastname(), user.getEmail(), user.getPassword(), user.getIdentification(), user.getPhoneNumber(), user.getAddress(), user.getAge());
         return objectMapper.writeValueAsString(result);
     }
 
-    public String updateUser(String name, String lastname, String email, String password, String identification, String phoneNumber, String address, String photo, Integer age, Long id) throws JsonProcessingException {
-        Integer result = userRepository.updateUser(name, lastname, email, password, identification, phoneNumber, address, photo, age, id);
+    public String updateUser(String jsonData) throws JsonProcessingException {
+        User user =  objectMapper.readValue(jsonData, User.class);
+        Integer result = userRepository.updateUser(user.getName(), user.getLastname(), user.getEmail(), user.getPassword(), user.getIdentification(), user.getPhoneNumber(), user.getAddress(), user.getPhoto(), user.getAge(), user.getId());
         return objectMapper.writeValueAsString(result);
     }
 
