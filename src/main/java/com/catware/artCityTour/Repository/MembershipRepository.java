@@ -29,8 +29,8 @@ public class MembershipRepository {
                     membership.setId(resultSet.getLong(1));
                     membership.setName(resultSet.getString(2));
                     membership.setDetails(resultSet.getString(3));
-                    membership.setPhoto(resultSet.getString(4));
-                    membership.setPrice(resultSet.getDouble(5));
+                    membership.setPrice(resultSet.getDouble(4));
+                    membership.setImageId(resultSet.getLong(5));
                     resultArray.add(membership);
                 }
             } catch (SQLException e) {
@@ -54,8 +54,8 @@ public class MembershipRepository {
                 membership.setId(resultSet.getLong(1));
                 membership.setName(resultSet.getString(2));
                 membership.setDetails(resultSet.getString(3));
-                membership.setPhoto(resultSet.getString(4));
-                membership.setPrice(resultSet.getDouble(5));
+                membership.setPrice(resultSet.getDouble(4));
+                membership.setImageId(resultSet.getLong(5));
             }
             return membership;
         } catch (SQLException e) {
@@ -79,8 +79,8 @@ public class MembershipRepository {
                     membership.setId(resultSet.getLong(1));
                     membership.setName(resultSet.getString(2));
                     membership.setDetails(resultSet.getString(3));
-                    membership.setPhoto(resultSet.getString(4));
-                    membership.setPrice(resultSet.getInt(5));
+                    membership.setPrice(resultSet.getInt(4));
+                    membership.setImageId(resultSet.getLong(5));
 
                     memberships.add(membership);
                 }

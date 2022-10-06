@@ -11,18 +11,18 @@ public class Membership {
     private Long id;
     private String name;
     private String details;
-    private String photo;
+    private Image photo;
     private double price;
-    private List<String> processedDetails;
+
+    private Long imageId;
 
 
-    public Membership(long id, String name, String details, String photo, Integer precio, List<String> processedDetails) {
+    public Membership(long id, String name, String details, Image photo, Integer precio, List<String> processedDetails) {
         this.id = id;
         this.name = name;
         this.details = details;
         this.photo = photo;
         this.price = precio;
-        this.processedDetails = processedDetails;
     }
 
     public Membership() {
