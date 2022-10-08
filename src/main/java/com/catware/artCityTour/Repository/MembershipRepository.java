@@ -94,4 +94,17 @@ public class MembershipRepository {
             return new ArrayList<>();
         }
     }
+
+    public Membership getPrincipalMembership() {
+        String query = "SELECT id FROM membership WHERE name='Principal'";
+        PreparedStatement statement;
+        try {
+            statement = connection.prepareStatement(query);
+            ResultSet resultSet = statement.executeQuery();
+            resultSet.next();
+            return getMembershipById(resultSet.getLong(1));
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+    }
 }
