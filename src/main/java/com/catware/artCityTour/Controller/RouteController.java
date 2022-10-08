@@ -14,9 +14,27 @@ public class RouteController {
     RouteService routeService;
 
     @CrossOrigin
+    @RequestMapping(value="/create", method = RequestMethod.GET)
+    public String createRoute(@RequestParam String name) throws JsonProcessingException {
+        return routeService.saveRoute(name);
+    }
+
+    @CrossOrigin
     @RequestMapping(value = "/getAll", method = RequestMethod.GET)
     public String getAll() throws JsonProcessingException {
         return routeService.getAll();
+    }
+
+    @CrossOrigin
+    @RequestMapping(value = "/update", method = RequestMethod.GET)
+    public String updateRoute(@RequestParam String name, @RequestParam Long id) throws JsonProcessingException {
+        return routeService.updateRoute(name, id);
+    }
+
+    @CrossOrigin
+    @RequestMapping(value = "/delete", method = RequestMethod.GET)
+    public String deleteUser(@RequestParam Long id) throws JsonProcessingException {
+        return routeService.deleteRoute(id);
     }
 
     @CrossOrigin
