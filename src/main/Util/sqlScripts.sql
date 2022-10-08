@@ -57,3 +57,53 @@ CREATE TABLE public.news
         ON DELETE NO ACTION
 )
 
+-------------------------------------------------------------------------------------------------------------------------------------
+--RESERVATION TABLES
+
+CREATE TABLE public.reservation
+(
+    id integer NOT NULL GENERATED ALWAYS AS IDENTITY ( INCREMENT 1 START 1 MINVALUE 1 MAXVALUE 2147483647 CACHE 1 ),
+    place_id integer NOT NULL,
+    first_time boolean NOT NULL,
+    CONSTRAINT reservation_pkey PRIMARY KEY (id),
+    CONSTRAINT reservation_place_id_fkey FOREIGN KEY (place_id)
+        REFERENCES public.place (id) MATCH SIMPLE
+        ON UPDATE NO ACTION
+        ON DELETE NO ACTION
+        NOT VALID
+)
+
+
+CREATE TABLE public.companionxreservation
+(
+    id integer NOT NULL GENERATED ALWAYS AS IDENTITY ( INCREMENT 1 START 1 MINVALUE 1 MAXVALUE 2147483647 CACHE 1 ),
+    reservation_id integer NOT NULL,
+    user_id integer NOT NULL,
+    CONSTRAINT companionxreservation_pkey PRIMARY KEY (id),
+    CONSTRAINT companionxreservation_reservation_id_fkey FOREIGN KEY (reservation_id)
+        REFERENCES public.reservation (id) MATCH SIMPLE
+        ON UPDATE NO ACTION
+        ON DELETE NO ACTION,
+    CONSTRAINT companionxreservation_user_id_fkey FOREIGN KEY (user_id)
+        REFERENCES public."user" (id) MATCH SIMPLE
+        ON UPDATE NO ACTION
+        ON DELETE NO ACTION
+)
+
+
+CREATE TABLE public.reservationxuser
+(
+    id integer NOT NULL GENERATED ALWAYS AS IDENTITY ( INCREMENT 1 START 1 MINVALUE 1 MAXVALUE 2147483647 CACHE 1 ),
+    user_id integer NOT NULL,
+    reservation_id integer NOT NULL,
+    CONSTRAINT reservationxuser_pkey PRIMARY KEY (id),
+    CONSTRAINT reservationxuser_reservation_id_fkey FOREIGN KEY (reservation_id)
+        REFERENCES public.reservation (id) MATCH SIMPLE
+        ON UPDATE NO ACTION
+        ON DELETE NO ACTION,
+    CONSTRAINT reservationxuser_user_id_fkey FOREIGN KEY (user_id)
+        REFERENCES public."user" (id) MATCH SIMPLE
+        ON UPDATE NO ACTION
+        ON DELETE NO ACTION
+)
+
