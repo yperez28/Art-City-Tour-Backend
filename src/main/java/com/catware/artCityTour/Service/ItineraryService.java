@@ -1,7 +1,6 @@
 package com.catware.artCityTour.Service;
 
 import com.catware.artCityTour.Model.Itinerary;
-import com.catware.artCityTour.Repository.EventRepository;
 import com.catware.artCityTour.Repository.ItineraryRepository;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -20,12 +19,12 @@ public class ItineraryService {
     private ItineraryRepository itineraryRepository;
 
     @Autowired
-    private EventRepository eventRepository;
+    private EventService eventService;
 
     public String getAll() throws JsonProcessingException {
         List<Itinerary> itineraries = itineraryRepository.getAll();
         for (Itinerary itinerary:itineraries) {
-            itinerary.setEvents(eventRepository.getEventByItinerary(itinerary.getId()));
+            itinerary.setEvents(eventService.getEventByItinerary(itinerary.getId()));
         }
 
         return objectMapper.writeValueAsString(itineraries);
@@ -51,7 +50,7 @@ public class ItineraryService {
 
     public String getItineraryById(Long id) throws JsonProcessingException {
         Itinerary itinerary = itineraryRepository.getItineraryById(id);
-        itinerary.setEvents(eventRepository.getEventByItinerary(itinerary.getId()));
+        itinerary.setEvents(eventService.getEventByItinerary(itinerary.getId()));
 
         return objectMapper.writeValueAsString(itinerary);
     }
@@ -59,7 +58,7 @@ public class ItineraryService {
     public String getItineraryByUserId(Long userId) throws JsonProcessingException{
         List<Itinerary> itineraries = itineraryRepository.getItineraryByUserId(userId);
         for (Itinerary itinerary:itineraries) {
-            itinerary.setEvents(eventRepository.getEventByItinerary(itinerary.getId()));
+            itinerary.setEvents(eventService.getEventByItinerary(itinerary.getId()));
         }
 
         return objectMapper.writeValueAsString(itineraries);

@@ -73,7 +73,7 @@ public class UserService {
         List<Itinerary> itineraries =  itineraryRepository.getItineraryByUserId(id);
         for (Itinerary itinerary:itineraries ) {
             itineraryRepository.deleteItinerary(itinerary.getId());
-        } // hacer esto mismo pero con las imagenes
+        }
         Integer result = userRepository.deleteUser(id);
         return objectMapper.writeValueAsString(result);
     }
