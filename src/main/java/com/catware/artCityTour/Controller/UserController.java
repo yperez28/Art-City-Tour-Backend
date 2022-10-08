@@ -14,8 +14,8 @@ public class UserController {
 
     @CrossOrigin
     @RequestMapping(value = "/create", method = RequestMethod.GET)
-    public String createUser(@RequestParam String name, @RequestParam String lastname, @RequestParam String email, @RequestParam String password, @RequestParam String identification, @RequestParam String phoneNumber, @RequestParam String address, @RequestParam String photo, @RequestParam Integer age) throws JsonProcessingException {
-        return userService.saveUser(name, lastname, email, password, identification, phoneNumber, address, photo, age);
+    public String createUser(@RequestParam String name, @RequestParam String lastname, @RequestParam String email, @RequestParam String password, @RequestParam String identification, @RequestParam String phoneNumber, @RequestParam String address, @RequestParam Integer age, @RequestParam Long imageId) throws JsonProcessingException {
+        return userService.saveUser(name, lastname, email, password, identification, phoneNumber, address, age, imageId);
     }
 
     @CrossOrigin
@@ -26,8 +26,8 @@ public class UserController {
 
     @CrossOrigin
     @RequestMapping(value = "/update", method = RequestMethod.GET)
-    public String updateUser(@RequestParam String name, @RequestParam String lastname, @RequestParam String email, @RequestParam String password, @RequestParam String identification, @RequestParam String phoneNumber, @RequestParam String address, @RequestParam String photo, @RequestParam Integer age, @RequestParam Long id) throws JsonProcessingException {
-        return userService.updateUser(name, lastname, email, password, identification, phoneNumber, address, photo, age, id);
+    public String updateUser(@RequestParam String name, @RequestParam String lastname, @RequestParam String email, @RequestParam String password, @RequestParam String identification, @RequestParam String phoneNumber, @RequestParam String address, @RequestParam Integer age, @RequestParam Long imageId, @RequestParam Long id) throws JsonProcessingException {
+        return userService.updateUser(name, lastname, email, password, identification, phoneNumber, address, age, imageId, id);
     }
 
     @CrossOrigin
