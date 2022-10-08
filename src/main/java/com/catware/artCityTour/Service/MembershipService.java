@@ -36,4 +36,9 @@ public class MembershipService {
         return objectMapper.writeValueAsString(membership);
     }
 
+    public String getPrincipalMembership() throws JsonProcessingException {
+        Membership membership = membershipRepository.getPrincipalMembership();
+        return imageService.getImageById(membership.getImageId()).getDrivePath();
+    }
+
 }

@@ -24,4 +24,11 @@ public class MembershipController {
         return membershipService.getMembershipById(id);
     }
 
+    @CrossOrigin
+    @RequestMapping(value = "/getPrincipal", method = RequestMethod.GET)
+    public String getPrincipalImage() throws JsonProcessingException {
+        return membershipService.getPrincipalMembership();
+    }
+
+
 }
