@@ -41,4 +41,10 @@ public class ItineraryController {
     public String getItineraryById(@RequestParam Long id) throws JsonProcessingException {
         return itineraryService.getItineraryById(id);
     }
+
+    @CrossOrigin
+    @RequestMapping(value="/getByUserId", method = RequestMethod.GET)
+    public String getItineraryByUserId(@RequestParam Long userId) throws JsonProcessingException {
+        return itineraryService.getItineraryByUserId(userId);
+    }
 }
