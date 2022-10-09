@@ -22,11 +22,25 @@ public class UserService {
     private UserRepository userRepository;
     @Autowired
     private MembershipRepository membershipRepository;
+    @Autowired
+    private ItineraryRepository itineraryRepository;
+    @Autowired
+    private EventRepository eventRepository;
+    @Autowired
+    private ImageService imageService;
 
     public String getAll() throws JsonProcessingException {
         List<User> users = userRepository.getAll();
         for (User user: users) {
             user.setMemberships(membershipRepository.getMembershipsByUser(user.getId()));
+            List<Itinerary> itineraries = itineraryRepository.getItineraryByUserId(user.getId());
+
+            for (Itinerary itinerary:itineraries) {
+                itinerary.setEvents(eventRepository.getEventByItinerary(itinerary.getId()));
+            }
+            user.setImage(imageService.getImageById(user.getImageId()));
+
+            user.setItineraries(itineraries);
         }
 
         return objectMapper.writeValueAsString(users);

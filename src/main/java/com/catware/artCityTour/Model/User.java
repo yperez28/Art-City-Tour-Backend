@@ -17,13 +17,14 @@ public class User {
     private String identification;
     private String phoneNumber;
     private String address;
-
     private String photo;
     private Integer age;
+    private Long imageId;
+    private Image image;
     private List<Membership> memberships;
     private List<Itinerary> itineraries;
 
-    public User(Long id, String name, String lastname, String email, String password, String identification, String phonenumber, String address, String photo, Integer age, List<Membership> memberships, List<Itinerary> itineraries) {
+    public User(Long id, String name, String lastname, String email, String password, String identification, String phoneNumber, String address, Integer age, Long imageId, Image image, List<Membership> memberships, List<Itinerary> itineraries) {
         this.id = id;
         this.name = name;
         this.lastname = lastname;
@@ -34,6 +35,8 @@ public class User {
         this.address = address;
         this.photo = photo;
         this.age = age;
+        this.imageId = imageId;
+        this.image = image;
         this.memberships = memberships;
         this.itineraries = itineraries;
     }
