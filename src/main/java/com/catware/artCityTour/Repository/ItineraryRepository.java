@@ -81,15 +81,18 @@ public class ItineraryRepository {
 
     public Integer deleteItinerary(Long id) {
         try {
-            String evenXitinQuery = "DELETE FROM eventoxitinerario WHERE itineraryid = ?";
+            String eventQuery = "DELETE FROM eventxitinerary WHERE itineraryid = ?";
             String mainQuery = "DELETE FROM itinerary WHERE id = ?";
-            PreparedStatement evenXitinStatement = connection.prepareStatement(evenXitinQuery);
+            PreparedStatement eventStatement = connection.prepareStatement(eventQuery);
             PreparedStatement mainStatement = connection.prepareStatement(mainQuery);
-            evenXitinStatement.setLong(1, id);
+
+            eventStatement.setLong(1, id);
             mainStatement.setLong(1, id);
-            evenXitinStatement.executeUpdate();
+            eventStatement.executeUpdate();
+
             Integer result = mainStatement.executeUpdate();
             connection.close();
+
             return result;
         } catch (SQLException e) {
             throw new RuntimeException(e);
@@ -113,14 +116,16 @@ public class ItineraryRepository {
         }
         return itinerary;
     }
-    public List<Itinerary> getItineraryByUser(Long id) {
+
+    public List<Itinerary> getItineraryByUserId(Long userId) {
         try {
             String query = "SELECT * FROM itinerary WHERE userid = ?";
             List<Itinerary> itineraries = new ArrayList<>();
+
             try {
                 PreparedStatement statement;
                 statement = connection.prepareStatement(query);
-                statement.setLong(1, id);
+                statement.setLong(1, userId);
                 ResultSet resultSet = statement.executeQuery();
                 while (resultSet.next()) {
                     Itinerary itinerary = new Itinerary();
@@ -131,11 +136,11 @@ public class ItineraryRepository {
             } catch (SQLException e) {
                 e.printStackTrace();
             }
+
             return itineraries;
 
         } catch (EmptyResultDataAccessException e) {
             return new ArrayList<>();
         }
     }
-
 }
