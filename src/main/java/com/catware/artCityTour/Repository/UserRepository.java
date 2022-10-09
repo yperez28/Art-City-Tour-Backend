@@ -1,6 +1,7 @@
 package com.catware.artCityTour.Repository;
 
 import com.catware.artCityTour.Conection.DBCConnection;
+import com.catware.artCityTour.Model.Membership;
 import com.catware.artCityTour.Model.User;
 import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.stereotype.Repository;
@@ -37,8 +38,8 @@ public class UserRepository {
                     user.setIdentification(resultSet.getString(6));
                     user.setPhoneNumber(resultSet.getString(7));
                     user.setAddress(resultSet.getString(8));
-                    user.setAge(resultSet.getInt(9));
-                    user.setImageId(resultSet.getLong(10));
+                    user.setPhoto(resultSet.getString(9));
+                    user.setAge(resultSet.getInt(10));
 
                     users.add(user);
                 }
@@ -71,8 +72,8 @@ public class UserRepository {
                 user.setIdentification(resultSet.getString(6));
                 user.setPhoneNumber(resultSet.getString(7));
                 user.setAddress(resultSet.getString(8));
-                user.setAge(resultSet.getInt(9));
-                user.setImageId(resultSet.getLong(10));
+                user.setPhoto(resultSet.getString(9));
+                user.setAge(resultSet.getInt(10));
             }
 
             return user;
@@ -82,9 +83,10 @@ public class UserRepository {
         }
     }
 
-    public User saveUser(String name, String lastname, String email, String password, String identification, String phoneNumber, String address, Integer age, Long imageId) {
+
+    public Integer saveUser(String name, String lastname, String email, String password, String identification, String phoneNumber, String address, Integer age) {
         try {
-            String query = "INSERT INTO public.user (name, lastname, email, password, identification, phone_number, address, age, image_id) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)";
+            String query = "INSERT INTO public.user (name, lastname, email, password, identification, phone_number, address, age) VALUES (?, ?, ?, ?, ?, ?, ?, ?)";
             PreparedStatement statement = connection.prepareStatement(query);
             statement.setString(1, name);
             statement.setString(2, lastname);
@@ -94,7 +96,6 @@ public class UserRepository {
             statement.setString(6, phoneNumber);
             statement.setString(7, address);
             statement.setInt(8, age);
-            statement.setLong(9, imageId);
 
             int result = statement.executeUpdate();
             User user = new User();
@@ -107,19 +108,18 @@ public class UserRepository {
                 user.setPhoneNumber(phoneNumber);
                 user.setAddress(address);
                 user.setAge(age);
-                user.setImageId(imageId);
             }
 
-            return user;
+            return result;
 
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }
     }
 
-    public Integer updateUser (String name, String lastname, String email, String password, String identification, String phoneNumber, String address, Integer age, Long imageId, Long id) {
+    public Integer updateUser (String name, String lastname, String email, String password, String identification, String phoneNumber, String address, String photo, Integer age, Long id) {
         try {
-            String query = "UPDATE public.user SET name=?, lastname=?, email=?, password=?, identification=?, phone_number=?, address=?, age=?, image_id=? WHERE id= ?";
+            String query = "UPDATE public.user SET name=?, lastname=?, email=?, password=?, identification=?, phonenumber=?, address=?, photo=?, age=? WHERE id= ?";
             PreparedStatement statement = connection.prepareStatement(query);
             statement.setString(1, name);
             statement.setString(2, lastname);
@@ -128,8 +128,8 @@ public class UserRepository {
             statement.setString(5, identification);
             statement.setString(6, phoneNumber);
             statement.setString(7, address);
-            statement.setInt(8, age);
-            statement.setLong(9, imageId);
+            statement.setString(8, photo);
+            statement.setInt(9, age);
             statement.setLong(10, id);
 
             return statement.executeUpdate();
@@ -140,17 +140,15 @@ public class UserRepository {
 
     public Integer deleteUser(Long id) {
         try {
-            String membershipQuery = "DELETE FROM membershipxuser WHERE userid = ?";
-            String mainQuery = "DELETE FROM public.user WHERE id = ?";
+            String membrXusuQuery = "DELETE FROM membershipxuser WHERE userid = ?";
+            String mainQuery = "DELETE FROM user WHERE id = ?";
             PreparedStatement mainStatement = connection.prepareStatement(mainQuery);
-            PreparedStatement membershipStatement = connection.prepareStatement(membershipQuery);
-
             mainStatement.setLong(1, id);
-            membershipStatement.setLong(1, id);
-            membershipStatement.executeUpdate();
+            PreparedStatement membrXusuStatement = connection.prepareStatement(membrXusuQuery);
+            membrXusuStatement.setLong(1, id);
+            membrXusuStatement.executeUpdate();
             Integer result = mainStatement.executeUpdate();
             connection.close();
-
             return result;
 
         } catch (SQLException e) {
