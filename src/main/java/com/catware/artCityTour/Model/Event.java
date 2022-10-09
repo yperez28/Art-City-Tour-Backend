@@ -15,11 +15,12 @@ public class Event {
     private Place place;
     private Long placeId;
 
-    public Event(Long id, LocalTime startHour, LocalTime endHour, Place place) {
+    public Event(Long id, LocalTime startHour, LocalTime endHour, Place place, Long placeId) {
         this.id = id;
         this.startHour = startHour;
         this.endHour = endHour;
         this.place = place;
+        this.placeId = placeId;
     }
 
     public Event() {

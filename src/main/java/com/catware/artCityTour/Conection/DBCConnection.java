@@ -10,7 +10,7 @@ public class DBCConnection {
         if (connection != null) {
             return connection;
         }
-        String dbURL = "jdbc:postgresql://localhost:5432/ACTMainDB";
+        String dbURL = "jdbc:postgresql://localhost:5432/ArtCityTour";
         String userName = "postgres";
         String password = "Admin";
         Connection conn = null;
