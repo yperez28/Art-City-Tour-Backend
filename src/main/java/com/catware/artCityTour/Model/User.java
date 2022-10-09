@@ -17,11 +17,9 @@ public class User {
     private String identification;
     private String phoneNumber;
     private String address;
-
+    private String photo;
     private Integer age;
-
     private Long imageId;
-
     private Image image;
     private List<Membership> memberships;
     private List<Itinerary> itineraries;
@@ -33,8 +31,9 @@ public class User {
         this.email = email;
         this.password = password;
         this.identification = identification;
-        this.phoneNumber = phoneNumber;
+        this.phoneNumber = phonenumber;
         this.address = address;
+        this.photo = photo;
         this.age = age;
         this.imageId = imageId;
         this.image = image;
