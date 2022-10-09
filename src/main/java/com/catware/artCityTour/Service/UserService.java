@@ -27,6 +27,9 @@ public class UserService {
     @Autowired
     private EventRepository eventRepository;
 
+    @Autowired
+    private ImageService imageService;
+
 
     public String getAll() throws JsonProcessingException {
         List<User> users = userRepository.getAll();
@@ -37,6 +40,7 @@ public class UserService {
             for (Itinerary itinerary:itineraries) {
                 itinerary.setEvents(eventRepository.getEventByItinerary(itinerary.getId()));
             }
+            user.setImage(imageService.getImageById(user.getImageId()));
 
             user.setItineraries(itineraries);
         }
