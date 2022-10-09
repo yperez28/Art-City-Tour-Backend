@@ -56,7 +56,7 @@ public class ItineraryService {
     }
 
     public String getItineraryByUserId(Long userId) throws JsonProcessingException{
-        List<Itinerary> itineraries = itineraryRepository.getItineraryByUserId(userId);
+        List<Itinerary> itineraries = itineraryRepository.getItineraryByUser(userId);
         for (Itinerary itinerary:itineraries) {
             itinerary.setEvents(eventService.getEventByItinerary(itinerary.getId()));
         }
