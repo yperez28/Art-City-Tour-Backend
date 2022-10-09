@@ -12,8 +12,6 @@ public class UserController {
     @Autowired
     private UserService userService;
 
-
-
     @CrossOrigin
     @RequestMapping(value = "/create", method = RequestMethod.GET)
     public String createUser(@RequestBody String jsonData) throws JsonProcessingException {

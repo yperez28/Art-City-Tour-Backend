@@ -2,6 +2,7 @@ package com.catware.artCityTour.Service;
 
 import com.catware.artCityTour.Model.Itinerary;
 import com.catware.artCityTour.Model.User;
+import com.catware.artCityTour.Repository.EventRepository;
 import com.catware.artCityTour.Repository.ItineraryRepository;
 import com.catware.artCityTour.Repository.MembershipRepository;
 import com.catware.artCityTour.Repository.UserRepository;
@@ -22,11 +23,24 @@ public class UserService {
     private UserRepository userRepository;
     @Autowired
     private MembershipRepository membershipRepository;
+    @Autowired
+    private ItineraryRepository itineraryRepository;
+    @Autowired
+    private EventRepository eventRepository;
+    @Autowired
+    private ImageService imageService;
 
     public String getAll() throws JsonProcessingException {
         List<User> users = userRepository.getAll();
         for (User user: users) {
             user.setMemberships(membershipRepository.getMembershipsByUser(user.getId()));
+            List<Itinerary> itineraries = itineraryRepository.getItineraryByUserId(user.getId());
+
+            for (Itinerary itinerary:itineraries) {
+                itinerary.setEvents(eventRepository.getEventByItinerary(itinerary.getId()));
+            }
+
+            user.setItineraries(itineraries);
         }
 
         return objectMapper.writeValueAsString(users);
@@ -35,32 +49,35 @@ public class UserService {
     public String getUserById(Long id) throws JsonProcessingException {
         User user = userRepository.getUserById(id);
         user.setMemberships(membershipRepository.getMembershipsByUser(id));
+        List<Itinerary> itineraries = itineraryRepository.getItineraryByUserId(id);
+
+        for (Itinerary itinerary:itineraries) {
+            itinerary.setEvents(eventRepository.getEventByItinerary(itinerary.getId()));
+        }
+        user.setItineraries(itineraries);
 
         return objectMapper.writeValueAsString(user);
     }
 
-    /*public String saveUser(String name, String lastname, String email, String password, String identification, String phoneNumber, String address, String photo, Integer age) throws JsonProcessingException {
-        Integer result = userRepository.saveUser(name, lastname, email, password, identification, phoneNumber, address, photo, age);
-        return objectMapper.writeValueAsString(result);
-    }*/
-
     public String saveUser(String jsonData) throws JsonProcessingException {
         User user =  objectMapper.readValue(jsonData, User.class);
-        Integer result = userRepository.saveUser(user.getName(), user.getLastname(), user.getEmail(), user.getPassword(), user.getIdentification(), user.getPhoneNumber(), user.getAddress(), user.getAge());
+        Integer result = userRepository.saveUser(user.getName(), user.getLastname(), user.getEmail(), user.getPassword(), user.getIdentification(), user.getPhoneNumber(), user.getAddress(), user.getAge(), user.getImageId()).getAge();
+
         return objectMapper.writeValueAsString(result);
     }
 
     public String updateUser(String jsonData) throws JsonProcessingException {
         User user =  objectMapper.readValue(jsonData, User.class);
-        Integer result = userRepository.updateUser(user.getName(), user.getLastname(), user.getEmail(), user.getPassword(), user.getIdentification(), user.getPhoneNumber(), user.getAddress(), user.getPhoto(), user.getAge(), user.getId());
+        Integer result = userRepository.updateUser(user.getName(), user.getLastname(), user.getEmail(), user.getPassword(), user.getIdentification(), user.getPhoneNumber(), user.getAddress(), user.getAge(), user.getImageId(), user.getId());
+
         return objectMapper.writeValueAsString(result);
     }
 
     public String deleteUser(Long id) throws JsonProcessingException {
         ItineraryRepository itineraryRepository = new ItineraryRepository();
-        List<Itinerary> itinerary =  itineraryRepository.getItineraryByUser(id);
-        for (Itinerary itin:itinerary ) {
-            itineraryRepository.deleteItinerary(itin.getId());
+        List<Itinerary> itineraries =  itineraryRepository.getItineraryByUserId(id);
+        for (Itinerary itinerary:itineraries ) {
+            itineraryRepository.deleteItinerary(itinerary.getId());
         }
         Integer result = userRepository.deleteUser(id);
         return objectMapper.writeValueAsString(result);
