@@ -58,4 +58,57 @@ public class RouteRepository {
         }
     }
 
+    public Route saveRoute(String name) {
+        try {
+            String query = "INSERT INTO route (name) VALUES (?)";
+            PreparedStatement statement = connection.prepareStatement(query);
+            statement.setString(1, name);
+            statement.executeUpdate();
+
+            Route route = new Route();
+            route.setName(name);
+
+            return route;
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    public Route updateRoute(String name, Long id) {
+        try {
+            String query = "UPDATE route SET name=? WHERE id=?";
+            PreparedStatement statement = connection.prepareStatement(query);
+            statement.setString(1, name);
+            statement.setLong(2, id);
+            statement.executeUpdate();
+
+            Route route = new Route();
+            route.setId(id);
+            route.setName(name);
+
+            return route;
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    public Integer deleteRoute(Long id) {
+        try {
+            String placeQuery = "DELETE FROM placexroute WHERE routeid=?";
+            String mainQuery = "DELETE FROM route WHERE id=?";
+            PreparedStatement placeStatement = connection.prepareStatement(placeQuery);
+            PreparedStatement mainStatement = connection.prepareStatement(mainQuery);
+
+            placeStatement.setLong(1, id);
+            mainStatement.setLong(1, id);
+
+            placeStatement.executeUpdate();
+            Integer result = mainStatement.executeUpdate();
+            connection.close();
+
+            return result;
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+    }
 }
