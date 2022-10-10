@@ -24,4 +24,14 @@ public class ImageService {
     public String deleteImagesByEdition(Long editionId){
         return String.valueOf(imageRepository.deleteImagesByEdition(editionId));
     }
+
+    public Long createImage(Image image){
+        return imageRepository.createImage(image.getName(), image.getDrivePath());
+    }
+
+    public int createImageForEdition(Long editionId, Long imageId){
+        return imageRepository.createImageForEdition(editionId, imageId);
+
+    }
+
 }

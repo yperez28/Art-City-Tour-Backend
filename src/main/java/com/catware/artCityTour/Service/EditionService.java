@@ -1,6 +1,8 @@
 package com.catware.artCityTour.Service;
 
 import com.catware.artCityTour.Model.Edition;
+import com.catware.artCityTour.Model.Image;
+import com.catware.artCityTour.Model.Sponsor;
 import com.catware.artCityTour.Model.User;
 import com.catware.artCityTour.Repository.EditionRepository;
 import com.catware.artCityTour.Repository.SponsorRepository;
@@ -33,7 +35,6 @@ public class EditionService {
         List<Edition> editions = editionRepository.getAll(); //claseIntermediaMemoria.getAll()
         for (Edition edition: editions) {
             edition.setSponsors(sponsorService.getSponsorByEditionId(edition.getId()));
-            System.out.println("EDITION ID: " + edition.getId());
             edition.setImages(imageService.getImagesByEditionId(edition.getId()));
         }
         Collections.reverse(editions);
@@ -56,16 +57,26 @@ public class EditionService {
 
     public String createEdition(String jsonData) throws JsonProcessingException {
         Edition edition = objectMapper.readValue(jsonData, Edition.class);
-        int result = editionRepository.createEdition(edition.getName(), edition.getDetails(), edition.getDate(), edition.getCurrent());
-        if (result > 0) {
-            return objectMapper.writeValueAsString(edition);
+        if(edition.getCurrent()){
+            editionRepository.updateCurrent();
         }
-        return "";
+        edition.setId( editionRepository.createEdition(edition.getName(), edition.getDetails(), edition.getDate(), edition.getCurrent()));
+        System.out.println(edition.getId());
+
+        for (Sponsor sponsor:edition.getSponsors()) {
+            sponsorService.saveSponsorForEdition(edition.getId(), sponsor.getId());
+        }
+        for (Image image: edition.getImages()) {
+            image.setImageId(imageService.createImage(image));
+            imageService.createImageForEdition(edition.getId(),image.getImageId());
+        }
+        return objectMapper.writeValueAsString(edition);
     }
 
-    public int deleteEdition(Long id){
+    public String deleteEdition(Long id){
         imageService.deleteImagesByEdition(id);
-
+        sponsorService.deleteSponsorsByEdition(id);
+        return String.valueOf(editionRepository.deleteEdition(id));
     }
 
 }
