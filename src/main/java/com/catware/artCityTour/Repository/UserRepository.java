@@ -1,7 +1,6 @@
 package com.catware.artCityTour.Repository;
 
 import com.catware.artCityTour.Conection.DBCConnection;
-import com.catware.artCityTour.Model.Membership;
 import com.catware.artCityTour.Model.User;
 import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.stereotype.Repository;
@@ -150,6 +149,20 @@ public class UserRepository {
             Integer result = mainStatement.executeUpdate();
             connection.close();
             return result;
+
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    public boolean getLogin(String email, String password) {
+        try {
+            String userQuery = "SELECT * FROM public.user WHERE email=? AND password=?";
+            PreparedStatement mainStatement = connection.prepareStatement(userQuery);
+            mainStatement.setString(1, email);
+            mainStatement.setString(2, password);
+            ResultSet user = mainStatement.executeQuery();
+            return user.next();
 
         } catch (SQLException e) {
             throw new RuntimeException(e);
