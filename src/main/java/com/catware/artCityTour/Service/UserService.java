@@ -41,6 +41,7 @@ public class UserService {
             }
 
             user.setItineraries(itineraries);
+            user.setImage(imageService.getImageById(user.getImageId()));
         }
 
         return objectMapper.writeValueAsString(users);
@@ -55,6 +56,7 @@ public class UserService {
             itinerary.setEvents(eventRepository.getEventByItinerary(itinerary.getId()));
         }
         user.setItineraries(itineraries);
+        user.setImage(imageService.getImageById(user.getImageId()));
 
         return objectMapper.writeValueAsString(user);
     }

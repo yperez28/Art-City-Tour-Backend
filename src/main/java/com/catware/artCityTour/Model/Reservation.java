@@ -9,7 +9,7 @@ import java.util.List;
 @Setter
 public class Reservation {
 
-    private Integer id;
+    private Long id;
     private String identification;
     private String age;
     private String name;
@@ -17,11 +17,12 @@ public class Reservation {
     private String email;
     private String phoneNumber;
     private Boolean isFirstTime;
-    private Integer place_id;
+    private Long placeId;
+    private Long userId;
     private List<Companion> companion;
 
-    public Reservation(Integer id, String identification, String age, String name, String last_name,
-                       String email, String phoneNumber, Boolean isFirstTime, Integer place_id, List<Companion> companion) {
+    public Reservation(Long id, String identification, String age, String name,String last_name, String email,
+                       String phoneNumber, Boolean isFirstTime, Long placeId, Long userId, List<Companion> companion) {
         this.id = id;
         this.identification = identification;
         this.age = age;
@@ -30,7 +31,8 @@ public class Reservation {
         this.email = email;
         this.phoneNumber = phoneNumber;
         this.isFirstTime = isFirstTime;
-        this.place_id = place_id;
+        this.placeId = placeId;
+        this.userId = userId;
         this.companion = companion;
     }
 
