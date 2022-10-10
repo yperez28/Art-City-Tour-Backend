@@ -42,4 +42,10 @@ public class UserController {
         return userService.getUserById(id);
     }
 
+    @CrossOrigin
+    @RequestMapping(value="/login", method = RequestMethod.GET)
+    public boolean getLogin(@RequestParam String email, String password){
+        return userService.getLogin(email, password);
+    }
+
 }

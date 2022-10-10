@@ -82,4 +82,8 @@ public class UserService {
         Integer result = userRepository.deleteUser(id);
         return objectMapper.writeValueAsString(result);
     }
+
+    public boolean getLogin(String email, String password) {
+        return userRepository.getLogin(email, password);
+    }
 }
