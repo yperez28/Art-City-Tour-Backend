@@ -59,4 +59,18 @@ public class ImageRepository {
             return new ArrayList<>();
         }
     }
+
+    public int deleteImagesByEdition(Long editionId){
+        String query = "DELETE FROM images_edition WHERE edition_id = ?";
+        PreparedStatement statement = null;
+        try {
+            statement = connection.prepareStatement(query);
+            statement.setLong(1, editionId);
+            return statement.executeUpdate();
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+
+    }
+
 }

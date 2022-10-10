@@ -20,4 +20,8 @@ public class ImageService {
     public Image getImageById(Long imageId) {
         return imageRepository.getImageById(imageId);
     }
+
+    public String deleteImagesByEdition(Long editionId){
+        return String.valueOf(imageRepository.deleteImagesByEdition(editionId));
+    }
 }

@@ -61,8 +61,8 @@ public class UserService {
 
     public String saveUser(String jsonData) throws JsonProcessingException {
         User user =  objectMapper.readValue(jsonData, User.class);
+        imageService
         Integer result = userRepository.saveUser(user.getName(), user.getLastname(), user.getEmail(), user.getPassword(), user.getIdentification(), user.getPhoneNumber(), user.getAddress(), user.getAge(), user.getImageId()).getAge();
-
         return objectMapper.writeValueAsString(result);
     }
 

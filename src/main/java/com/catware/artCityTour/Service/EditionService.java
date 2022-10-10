@@ -1,6 +1,7 @@
 package com.catware.artCityTour.Service;
 
 import com.catware.artCityTour.Model.Edition;
+import com.catware.artCityTour.Model.User;
 import com.catware.artCityTour.Repository.EditionRepository;
 import com.catware.artCityTour.Repository.SponsorRepository;
 import com.fasterxml.jackson.core.JsonProcessingException;
@@ -51,6 +52,20 @@ public class EditionService {
         edition.setSponsors(sponsorService.getSponsorByEditionId(edition.getId()));
         edition.setImages(imageService.getImagesByEditionId(edition.getId()));
         return objectMapper.writeValueAsString(edition);
+    }
+
+    public String createEdition(String jsonData) throws JsonProcessingException {
+        Edition edition = objectMapper.readValue(jsonData, Edition.class);
+        int result = editionRepository.createEdition(edition.getName(), edition.getDetails(), edition.getDate(), edition.getCurrent());
+        if (result > 0) {
+            return objectMapper.writeValueAsString(edition);
+        }
+        return "";
+    }
+
+    public int deleteEdition(Long id){
+        imageService.deleteImagesByEdition(id);
+
     }
 
 }

@@ -2,9 +2,11 @@ package com.catware.artCityTour.Repository;
 
 import com.catware.artCityTour.Conection.DBCConnection;
 import com.catware.artCityTour.Model.Edition;
+import com.catware.artCityTour.Model.User;
 import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.stereotype.Repository;
 import java.sql.*;
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -77,6 +79,22 @@ public class EditionRepository {
             }
 
             return edition;
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    public int createEdition(String name, String details, LocalDate date, Boolean current){
+        String query = "INSERT INTO edition (name, details, date, current) VALUES (?, ?, ?, ?)";
+        PreparedStatement statement = null;
+        try {
+            statement = connection.prepareStatement(query);
+            statement.setString(1, name);
+            statement.setString(2, details);
+            statement.setDate(3, Date.valueOf(date));
+            statement.setBoolean(4, current);
+            return statement.executeUpdate();
+
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }

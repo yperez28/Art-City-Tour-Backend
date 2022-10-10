@@ -97,7 +97,6 @@ public class UserRepository {
             statement.setString(7, address);
             statement.setInt(8, age);
             statement.setLong(9, imageId);
-
             int result = statement.executeUpdate();
             User user = new User();
             if (result > 0) {

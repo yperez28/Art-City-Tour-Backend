@@ -29,4 +29,10 @@ public class EditionController {
     public String getEditionById() throws JsonProcessingException {
         return editionService.getCurrentEdition();
     }
+
+    @CrossOrigin
+    @RequestMapping(value = "/create", method = RequestMethod.GET)
+    public String createEdition(@RequestBody String jsonData) throws JsonProcessingException {
+        return editionService.createEdition(jsonData);
+    }
 }

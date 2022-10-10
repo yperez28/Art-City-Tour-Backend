@@ -22,4 +22,8 @@ public class SponsorService {
         }
         return sponsors;
     }
+
+    public String deleteSponsorsByEdition(Long editionId){
+        return String.valueOf(sponsorRepository.deleteSponsorsByEdition(editionId));
+    }
 }
