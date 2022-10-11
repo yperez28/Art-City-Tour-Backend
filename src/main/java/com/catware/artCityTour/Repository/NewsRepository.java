@@ -70,6 +70,21 @@ public class NewsRepository {
         }
     }
 
+    public int updateNews(Long id, String title, String description, Long imageId, LocalDate date){
+        String query = "UPDATE news set title = ?, description = ?, image_id = ?, date = ? WHERE id = ?";
+        try {
+            PreparedStatement statement = connection.prepareStatement(query);
+            statement.setString(1, title);
+            statement.setString(2, description);
+            statement.setLong(3, imageId);
+            statement.setDate(4, Date.valueOf(date));
+            statement.setLong(5,id);
+            return statement.executeUpdate();
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
     public int deleteNews(Long id){
         String query = "DELETE FROM news WHERE id = ?";
         try {

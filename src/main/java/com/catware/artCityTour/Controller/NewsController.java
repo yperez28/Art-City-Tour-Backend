@@ -31,6 +31,12 @@ public class NewsController {
     }
 
     @CrossOrigin
+    @RequestMapping(value = "/update", method = RequestMethod.GET)
+    public String updateNews(@RequestBody String jsonData) throws JsonProcessingException {
+        return newsService.updateNews(jsonData);
+    }
+
+    @CrossOrigin
     @RequestMapping(value = "/delete", method = RequestMethod.GET)
     public String deleteNews(@RequestParam Long id) throws JsonProcessingException {
         return newsService.deleteNews(id);

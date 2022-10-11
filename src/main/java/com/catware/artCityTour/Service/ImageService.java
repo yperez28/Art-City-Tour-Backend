@@ -29,6 +29,10 @@ public class ImageService {
         return imageRepository.createImage(image.getName(), image.getDrivePath());
     }
 
+    public int updateImage(Image image){
+        return imageRepository.updateImage(image.getImageId(), image.getName(), image.getDrivePath());
+    }
+
     public int createImageForEdition(Long editionId, Long imageId){
         return imageRepository.createImageForEdition(editionId, imageId);
 

@@ -114,6 +114,23 @@ public class EditionRepository {
         }
     }
 
+    public int updateEdition(Long id, String name, String details, LocalDate date, Boolean current) {
+        String query = "UPDATE edition set name = ?, details = ?, date = ?, current = ? WHERE id = ?";
+        PreparedStatement statement = null;
+        try {
+            statement = connection.prepareStatement(query, Statement.RETURN_GENERATED_KEYS);
+            statement.setString(1, name);
+            statement.setString(2, details);
+            statement.setDate(3, Date.valueOf(date));
+            statement.setBoolean(4, current);
+            statement.setLong(5, id);
+            return statement.executeUpdate();
+
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
     public int updateCurrent(){
         String query = "UPDATE edition SET current = false";
         try {
@@ -134,5 +151,4 @@ public class EditionRepository {
             throw new RuntimeException(e);
         }
     }
-
 }

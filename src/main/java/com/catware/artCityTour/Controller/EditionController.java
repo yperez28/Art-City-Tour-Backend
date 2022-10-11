@@ -37,8 +37,15 @@ public class EditionController {
     }
 
     @CrossOrigin
+    @RequestMapping(value = "/update", method = RequestMethod.GET)
+    public String updateEdition(@RequestBody String jsonData) throws JsonProcessingException {
+        return editionService.updateEdition(jsonData);
+    }
+
+    @CrossOrigin
     @RequestMapping(value = "/delete", method = RequestMethod.GET)
     public String deleteEdition(@RequestParam Long id) throws JsonProcessingException {
         return editionService.deleteEdition(id);
     }
+
 }

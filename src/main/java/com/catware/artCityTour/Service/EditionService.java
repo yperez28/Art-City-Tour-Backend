@@ -61,11 +61,30 @@ public class EditionService {
             editionRepository.updateCurrent();
         }
         edition.setId( editionRepository.createEdition(edition.getName(), edition.getDetails(), edition.getDate(), edition.getCurrent()));
-        System.out.println(edition.getId());
 
         for (Sponsor sponsor:edition.getSponsors()) {
             sponsorService.saveSponsorForEdition(edition.getId(), sponsor.getId());
         }
+        for (Image image: edition.getImages()) {
+            image.setImageId(imageService.createImage(image));
+            imageService.createImageForEdition(edition.getId(),image.getImageId());
+        }
+        return objectMapper.writeValueAsString(edition);
+    }
+
+    public String updateEdition(String jsonData) throws JsonProcessingException {
+        Edition edition = objectMapper.readValue(jsonData, Edition.class);
+        if(edition.getCurrent()){
+            editionRepository.updateCurrent();
+        }
+        editionRepository.updateEdition(edition.getId(), edition.getName(), edition.getDetails(), edition.getDate(), edition.getCurrent());
+
+        sponsorService.deleteSponsorsByEdition(edition.getId());
+        for (Sponsor sponsor:edition.getSponsors()) {
+            sponsorService.saveSponsorForEdition(edition.getId(), sponsor.getId());
+        }
+
+        imageService.deleteImagesByEdition(edition.getId());
         for (Image image: edition.getImages()) {
             image.setImageId(imageService.createImage(image));
             imageService.createImageForEdition(edition.getId(),image.getImageId());
