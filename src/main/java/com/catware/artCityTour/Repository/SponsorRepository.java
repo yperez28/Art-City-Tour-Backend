@@ -8,6 +8,7 @@ import org.springframework.stereotype.Repository;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -44,6 +45,42 @@ public class SponsorRepository {
         } catch (EmptyResultDataAccessException e) {
             return new ArrayList<>();
         }
+    }
+
+    public int saveSponsorForEdition(Long editionId, Long sponsorId){
+        String query = "INSERT INTO sponsorxedition (editionid, sponsorid) values(?, ?)";
+        try {
+            PreparedStatement statement = connection.prepareStatement(query);
+            statement.setLong(1, editionId);
+            statement.setLong(2, sponsorId);
+            return statement.executeUpdate();
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    public int createSponsor(String name, Long image_id){
+        String query = "INSERT INTO sponsor (name, image_id) values(?, ?)";
+        try {
+            PreparedStatement statement = connection.prepareStatement(query);
+            statement.setString(1, name);
+            statement.setLong(2, image_id);
+            return statement.executeUpdate();
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    public int deleteSponsorsByEdition(Long editionId){
+        String query = "DELETE FROM sponsorxedition WHERE editionid = ?";
+        try {
+            PreparedStatement statement  = connection.prepareStatement(query);
+            statement.setLong(1, editionId);
+            return statement.executeUpdate();
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+
     }
 
 }

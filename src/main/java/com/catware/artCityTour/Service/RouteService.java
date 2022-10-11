@@ -31,7 +31,6 @@ public class RouteService {
 
     public String saveRoute(String name) throws JsonProcessingException {
         Route route = routeRepository.saveRoute(name);
-
         return objectMapper.writeValueAsString(route);
     }
 

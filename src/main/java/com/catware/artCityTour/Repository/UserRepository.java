@@ -84,7 +84,7 @@ public class UserRepository {
         }
     }
 
-    public User saveUser(String name, String lastname, String email, String password, String identification, String phoneNumber, String address, Integer age, Long imageId) {
+    public int saveUser(String name, String lastname, String email, String password, String identification, String phoneNumber, String address, Integer age, Long imageId) {
         try {
             String query = "INSERT INTO public.user (name, lastname, email, password, identification, phone_number, address, age, image_id) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)";
             PreparedStatement statement = connection.prepareStatement(query);
@@ -97,22 +97,7 @@ public class UserRepository {
             statement.setString(7, address);
             statement.setInt(8, age);
             statement.setLong(9, imageId);
-
-            int result = statement.executeUpdate();
-            User user = new User();
-            if (result > 0) {
-                user.setName(name);
-                user.setLastname(lastname);
-                user.setEmail(email);
-                user.setPassword(password);
-                user.setIdentification(identification);
-                user.setPhoneNumber(phoneNumber);
-                user.setAddress(address);
-                user.setAge(age);
-                user.setImageId(imageId);
-            }
-
-            return user;
+            return statement.executeUpdate();
 
         } catch (SQLException e) {
             throw new RuntimeException(e);

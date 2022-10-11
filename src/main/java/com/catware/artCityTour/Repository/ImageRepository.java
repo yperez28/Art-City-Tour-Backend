@@ -5,10 +5,7 @@ import com.catware.artCityTour.Model.Image;
 import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.stereotype.Repository;
 
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
+import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -59,4 +56,64 @@ public class ImageRepository {
             return new ArrayList<>();
         }
     }
+
+    public int updateImage(Long id, String name, String drivePath){
+        String query = "UPDATE image set name = ?, drive_path = ? WHERE image_id = ?";
+        try {
+            PreparedStatement statement = connection.prepareStatement(query);
+            statement.setString(1, name);
+            statement.setString(2, drivePath);
+            statement.setLong(3, id);
+            return statement.executeUpdate();
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    public long createImage(String name, String drivePath){
+        String query = "INSERT INTO image (name, drive_path) values(?, ?)";
+        try {
+            PreparedStatement statement = connection.prepareStatement(query, Statement.RETURN_GENERATED_KEYS);
+            statement.setString(1, name);
+            statement.setString(2, drivePath);
+            int affectedRows = statement.executeUpdate();
+            if (affectedRows == 0) {
+                throw new SQLException("Creating user failed, no rows affected.");
+            }
+            try (ResultSet generatedKeys = statement.getGeneratedKeys()) {
+                if (generatedKeys.next()) {
+                    return generatedKeys.getLong(1);
+                }
+                else {
+                    throw new SQLException("Creating user failed, no ID obtained.");
+                }
+            }
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    public int createImageForEdition(Long editionId, Long imageId){
+        String query = "INSERT INTO images_edition (edition_id, image_id) values(?, ?)";
+        try {
+            PreparedStatement statement = connection.prepareStatement(query);
+            statement.setLong(1, editionId);
+            statement.setLong(2, imageId);
+            return statement.executeUpdate();
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    public int deleteImagesByEdition(Long editionId){
+        String query = "DELETE FROM images_edition WHERE edition_id = ?";
+        try {
+            PreparedStatement statement = connection.prepareStatement(query);
+            statement.setLong(1, editionId);
+            return statement.executeUpdate();
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
 }
