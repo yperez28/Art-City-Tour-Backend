@@ -7,6 +7,7 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.web.bind.annotation.RequestParam;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -25,11 +26,12 @@ public class ReservationService {
         Reservation reservation = objectMapper.readValue(jsonData, Reservation.class);
         List<Long> companionIds = new ArrayList<>();
         for (Companion companion:reservation.getCompanion()) {
-            Long id = companionService.saveCompanion(companion.getIdentification(), companion.getAge(), companion.getName(), companion.getLast_name());
+            Long id = companionService.saveCompanion(companion.getIdentification(), companion.getAge(),
+                    companion.getName(), companion.getLast_name());
             companionIds.add(id);
         }
         Integer result = reservationRepository.saveReservation(reservation.getPlaceId(), reservation.getIdentification(),
-                reservation.getAge(), reservation.getName(), reservation.getLast_name(), reservation.getEmail(),
+                reservation.getAge(), reservation.getName(), reservation.getLastName(), reservation.getEmail(),
                 reservation.getPhoneNumber(), reservation.getIsFirstTime(), reservation.getUserId(), companionIds);
 
         return objectMapper.writeValueAsString(result);
@@ -45,8 +47,19 @@ public class ReservationService {
         return objectMapper.writeValueAsString(reservations);
     }
 
-    public String updateReservation() throws JsonProcessingException {
-        Integer result = reservationRepository.updateReservation();
+    public String updateReservation(String jsonData) throws JsonProcessingException {
+        Reservation reservation = objectMapper.readValue(jsonData, Reservation.class);
+        List<Long> companionIds = new ArrayList<>();
+        for (Companion companion:reservation.getCompanion()) {
+            Long idCompanion = companionService.saveCompanion(companion.getIdentification(), companion.getAge(),
+                    companion.getName(), companion.getLast_name());
+            companionIds.add(idCompanion);
+        }
+
+        Integer result = reservationRepository.updateReservation(reservation.getId(), reservation.getIdentification(),
+                reservation.getAge(), reservation.getName(), reservation.getLastName(), reservation.getEmail(),
+                reservation.getPhoneNumber(), reservation.getIsFirstTime(), reservation.getPlaceId(),
+                reservation.getUserId(), companionIds);
 
         return objectMapper.writeValueAsString(result);
     }

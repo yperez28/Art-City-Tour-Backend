@@ -5,8 +5,6 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
-import java.sql.SQLException;
-
 @RestController
 @RequestMapping(value="/reservation")
 public class ReservationController {
@@ -14,7 +12,6 @@ public class ReservationController {
     @Autowired
     private ReservationService reservationService;
 
-    // listo
     @CrossOrigin
     @RequestMapping(value="/create", method= RequestMethod.GET)
     public String createReservation(@RequestBody String jsonData) throws JsonProcessingException {
@@ -29,13 +26,13 @@ public class ReservationController {
 
     @CrossOrigin
     @RequestMapping(value="/update", method = RequestMethod.GET)
-    public String updateReservation() throws JsonProcessingException {
-        return reservationService.updateReservation();
+    public String updateReservation(@RequestBody String jsonData) throws JsonProcessingException {
+        return reservationService.updateReservation(jsonData);
     }
 
     @CrossOrigin
     @RequestMapping(value="/delete", method = RequestMethod.GET)
-    public String deleteReservation(Long id) throws JsonProcessingException {
+    public String deleteReservation(@RequestParam Long id) throws JsonProcessingException {
         return reservationService.deleteReservation(id);
     }
 

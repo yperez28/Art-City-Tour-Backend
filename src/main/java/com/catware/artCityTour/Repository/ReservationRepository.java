@@ -1,6 +1,7 @@
 package com.catware.artCityTour.Repository;
 
 import com.catware.artCityTour.Conection.DBCConnection;
+import com.catware.artCityTour.Model.Companion;
 import com.catware.artCityTour.Model.Reservation;
 import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.stereotype.Repository;
@@ -17,7 +18,9 @@ public class ReservationRepository {
 
     private final Connection connection = DBCConnection.getConnection();
 
-    public Integer saveReservation(Long placeId, String identification, String age, String name, String lastName, String email, String phoneNumber, Boolean isFirstTime, Long userId, List<Long> companionIds) {
+    public Integer saveReservation(Long placeId, String identification, String age, String name, String lastName,
+                                   String email, String phoneNumber, Boolean isFirstTime, Long userId,
+                                   List<Long> companionIds) {
         try {
             String query = "INSERT INTO reservation (place_id, identification, age, name, lastname, email, phone_number, is_first_time) VALUES (?, ?, ?, ?, ?, ?, ?, ?) RETURNING id";
             PreparedStatement statement = connection.prepareStatement(query);
@@ -76,7 +79,7 @@ public class ReservationRepository {
                     reservation.setIdentification(resultSet.getString(3));
                     reservation.setAge(resultSet.getString(4));
                     reservation.setName(resultSet.getString(5));
-                    reservation.setLast_name(resultSet.getString(6));
+                    reservation.setLastName(resultSet.getString(6));
                     reservation.setEmail(resultSet.getString(7));
                     reservation.setPhoneNumber(resultSet.getString(8));
                     reservation.setIsFirstTime(resultSet.getBoolean(9));
@@ -94,8 +97,39 @@ public class ReservationRepository {
         }
     }
 
-    public Integer updateReservation() {
-        return 0;
+    public Integer updateReservation(Long id, String identification, String age, String name, String lastName,
+                                     String email, String phoneNumber, Boolean isFirstTime, Long placeId,
+                                     Long userId, List<Long> companionIds) {
+        try {
+            String query = "UPDATE reservation SET place_id=?, identification=?, age=?, name=?, lastname=?, email=?, phone_number=?, is_first_time=? WHERE id=?";
+            PreparedStatement statement = connection.prepareStatement(query);
+
+            statement.setLong(1, placeId);
+            statement.setString(2, identification);
+            statement.setString(3, age);
+            statement.setString(4, name);
+            statement.setString(5, lastName);
+            statement.setString(6, email);
+            statement.setString(7, phoneNumber);
+            statement.setBoolean(8, isFirstTime);
+            statement.setLong(9, id);
+
+            ResultSet resultSet = statement.executeQuery();
+            Integer result = null;
+
+            for(Long companionId:companionIds) {
+                String companionQuery = "INSERT INTO companionxreservation (reservation_id, companion_id) VALUES (?, ?)";
+                PreparedStatement companionStatement = connection.prepareStatement(companionQuery);
+                companionStatement.setLong(1, id);
+                companionStatement.setLong(2, companionId);
+                result = companionStatement.executeUpdate();
+            }
+
+            return result;
+
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
     }
 
     public Integer deleteReservation(Long id) {
@@ -132,7 +166,7 @@ public class ReservationRepository {
                 reservation.setIdentification(resultSet.getString(3));
                 reservation.setAge(resultSet.getString(4));
                 reservation.setName(resultSet.getString(5));
-                reservation.setLast_name(resultSet.getString(6));
+                reservation.setLastName(resultSet.getString(6));
                 reservation.setEmail(resultSet.getString(7));
                 reservation.setPhoneNumber(resultSet.getString(8));
                 reservation.setIsFirstTime(resultSet.getBoolean(9));
