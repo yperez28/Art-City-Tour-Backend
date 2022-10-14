@@ -84,7 +84,7 @@ public class UserRepository {
         }
     }
 
-    public User saveUser(String name, String lastname, String email, String password, String identification, String phoneNumber, String address, Integer age, Long imageId) {
+    public int saveUser(String name, String lastname, String email, String password, String identification, String phoneNumber, String address, Integer age, Long imageId) {
         try {
             String query = "INSERT INTO public.user (name, lastname, email, password, identification, phone_number, address, age, image_id) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)";
             PreparedStatement statement = connection.prepareStatement(query);
@@ -97,31 +97,16 @@ public class UserRepository {
             statement.setString(7, address);
             statement.setInt(8, age);
             statement.setLong(9, imageId);
-
-            int result = statement.executeUpdate();
-            User user = new User();
-            if (result > 0) {
-                user.setName(name);
-                user.setLastname(lastname);
-                user.setEmail(email);
-                user.setPassword(password);
-                user.setIdentification(identification);
-                user.setPhoneNumber(phoneNumber);
-                user.setAddress(address);
-                user.setAge(age);
-                user.setImageId(imageId);
-            }
-
-            return user;
+            return statement.executeUpdate();
 
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }
     }
 
-    public Integer updateUser (String name, String lastname, String email, String password, String identification, String phoneNumber, String address, Integer age, Long imageId, Long id) {
+    public Integer updateUser (String name, String lastname, String email, String password, String identification, String phoneNumber, String address, Integer age, Long id) {
         try {
-            String query = "UPDATE public.user SET name=?, lastname=?, email=?, password=?, identification=?, phone_number=?, address=?, age=?, image_id=? WHERE id= ?";
+            String query = "UPDATE public.user SET name=?, lastname=?, email=?, password=?, identification=?, phone_number=?, address=?, age=? WHERE id= ?";
             PreparedStatement statement = connection.prepareStatement(query);
             statement.setString(1, name);
             statement.setString(2, lastname);
@@ -131,9 +116,7 @@ public class UserRepository {
             statement.setString(6, phoneNumber);
             statement.setString(7, address);
             statement.setInt(8, age);
-            statement.setLong(9, imageId);
-            statement.setLong(10, id);
-
+            statement.setLong(9, id);
             return statement.executeUpdate();
         } catch (SQLException e) {
             throw new RuntimeException(e);

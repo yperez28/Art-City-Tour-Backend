@@ -12,6 +12,7 @@ public class Edition {
     private Long id;
     private String name;
     private String details;
+    private Boolean current;
     private LocalDate date;
     private List<Sponsor> sponsors;
     private List<Image> images;
@@ -26,3 +27,5 @@ public class Edition {
 
     public Edition() {}
 }
+
+

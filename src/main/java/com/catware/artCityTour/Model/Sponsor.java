@@ -9,13 +9,13 @@ public class Sponsor {
 
     private Long id;
     private String name;
-    private String photo;
+    private Image image;
     private Long imageId;
 
-    public Sponsor(Long id, String name, String photo) {
+    public Sponsor(Long id, String name, Image image) {
         this.id = id;
         this.name = name;
-        this.photo = photo;
+        this.image = image;
     }
 
     public Sponsor() {
