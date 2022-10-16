@@ -21,6 +21,8 @@ public class ReservationService {
     private ReservationRepository reservationRepository;
     @Autowired
     private CompanionService companionService;
+    @Autowired
+    private EmailService emailService;
 
     public String saveReservation(String jsonData) throws JsonProcessingException {
         Reservation reservation = objectMapper.readValue(jsonData, Reservation.class);
@@ -33,6 +35,12 @@ public class ReservationService {
         Integer result = reservationRepository.saveReservation(reservation.getPlaceId(), reservation.getIdentification(),
                 reservation.getAge(), reservation.getName(), reservation.getLastName(), reservation.getEmail(),
                 reservation.getPhoneNumber(), reservation.getIsFirstTime(), reservation.getUserId(), companionIds);
+
+        if (result == 1) {
+            String emailBody = "Hola\nGracias por reservar tu espacio en la edición en curso del Art City Tour."
+                    + "A continuación puede encontar el código QR de la confirmación de entrada.\n";
+            emailService.sendEmail(reservation.getEmail(), "Confirmación de reservación Art City Tour", emailBody);
+        }
 
         return objectMapper.writeValueAsString(result);
     }
