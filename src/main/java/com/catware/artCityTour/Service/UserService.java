@@ -41,6 +41,7 @@ public class UserService {
             }
 
             user.setItineraries(itineraries);
+            user.setImage(imageService.getImageById(user.getImageId()));
         }
 
         return objectMapper.writeValueAsString(users);
@@ -55,6 +56,7 @@ public class UserService {
             itinerary.setEvents(eventRepository.getEventByItinerary(itinerary.getId()));
         }
         user.setItineraries(itineraries);
+        user.setImage(imageService.getImageById(user.getImageId()));
 
         return objectMapper.writeValueAsString(user);
     }
@@ -68,8 +70,8 @@ public class UserService {
 
     public String updateUser(String jsonData) throws JsonProcessingException {
         User user =  objectMapper.readValue(jsonData, User.class);
-        Integer result = userRepository.updateUser(user.getName(), user.getLastname(), user.getEmail(), user.getPassword(), user.getIdentification(), user.getPhoneNumber(), user.getAddress(), user.getAge(), user.getImageId(), user.getId());
-
+        imageService.updateImage(user.getImage());
+        Integer result = userRepository.updateUser(user.getName(), user.getLastname(), user.getEmail(), user.getPassword(), user.getIdentification(), user.getPhoneNumber(), user.getAddress(), user.getAge(), user.getId());
         return objectMapper.writeValueAsString(result);
     }
 

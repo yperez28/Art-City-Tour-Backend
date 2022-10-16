@@ -41,69 +41,73 @@ DROP COLUMN photo,
 ADD COLUMN image_id integer,
 ADD CONSTRAINT user_image_fk FOREIGN KEY (image_id) REFERENCES image (image_id);
 -----------------------------------------------------------------------------------------------------------------------------------
---NEWS  TABLE ITERATION2
 
-CREATE TABLE public.news
-(
-    id integer NOT NULL GENERATED ALWAYS AS IDENTITY ( INCREMENT 1 START 1 MINVALUE 1 MAXVALUE 2147483647 CACHE 1 ),
-    title character varying(100) COLLATE pg_catalog."default" NOT NULL,
-    description character varying(1200) COLLATE pg_catalog."default" NOT NULL,
-    image_id integer,
-    date date,
-    CONSTRAINT news_pkey PRIMARY KEY (id),
-    CONSTRAINT news_image_id_fkey FOREIGN KEY (image_id)
-        REFERENCES public.image (image_id) MATCH SIMPLE
-        ON UPDATE NO ACTION
-        ON DELETE NO ACTION
-)
+--------------------------------------------------------------------------------------------------------------------
+-- NEW RESERVATION TABLE
+DROP TABLE IF EXISTS public.reservation;
 
--------------------------------------------------------------------------------------------------------------------------------------
---RESERVATION TABLES
-
-CREATE TABLE public.reservation
+CREATE TABLE IF NOT EXISTS public.reservation
 (
     id integer NOT NULL GENERATED ALWAYS AS IDENTITY ( INCREMENT 1 START 1 MINVALUE 1 MAXVALUE 2147483647 CACHE 1 ),
     place_id integer NOT NULL,
-    first_time boolean NOT NULL,
+    identification character varying(20) COLLATE pg_catalog."default" NOT NULL,
+    age character varying(3) COLLATE pg_catalog."default" NOT NULL,
+    name character varying(20) COLLATE pg_catalog."default" NOT NULL,
+    lastname character varying(50) COLLATE pg_catalog."default" NOT NULL,
+    email character varying(50) COLLATE pg_catalog."default" NOT NULL,
+    phone_number character varying(11) COLLATE pg_catalog."default",
+    is_first_time boolean NOT NULL,
     CONSTRAINT reservation_pkey PRIMARY KEY (id),
     CONSTRAINT reservation_place_id_fkey FOREIGN KEY (place_id)
         REFERENCES public.place (id) MATCH SIMPLE
         ON UPDATE NO ACTION
         ON DELETE NO ACTION
-        NOT VALID
 )
 
+    TABLESPACE pg_default;
 
-CREATE TABLE public.companionxreservation
+ALTER TABLE IF EXISTS public.reservation
+    OWNER to postgres;
+
+--companion table
+DROP TABLE IF EXISTS public.companion;
+
+CREATE TABLE IF NOT EXISTS public.companion
+(
+    id integer NOT NULL GENERATED ALWAYS AS IDENTITY ( INCREMENT 1 START 1 MINVALUE 1 MAXVALUE 2147483647 CACHE 1 ),
+    identification character varying(20) COLLATE pg_catalog."default" NOT NULL,
+    age character varying(20) COLLATE pg_catalog."default" NOT NULL,
+    name character varying(50) COLLATE pg_catalog."default" NOT NULL,
+    last_name character varying(50) COLLATE pg_catalog."default" NOT NULL,
+    CONSTRAINT pk_companions PRIMARY KEY (id)
+)
+
+    TABLESPACE pg_default;
+
+ALTER TABLE IF EXISTS public.companion
+    OWNER to postgres;
+
+--companionxreservation table
+DROP TABLE IF EXISTS public.companionxreservation;
+
+CREATE TABLE IF NOT EXISTS public.companionxreservation
 (
     id integer NOT NULL GENERATED ALWAYS AS IDENTITY ( INCREMENT 1 START 1 MINVALUE 1 MAXVALUE 2147483647 CACHE 1 ),
     reservation_id integer NOT NULL,
-    user_id integer NOT NULL,
-    CONSTRAINT companionxreservation_pkey PRIMARY KEY (id),
-    CONSTRAINT companionxreservation_reservation_id_fkey FOREIGN KEY (reservation_id)
-        REFERENCES public.reservation (id) MATCH SIMPLE
+    companion_id integer NOT NULL,
+    CONSTRAINT pk_companionxreservation PRIMARY KEY (id),
+    CONSTRAINT fk_companion_id FOREIGN KEY (companion_id)
+        REFERENCES public.companion (id) MATCH SIMPLE
         ON UPDATE NO ACTION
         ON DELETE NO ACTION,
-    CONSTRAINT companionxreservation_user_id_fkey FOREIGN KEY (user_id)
-        REFERENCES public."user" (id) MATCH SIMPLE
+    CONSTRAINT fk_reservation_id FOREIGN KEY (reservation_id)
+        REFERENCES public.reservation (id) MATCH SIMPLE
         ON UPDATE NO ACTION
         ON DELETE NO ACTION
 )
 
+    TABLESPACE pg_default;
 
-CREATE TABLE public.reservationxuser
-(
-    id integer NOT NULL GENERATED ALWAYS AS IDENTITY ( INCREMENT 1 START 1 MINVALUE 1 MAXVALUE 2147483647 CACHE 1 ),
-    user_id integer NOT NULL,
-    reservation_id integer NOT NULL,
-    CONSTRAINT reservationxuser_pkey PRIMARY KEY (id),
-    CONSTRAINT reservationxuser_reservation_id_fkey FOREIGN KEY (reservation_id)
-        REFERENCES public.reservation (id) MATCH SIMPLE
-        ON UPDATE NO ACTION
-        ON DELETE NO ACTION,
-    CONSTRAINT reservationxuser_user_id_fkey FOREIGN KEY (user_id)
-        REFERENCES public."user" (id) MATCH SIMPLE
-        ON UPDATE NO ACTION
-        ON DELETE NO ACTION
-)
-
+ALTER TABLE IF EXISTS public.companionxreservation
+    OWNER to postgres;
+---------------------------------------------------------------------------------------------------------------------
