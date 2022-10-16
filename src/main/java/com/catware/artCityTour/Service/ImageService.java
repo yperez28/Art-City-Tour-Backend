@@ -22,13 +22,21 @@ public class ImageService {
         return imageRepository.getImageById(imageId);
     }
 
-    public String getLinkToSaveInDB(String googleDriveShareLink){
-        String[] imgLinkSplit = googleDriveShareLink.split("/");
-        String id = imgLinkSplit[imgLinkSplit.length-2];
-        return Constants.VIEW_LINK + id;
+    public String deleteImagesByEdition(Long editionId){
+        return String.valueOf(imageRepository.deleteImagesByEdition(editionId));
     }
 
-    public String getImageLogin() {
-        return imageRepository.getLoginImage();
+    public Long createImage(Image image){
+        return imageRepository.createImage(image.getName(), image.getDrivePath());
     }
+
+    public int updateImage(Image image){
+        return imageRepository.updateImage(image.getImageId(), image.getName(), image.getDrivePath());
+    }
+
+    public int createImageForEdition(Long editionId, Long imageId){
+        return imageRepository.createImageForEdition(editionId, imageId);
+
+    }
+
 }
