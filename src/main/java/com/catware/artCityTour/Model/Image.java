@@ -9,5 +9,4 @@ public class Image {
     private Long imageId;
     private String name;
     private String drivePath;
-    private Long editionId;
 }

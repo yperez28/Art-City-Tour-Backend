@@ -42,4 +42,21 @@ public class UserController {
         return userService.getUserById(id);
     }
 
+    @CrossOrigin
+    @RequestMapping(value="/login", method = RequestMethod.GET)
+    public boolean getLogin(@RequestParam String email, String password){
+        return userService.getLogin(email, password);
+    }
+
+    @CrossOrigin
+    @RequestMapping(value = "/forgetPassword", method = RequestMethod.POST)
+    public boolean forgetPassword(@RequestParam String email){
+        return userService.forgetPassword(email);
+    }
+
+    @CrossOrigin
+    @RequestMapping(value = "/changePassword", method = RequestMethod.POST)
+    public boolean changePassword(@RequestParam String email, @RequestParam String previousPass, @RequestParam String newPass){
+        return userService.changePassword(email, previousPass, newPass);
+    }
 }

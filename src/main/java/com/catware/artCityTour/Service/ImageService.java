@@ -1,5 +1,6 @@
 package com.catware.artCityTour.Service;
 
+import com.catware.artCityTour.Constants.Constants;
 import com.catware.artCityTour.Model.Image;
 import com.catware.artCityTour.Repository.ImageRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -35,7 +36,10 @@ public class ImageService {
 
     public int createImageForEdition(Long editionId, Long imageId){
         return imageRepository.createImageForEdition(editionId, imageId);
+    }
 
+    public String getImageLogin() {
+        return imageRepository.getLoginImage();
     }
 
 }

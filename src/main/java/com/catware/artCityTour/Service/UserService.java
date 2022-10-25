@@ -11,6 +11,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.security.SecureRandom;
 import java.util.List;
 
 @Service
@@ -28,6 +29,9 @@ public class UserService {
     private EventRepository eventRepository;
     @Autowired
     private ImageService imageService;
+
+    @Autowired
+    private EmailService emailService;
 
     public String getAll() throws JsonProcessingException {
         List<User> users = userRepository.getAll();
@@ -82,5 +86,37 @@ public class UserService {
         }
         Integer result = userRepository.deleteUser(id);
         return objectMapper.writeValueAsString(result);
+    }
+
+    public boolean getLogin(String email, String password) {
+        return userRepository.getLogin(email, password);
+    }
+
+    public boolean forgetPassword(String email){
+        String tempPass = createTempPass(8);
+        emailService.sendEmail(email, "Olvidó su contraseña Art City Tour", getTempPass(tempPass));
+        return userRepository.changePassword(email, tempPass);
+    }
+
+    public boolean changePassword(String email, String currentPass, String newPass){
+        return userRepository.changePassword(email, currentPass, newPass);
+    }
+
+    private String getTempPass(String password) {
+        String initialMessage = "Utilice esta contraseña temporal para ingresar al sistema y cambiarla por una nueva:\n\n";
+        String finalMessage = "\n\n Si usted no envió esta solicitud ignore este mensaje y cambie su contraseña.";
+        return initialMessage +  password + finalMessage;
+    }
+
+    public static String createTempPass(int len) {
+        final String chars = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
+
+        SecureRandom random = new SecureRandom();
+        StringBuilder sb = new StringBuilder();
+        for (int i = 0; i < len; i++) {
+            int randomIndex = random.nextInt(chars.length());
+            sb.append(chars.charAt(randomIndex));
+        }
+        return sb.toString();
     }
 }

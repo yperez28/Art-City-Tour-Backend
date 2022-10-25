@@ -116,4 +116,18 @@ public class ImageRepository {
         }
     }
 
+    public String getLoginImage() {
+        String query = "SELECT drive_path FROM image WHERE name='Login'";
+        PreparedStatement statement;
+        try {
+            statement = connection.prepareStatement(query);
+            ResultSet resultSet = statement.executeQuery();
+            resultSet.next();
+            return resultSet.getString(1);
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+
 }
