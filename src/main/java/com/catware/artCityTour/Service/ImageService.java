@@ -36,7 +36,10 @@ public class ImageService {
 
     public int createImageForEdition(Long editionId, Long imageId){
         return imageRepository.createImageForEdition(editionId, imageId);
+    }
 
+    public String getImageLogin() {
+        return imageRepository.getLoginImage();
     }
 
 }

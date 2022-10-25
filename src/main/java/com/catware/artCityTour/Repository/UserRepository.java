@@ -122,6 +122,18 @@ public class UserRepository {
         }
     }
 
+    public boolean changePassword(String mail, String newPassword){
+        try {
+            String query = "UPDATE public.user SET password=? WHERE email=?";
+            PreparedStatement statement = connection.prepareStatement(query);
+            statement.setString(1, newPassword);
+            statement.setString(2, mail);
+            return statement.executeUpdate() == 1;
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
     public Integer deleteUser(Long id) {
         try {
             String membershipQuery = "DELETE FROM membershipxuser WHERE userid = ?";
@@ -150,7 +162,24 @@ public class UserRepository {
             mainStatement.setString(2, password);
             ResultSet user = mainStatement.executeQuery();
             return user.next();
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+    }
 
+    public boolean changePassword(String email, String currentPass, String newPass) {
+        try {
+            String userQuery = "SELECT * FROM public.user WHERE email=? AND password=?";
+            PreparedStatement mainStatement = connection.prepareStatement(userQuery);
+            mainStatement.setString(1, email);
+            mainStatement.setString(2, currentPass);
+            ResultSet user = mainStatement.executeQuery();
+            boolean exists = user.next();
+            System.out.println("EXISTE: "+ exists);
+            if (exists){
+                return changePassword(email, newPass);
+            }
+            return false;
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }
