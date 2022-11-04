@@ -18,7 +18,7 @@ public class MembershipRepository {
 
     public List<Membership> getAll(){
         try {
-            String query = "SELECT * FROM membership";
+            String query = "SELECT * FROM membership ORDER BY price";
             PreparedStatement statement;
             List<Membership> resultArray = new ArrayList<>();
             try {
