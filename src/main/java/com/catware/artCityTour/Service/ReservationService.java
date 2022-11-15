@@ -5,10 +5,14 @@ import com.catware.artCityTour.Model.Reservation;
 import com.catware.artCityTour.Repository.ReservationRepository;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.google.zxing.WriterException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.web.bind.annotation.RequestParam;
 
+import javax.mail.MessagingException;
+import java.io.File;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -23,8 +27,10 @@ public class ReservationService {
     private CompanionService companionService;
     @Autowired
     private EmailService emailService;
+    @Autowired
+    private QRCodeService qrCodeService;
 
-    public String saveReservation(String jsonData) throws JsonProcessingException {
+    public String saveReservation(String jsonData) throws IOException, WriterException, MessagingException {
         Reservation reservation = objectMapper.readValue(jsonData, Reservation.class);
         List<Long> companionIds = new ArrayList<>();
         for (Companion companion:reservation.getCompanion()) {
@@ -39,7 +45,11 @@ public class ReservationService {
         if (result == 1) {
             String emailBody = "Hola\nGracias por reservar tu espacio en la edición en curso del Art City Tour."
                     + "A continuación puede encontar el código QR de la confirmación de entrada.\n";
-            emailService.sendEmail(reservation.getEmail(), "Confirmación de reservación Art City Tour", emailBody);
+            String qrContent = "La persona " + reservation.getName() + " " + reservation.getLastName() + " con identificación " + reservation.getIdentification().toString() + " tiene una reservación en el evento.";
+            String path = "./src/main/java/com/catware/artCityTour/Img/" + reservation.getName() + "_" + reservation.getLastName() + ".png";
+
+            qrCodeService.generateQRCode(qrContent, path);
+            emailService.sendEmailWithAttach(reservation.getEmail(), "Confirmación de reservación Art City Tour", emailBody, new File(path));
         }
 
         return objectMapper.writeValueAsString(result);
