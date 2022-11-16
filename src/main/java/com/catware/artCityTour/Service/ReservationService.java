@@ -43,7 +43,7 @@ public class ReservationService {
                 reservation.getPhoneNumber(), reservation.getIsFirstTime(), reservation.getUserId(), companionIds);
 
         if (result == 1) {
-            String emailBody = "Hola\nGracias por reservar tu espacio en la edición en curso del Art City Tour."
+            String emailBody = "Hola,\nGracias por reservar tu espacio en la edición en curso del Art City Tour."
                     + "A continuación puede encontar el código QR de la confirmación de entrada.\n";
             String qrContent = "La persona " + reservation.getName() + " " + reservation.getLastName() + " con identificación " + reservation.getIdentification().toString() + " tiene una reservación en el evento.";
             String path = "./src/main/java/com/catware/artCityTour/Img/" + reservation.getName() + "_" + reservation.getLastName() + ".png";
