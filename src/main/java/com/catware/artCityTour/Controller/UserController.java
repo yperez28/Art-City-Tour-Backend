@@ -2,8 +2,11 @@ package com.catware.artCityTour.Controller;
 
 import com.catware.artCityTour.Service.UserService;
 import com.fasterxml.jackson.core.JsonProcessingException;
+import com.google.zxing.WriterException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
+
+import java.io.IOException;
 
 @RestController
 @RequestMapping(value = "/user")
@@ -14,13 +17,13 @@ public class UserController {
 
     @CrossOrigin
     @RequestMapping(value = "/create", method = RequestMethod.GET)
-    public String createUser(@RequestBody String jsonData) throws JsonProcessingException {
+    public String createUser(@RequestBody String jsonData) throws IOException {
         return userService.saveUser(jsonData);
     }
 
     @CrossOrigin
     @RequestMapping(value = "/getAll", method = RequestMethod.GET)
-    public String getUser() throws JsonProcessingException {
+    public String getUser() throws IOException, WriterException {
         return userService.getAll();
     }
 
