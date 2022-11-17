@@ -9,7 +9,6 @@ public class Place {
     private Long id;
     private String name;
     private String details;
-
     private Image image;
     private Long imageId;
 

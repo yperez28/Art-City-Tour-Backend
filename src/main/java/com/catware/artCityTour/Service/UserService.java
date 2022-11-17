@@ -8,6 +8,7 @@ import com.catware.artCityTour.Repository.MembershipRepository;
 import com.catware.artCityTour.Repository.UserRepository;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import org.springframework.beans.factory.FactoryBean;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -29,7 +30,8 @@ public class UserService {
     private EventRepository eventRepository;
     @Autowired
     private ImageService imageService;
-
+    @Autowired
+    private HashingService hashingService;
     @Autowired
     private EmailService emailService;
 
@@ -67,6 +69,7 @@ public class UserService {
     public String saveUser(String jsonData) throws JsonProcessingException {
         User user =  objectMapper.readValue(jsonData, User.class);
         user.setImageId(imageService.createImage(user.getImage()));
+        user.setPassword(hashingService.hashPass(user.getPassword()));
         Integer result = userRepository.saveUser(user.getName(), user.getLastname(), user.getEmail(), user.getPassword(), user.getIdentification(), user.getPhoneNumber(), user.getAddress(), user.getAge(), user.getImageId());
         return objectMapper.writeValueAsString(user);
     }
@@ -89,17 +92,24 @@ public class UserService {
     }
 
     public boolean getLogin(String email, String password) {
-        return userRepository.getLogin(email, password);
+        String storedPass = userRepository.getLogin(email);
+        System.out.println(storedPass + "   " + password);
+        return hashingService.comparePass(password, storedPass);
     }
 
     public boolean forgetPassword(String email){
         String tempPass = createTempPass(8);
         emailService.sendEmail(email, "Olvidó su contraseña Art City Tour", getTempPass(tempPass));
-        return userRepository.changePassword(email, tempPass);
+        return userRepository.changePassword(email, hashingService.hashPass(tempPass));
     }
 
     public boolean changePassword(String email, String currentPass, String newPass){
-        return userRepository.changePassword(email, currentPass, newPass);
+        boolean isCorrect = getLogin(email, currentPass);
+        if (isCorrect){
+            userRepository.changePassword(email, hashingService.hashPass(newPass));
+            return true;
+        }
+        return false;
     }
 
     private String getTempPass(String password) {

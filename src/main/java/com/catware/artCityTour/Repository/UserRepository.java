@@ -154,34 +154,18 @@ public class UserRepository {
         }
     }
 
-    public boolean getLogin(String email, String password) {
+    public String getLogin(String email) {
         try {
-            String userQuery = "SELECT * FROM public.user WHERE email=? AND password=?";
+            String userQuery = "SELECT password FROM public.user WHERE email=?";
             PreparedStatement mainStatement = connection.prepareStatement(userQuery);
             mainStatement.setString(1, email);
-            mainStatement.setString(2, password);
-            ResultSet user = mainStatement.executeQuery();
-            return user.next();
-        } catch (SQLException e) {
-            throw new RuntimeException(e);
-        }
-    }
-
-    public boolean changePassword(String email, String currentPass, String newPass) {
-        try {
-            String userQuery = "SELECT * FROM public.user WHERE email=? AND password=?";
-            PreparedStatement mainStatement = connection.prepareStatement(userQuery);
-            mainStatement.setString(1, email);
-            mainStatement.setString(2, currentPass);
-            ResultSet user = mainStatement.executeQuery();
-            boolean exists = user.next();
-            System.out.println("EXISTE: "+ exists);
-            if (exists){
-                return changePassword(email, newPass);
+            ResultSet resultSet = mainStatement.executeQuery();
+            while(resultSet.next()) {
+                 return resultSet.getString(1);
             }
-            return false;
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }
+        return "";
     }
 }
