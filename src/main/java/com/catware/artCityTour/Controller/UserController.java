@@ -3,9 +3,12 @@ package com.catware.artCityTour.Controller;
 import com.catware.artCityTour.Model.User;
 import com.catware.artCityTour.Service.UserService;
 import com.fasterxml.jackson.core.JsonProcessingException;
+import com.google.zxing.WriterException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.*;
+
+import java.io.IOException;
 
 @RestController
 @RequestMapping(value = "/user")
@@ -22,7 +25,7 @@ public class UserController {
 
     @CrossOrigin
     @RequestMapping(value = "/getAll", method = RequestMethod.GET)
-    public String getUser() throws JsonProcessingException {
+    public String getUser() throws IOException, WriterException {
         return userService.getAll();
     }
 
