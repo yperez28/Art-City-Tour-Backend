@@ -23,7 +23,9 @@ public class User {
     private List<Membership> memberships;
     private List<Itinerary> itineraries;
 
-    public User(Long id, String name, String lastname, String email, String password, String identification, String phoneNumber, String address, Integer age, Long imageId, Image image, List<Membership> memberships, List<Itinerary> itineraries) {
+    private String typeUser;
+
+    public User(Long id, String name, String lastname, String email, String password, String identification, String phoneNumber, String address, Integer age, Long imageId, Image image, List<Membership> memberships, List<Itinerary> itineraries, String typeUser) {
         this.id = id;
         this.name = name;
         this.lastname = lastname;
@@ -37,6 +39,7 @@ public class User {
         this.image = image;
         this.memberships = memberships;
         this.itineraries = itineraries;
+        this.typeUser = typeUser;
     }
 
     public User() {

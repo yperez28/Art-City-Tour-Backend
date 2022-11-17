@@ -1,6 +1,6 @@
 package com.catware.artCityTour.Service;
 
-import com.catware.artCityTour.Constants.Constants;
+import com.catware.artCityTour.Model.AdminSections;
 import com.catware.artCityTour.Model.Image;
 import com.catware.artCityTour.Repository.ImageRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -39,7 +39,24 @@ public class ImageService {
     }
 
     public String getImageLogin() {
-        return imageRepository.getLoginImage();
+        return imageRepository.getImageByName("Login");
     }
 
+    public String getAdminPH(AdminSections sectionPH) {
+
+        switch (sectionPH){
+            case PLACES:
+                return imageRepository.getImageByName("Lugares");
+            case SPONSORS:
+                return imageRepository.getImageByName("Patrocinadores");
+            case NEWS:
+                return imageRepository.getImageByName("Noticias");
+            case USERS:
+                return imageRepository.getImageByName("Usuarios");
+            case EDITIONS:
+                return imageRepository.getImageByName("Ediciones");
+            default:
+                return "Not Image Found";
+        }
+    }
 }

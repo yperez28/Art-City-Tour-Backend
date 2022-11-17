@@ -1,9 +1,11 @@
 package com.catware.artCityTour.Controller;
 
+import com.catware.artCityTour.Model.User;
 import com.catware.artCityTour.Service.UserService;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.google.zxing.WriterException;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.*;
 
 import java.io.IOException;
@@ -16,8 +18,8 @@ public class UserController {
     private UserService userService;
 
     @CrossOrigin
-    @RequestMapping(value = "/create", method = RequestMethod.GET)
-    public String createUser(@RequestBody String jsonData) throws IOException {
+    @RequestMapping(value = "/create", method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_VALUE)
+    public String createUser(@RequestBody String jsonData) throws JsonProcessingException {
         return userService.saveUser(jsonData);
     }
 
@@ -47,7 +49,7 @@ public class UserController {
 
     @CrossOrigin
     @RequestMapping(value="/login", method = RequestMethod.GET)
-    public boolean getLogin(@RequestParam String email, String password){
+    public String getLogin(@RequestParam String email, String password) throws JsonProcessingException {
         return userService.getLogin(email, password);
     }
 

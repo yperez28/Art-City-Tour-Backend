@@ -1,6 +1,8 @@
 package com.catware.artCityTour.Service;
 
+import com.catware.artCityTour.Model.Grid;
 import com.catware.artCityTour.Model.Itinerary;
+import com.catware.artCityTour.Model.TypeUser;
 import com.catware.artCityTour.Model.User;
 import com.catware.artCityTour.Repository.EventRepository;
 import com.catware.artCityTour.Repository.ItineraryRepository;
@@ -14,6 +16,8 @@ import org.springframework.stereotype.Service;
 
 import java.io.IOException;
 import java.security.SecureRandom;
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 @Service
@@ -68,9 +72,23 @@ public class UserService {
 
     public String saveUser(String jsonData) throws JsonProcessingException {
         User user =  objectMapper.readValue(jsonData, User.class);
-        user.setImageId(imageService.createImage(user.getImage()));
-        Integer result = userRepository.saveUser(user.getName(), user.getLastname(), user.getEmail(), user.getPassword(), user.getIdentification(), user.getPhoneNumber(), user.getAddress(), user.getAge(), user.getImageId());
-        return objectMapper.writeValueAsString(result);
+        if(checkDuplicateEmail(user.getEmail())) {
+            long result = userRepository.saveUser(user.getName(), user.getLastname(), user.getEmail(), user.getPassword(), user.getIdentification(), user.getPhoneNumber(), user.getAddress(), user.getAge(), user.getImageId());
+            if (user.getTypeUser() == null) {
+                user.setTypeUser(TypeUser.NORMAL_USER.getName());
+                userRepository.saveNormalUser(result);
+            } else {
+                userRepository.saveAdmin(result);
+            }
+            user.setImageId(imageService.createImage(user.getImage()));
+            return objectMapper.writeValueAsString(user);
+        }
+        return null;
+    }
+
+    private boolean checkDuplicateEmail(String email) {
+        List<String> emails = userRepository.getAllUserEmails();
+        return !emails.contains(email);
     }
 
     public String updateUser(String jsonData) throws JsonProcessingException {
@@ -90,8 +108,8 @@ public class UserService {
         return objectMapper.writeValueAsString(result);
     }
 
-    public boolean getLogin(String email, String password) {
-        return userRepository.getLogin(email, password);
+    public String getLogin(String email, String password) throws JsonProcessingException {
+        return objectMapper.writeValueAsString(userRepository.getLogin(email, password));
     }
 
     public boolean forgetPassword(String email){
@@ -120,5 +138,27 @@ public class UserService {
             sb.append(chars.charAt(randomIndex));
         }
         return sb.toString();
+    }
+
+    public Grid getGrid() {
+        List<String> columns = Arrays.asList("ID", "Nombre", "Apellido", "Correo", "Documento de Identidad", "Tipo de Usuario");
+        List<List<String>> rows  = getRows();
+        return new Grid(columns, rows);
+    }
+
+    private List<List<String>> getRows() {
+        List<User> users = userRepository.getAll();
+        List<List<String>> rows = new ArrayList<>();
+        for (User user : users){
+            List<String> row = new ArrayList<>();
+            row.add(String.valueOf(user.getId()));
+            row.add(user.getName());
+            row.add(user.getLastname());
+            row.add(user.getEmail());
+            row.add(user.getIdentification());
+            row.add(user.getTypeUser());
+            rows.add(row);
+        }
+        return rows;
     }
 }

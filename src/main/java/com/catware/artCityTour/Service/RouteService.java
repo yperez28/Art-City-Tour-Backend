@@ -1,7 +1,6 @@
 package com.catware.artCityTour.Service;
 
 import com.catware.artCityTour.Model.Route;
-import com.catware.artCityTour.Repository.PlaceRepository;
 import com.catware.artCityTour.Repository.RouteRepository;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -23,7 +22,7 @@ public class RouteService {
     public String getAll() throws JsonProcessingException {
         List<Route> routes = routeRepository.getAll();
         for (Route route:routes) {
-            route.setPlaces(placeService.getPlaceById(route.getId()));
+            route.setPlaces(placeService.getPlaceByRouteId(route.getId()));
         }
 
         return objectMapper.writeValueAsString(routes);
@@ -48,7 +47,7 @@ public class RouteService {
 
     public String getRouteById(Long id) throws JsonProcessingException {
         Route route = routeRepository.getRouteById(id);
-        route.setPlaces(placeService.getPlaceById(route.getId()));
+        route.setPlaces(placeService.getPlaceByRouteId(route.getId()));
 
         return objectMapper.writeValueAsString(route);
     }
