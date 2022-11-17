@@ -63,4 +63,24 @@ public class PlaceRepository {
         }
     }
 
+    public List<Place> getAllPlaces() {
+        List<Place> places = new ArrayList<>();
+        String placeQuery = "SELECT * FROM place";
+        PreparedStatement statementPlace;
+        try {
+            statementPlace = connection.prepareStatement(placeQuery);
+            ResultSet placeResult = statementPlace.executeQuery();
+            while (placeResult.next()) {
+                Place place = new Place();
+                place.setId(placeResult.getLong(1));
+                place.setName(placeResult.getString(2));
+                place.setDetails(placeResult.getString(3));
+                place.setImageId(placeResult.getLong(4));
+                places.add(place);
+            }
+            return places;
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+    }
 }

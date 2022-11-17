@@ -1,5 +1,6 @@
 package com.catware.artCityTour.Service;
 
+import com.catware.artCityTour.Model.Grid;
 import com.catware.artCityTour.Model.News;
 import com.catware.artCityTour.Repository.NewsRepository;
 import com.fasterxml.jackson.core.JsonProcessingException;
@@ -7,6 +8,8 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 @Service
@@ -58,4 +61,23 @@ public class NewsService {
         return String.valueOf(newsRepository.deleteNews(id));
     }
 
+    public Grid getGrid() {
+        List<String> columns = Arrays.asList("ID", "Título", "Descripción", "Fecha");
+        List<List<String>> rows = getRows();
+        return new Grid(columns, rows);
+    }
+
+    private List<List<String>> getRows() {
+        List<List<String>> rows = new ArrayList<>();
+        List<News> allNews = newsRepository.getAll();
+        for (News news : allNews){
+            List<String> row = new ArrayList<>();
+            row.add(String.valueOf(news.getId()));
+            row.add(news.getTitle());
+            row.add(news.getDescription());
+            row.add(String.valueOf(news.getDate()));
+            rows.add(row);
+        }
+        return rows;
+    }
 }
