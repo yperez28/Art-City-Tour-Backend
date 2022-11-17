@@ -12,7 +12,7 @@ public class DBCConnection {
         }
         String dbURL = "jdbc:postgresql://localhost:5432/ArtCityTour";
         String userName = "postgres";
-        String password = "123456";
+        String password = "admin";
         Connection conn = null;
         try {
             conn = DriverManager.getConnection(dbURL, userName, password);

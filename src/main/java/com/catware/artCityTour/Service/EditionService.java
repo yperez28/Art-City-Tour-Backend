@@ -1,9 +1,6 @@
 package com.catware.artCityTour.Service;
 
-import com.catware.artCityTour.Model.Edition;
-import com.catware.artCityTour.Model.Image;
-import com.catware.artCityTour.Model.Sponsor;
-import com.catware.artCityTour.Model.User;
+import com.catware.artCityTour.Model.*;
 import com.catware.artCityTour.Repository.EditionRepository;
 import com.catware.artCityTour.Repository.SponsorRepository;
 import com.fasterxml.jackson.core.JsonProcessingException;
@@ -11,6 +8,8 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -32,7 +31,7 @@ public class EditionService {
     private ImageService imageService;
 
     public String getAll() throws JsonProcessingException {
-        List<Edition> editions = editionRepository.getAll(); //claseIntermediaMemoria.getAll()
+        List<Edition> editions = editionRepository.getAll();
         for (Edition edition: editions) {
             edition.setSponsors(sponsorService.getSponsorByEditionId(edition.getId()));
             edition.setImages(imageService.getImagesByEditionId(edition.getId()));
@@ -62,7 +61,7 @@ public class EditionService {
         }
         edition.setId( editionRepository.createEdition(edition.getName(), edition.getDetails(), edition.getDate(), edition.getCurrent()));
 
-        for (Sponsor sponsor:edition.getSponsors()) {
+        for (Sponsor sponsor: edition.getSponsors()) {
             sponsorService.saveSponsorForEdition(edition.getId(), sponsor.getId());
         }
         for (Image image: edition.getImages()) {
@@ -98,4 +97,49 @@ public class EditionService {
         return String.valueOf(editionRepository.deleteEdition(id));
     }
 
+    public Grid getGrid() {
+        List<String> columns = getColumns();
+        List<List<String>> rows = getRows();
+        return new Grid(columns, rows);
+    }
+
+    private List<List<String>> getRows() {
+        List<Edition> allEditions = getAllEditions();
+        List<List<String>> rows = new ArrayList<>();
+        for (Edition edition: allEditions){
+            List<String> row = new ArrayList<>();
+            row.add(String.valueOf(edition.getId()));
+            row.add(edition.getName());
+            row.add(edition.getDetails());
+            row.add(String.valueOf(edition.getDate()));
+            row.add(getSponsors(edition));
+            row.add(edition.getCurrent() ? "Si" : "No");
+            rows.add(row);
+        }
+        return rows;
+    }
+
+    private List<Edition> getAllEditions() {
+        List<Edition> allEditions = editionRepository.getAll();
+        allEditions.forEach(e -> e.setSponsors(sponsorService.getSponsorByEditionId(e.getId())));
+        return allEditions;
+    }
+
+    private String getSponsors(Edition edition) {
+        String sponsorsList = "";
+        List<Sponsor> sponsorsByEdition = edition.getSponsors();
+        if (sponsorsByEdition.size() == 0)
+            return "";
+        if (sponsorsByEdition.size() == 1){
+            return sponsorsByEdition.get(0).getName();
+        }
+        for (Sponsor s: sponsorsByEdition){
+            sponsorsList = sponsorsList + s.getName() + ", ";
+        }
+        return sponsorsList;
+    }
+
+    private List<String> getColumns() {
+        return Arrays.asList("ID", "Nombre", "Detalles", "Fecha", "Patrocinadores", "Actual");
+    }
 }
