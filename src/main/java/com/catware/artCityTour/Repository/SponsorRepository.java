@@ -59,6 +59,19 @@ public class SponsorRepository {
         }
     }
 
+    public int updateSponsor(Long sponsorId, String sponsorName, Long ImageId){
+        String query = "UPDATE sponsor set name = ?, image_id = ? WHERE id = ?";
+        try {
+            PreparedStatement statement = connection.prepareStatement(query);
+            statement.setString(1, sponsorName);
+            statement.setLong(2, ImageId);
+            statement.setLong(3, sponsorId);
+            return statement.executeUpdate();
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
     public int createSponsor(String name, Long image_id){
         String query = "INSERT INTO sponsor (name, image_id) values(?, ?)";
         try {

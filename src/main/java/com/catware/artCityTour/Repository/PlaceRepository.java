@@ -30,6 +30,8 @@ public class PlaceRepository {
                 place.setName(placeResult.getString(2));
                 place.setDetails(placeResult.getString(3));
                 place.setImageId(placeResult.getLong(4));
+                place.setLatitude(placeResult.getDouble(5));
+                place.setLongitude(placeResult.getDouble(6));
             }
             return place;
         } catch (SQLException e) {
@@ -52,6 +54,8 @@ public class PlaceRepository {
                     place.setName(resultSet.getString(2));
                     place.setDetails(resultSet.getString(3));
                     place.setImageId(resultSet.getLong(4));
+                    place.setLatitude(resultSet.getDouble(5));
+                    place.setLongitude(resultSet.getDouble(6));
                     resultArray.add(place);
                 }
             } catch (SQLException e) {
@@ -60,6 +64,37 @@ public class PlaceRepository {
             return resultArray;
         }catch (EmptyResultDataAccessException e){
             return new ArrayList<>();
+        }
+    }
+
+    public int createPlace(String name, String details, Long imageId, Double latitude, Double longitude){
+        String query = "INSERT INTO place(name, details, image_id, latitude, longitude)values(?, ?, ?, ?, ?)";
+        try {
+            PreparedStatement statement = connection.prepareStatement(query);
+            statement.setString(1, name);
+            statement.setString(2, details);
+            statement.setLong(3, imageId);
+            statement.setDouble(4, latitude);
+            statement.setDouble(5, longitude);
+            return statement.executeUpdate();
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    public int updatePlace(Long placeId, String name, String details, Long imageId, Double latitude, Double longitude){
+        String query = "UPDATE place name = ?, details = ?, image_id = ?, latitude = ?, longitude = ? WHERE id = ?";
+        try {
+            PreparedStatement statement = connection.prepareStatement(query);
+            statement.setString(1, name);
+            statement.setString(2, details);
+            statement.setLong(3, imageId);
+            statement.setDouble(4, latitude);
+            statement.setDouble(5, longitude);
+            statement.setDouble(6, placeId);
+            return statement.executeUpdate();
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
         }
     }
 
@@ -76,6 +111,8 @@ public class PlaceRepository {
                 place.setName(placeResult.getString(2));
                 place.setDetails(placeResult.getString(3));
                 place.setImageId(placeResult.getLong(4));
+                place.setLatitude(placeResult.getDouble(5));
+                place.setLongitude(placeResult.getDouble(6));
                 places.add(place);
             }
             return places;

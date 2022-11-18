@@ -24,7 +24,6 @@ public class RouteService {
         for (Route route:routes) {
             route.setPlaces(placeService.getPlaceByRouteId(route.getId()));
         }
-
         return objectMapper.writeValueAsString(routes);
     }
 
@@ -35,20 +34,17 @@ public class RouteService {
 
     public String updateRoute(String name, Long id) throws JsonProcessingException {
         Route route = routeRepository.updateRoute(name, id);
-
         return objectMapper.writeValueAsString(route);
     }
 
     public String deleteRoute(Long id) throws JsonProcessingException {
         Integer result = routeRepository.deleteRoute(id);
-
         return objectMapper.writeValueAsString(result);
     }
 
     public String getRouteById(Long id) throws JsonProcessingException {
         Route route = routeRepository.getRouteById(id);
         route.setPlaces(placeService.getPlaceByRouteId(route.getId()));
-
         return objectMapper.writeValueAsString(route);
     }
 }
