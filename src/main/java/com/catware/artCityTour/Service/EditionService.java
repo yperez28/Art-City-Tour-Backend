@@ -5,6 +5,7 @@ import com.catware.artCityTour.Model.Image;
 import com.catware.artCityTour.Model.Sponsor;
 import com.catware.artCityTour.Model.User;
 import com.catware.artCityTour.Repository.EditionRepository;
+import com.catware.artCityTour.Repository.RouteRepository;
 import com.catware.artCityTour.Repository.SponsorRepository;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -30,6 +31,9 @@ public class EditionService {
 
     @Autowired
     private ImageService imageService;
+
+    @Autowired
+    private RouteService routeService;
 
     public String getAll() throws JsonProcessingException {
         List<Edition> editions = editionRepository.getAll(); //claseIntermediaMemoria.getAll()
@@ -92,9 +96,10 @@ public class EditionService {
         return objectMapper.writeValueAsString(edition);
     }
 
-    public String deleteEdition(Long id){
+    public String deleteEdition(Long id) throws JsonProcessingException {
         imageService.deleteImagesByEdition(id);
         sponsorService.deleteSponsorsByEdition(id);
+        routeService.deleteRoute(id);
         return String.valueOf(editionRepository.deleteEdition(id));
     }
 
