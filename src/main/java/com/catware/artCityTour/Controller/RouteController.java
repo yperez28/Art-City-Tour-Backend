@@ -44,7 +44,7 @@ public class RouteController {
     }
 
     @CrossOrigin
-    @RequestMapping(value = "/getById", method = RequestMethod.GET)
+    @RequestMapping(value = "/getByCurrent", method = RequestMethod.GET)
     public String getRouteByCurrentEdition() throws JsonProcessingException {
         return routeService.getRouteByCurrentEdition();
     }

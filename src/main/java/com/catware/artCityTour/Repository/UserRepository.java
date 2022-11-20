@@ -95,7 +95,10 @@ public class UserRepository {
             statement.setString(6, phoneNumber);
             statement.setString(7, address);
             statement.setInt(8, age);
-            statement.setLong(9, imageId);
+            if (imageId == null) {
+                statement.setNull(9, 0);}
+            else{
+                statement.setLong(9, imageId);}
             return statement.executeUpdate();
 
         } catch (SQLException e) {
@@ -145,7 +148,6 @@ public class UserRepository {
             membershipStatement.setLong(1, id);
             membershipStatement.executeUpdate();
             Integer result = mainStatement.executeUpdate();
-            connection.close();
 
             return result;
 

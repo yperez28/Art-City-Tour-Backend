@@ -68,15 +68,19 @@ public class UserService {
 
     public String saveUser(String jsonData) throws JsonProcessingException {
         User user =  objectMapper.readValue(jsonData, User.class);
-        user.setImageId(imageService.createImage(user.getImage()));
+        if (user.getImage().getName() != null && user.getImage().getDrivePath() != null){
+            user.setImageId(imageService.createImage(user.getImage()));}
         user.setPassword(hashingService.hashPass(user.getPassword()));
-        Integer result = userRepository.saveUser(user.getName(), user.getLastname(), user.getEmail(), user.getPassword(), user.getIdentification(), user.getPhoneNumber(), user.getAddress(), user.getAge(), user.getImageId());
+        userRepository.saveUser(user.getName(), user.getLastname(), user.getEmail(), user.getPassword(), user.getIdentification(), user.getPhoneNumber(), user.getAddress(), user.getAge(), user.getImageId());
         return objectMapper.writeValueAsString(user);
     }
 
     public String updateUser(String jsonData) throws JsonProcessingException {
         User user =  objectMapper.readValue(jsonData, User.class);
-        imageService.updateImage(user.getImage());
+        user.setPassword(hashingService.hashPass(user.getPassword()));
+        System.out.println(user.getId());
+        if (user.getImage().getName() != null && user.getImage().getDrivePath() != null){
+            imageService.updateImage(user.getImage());}
         Integer result = userRepository.updateUser(user.getName(), user.getLastname(), user.getEmail(), user.getPassword(), user.getIdentification(), user.getPhoneNumber(), user.getAddress(), user.getAge(), user.getId());
         return objectMapper.writeValueAsString(result);
     }

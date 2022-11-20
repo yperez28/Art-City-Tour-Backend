@@ -47,7 +47,7 @@ public class NewsService {
     public String updateNews(String jsonData) throws JsonProcessingException {
         News news = objectMapper.readValue(jsonData, News.class);
         imageService.updateImage(news.getImage());
-        int result = newsRepository.updateNews(news.getId(), news.getTitle(), news.getDescription(), news.getImageId(), news.getDate());
+        int result = newsRepository.updateNews(news.getId(), news.getTitle(), news.getDescription(), news.getDate());
         if (result > 0) {
             return objectMapper.writeValueAsString(news);
         }

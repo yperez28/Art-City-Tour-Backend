@@ -24,7 +24,7 @@ public class MembershipController {
         return membershipService.getMembershipById(id);
     }
 
-    @CrossOrigin
+    @CrossOrigin //No funciona pero creo que no se usa
     @RequestMapping(value = "/getPrincipal", method = RequestMethod.GET)
     public String getPrincipalImage() throws JsonProcessingException {
         return membershipService.getPrincipalMembership();

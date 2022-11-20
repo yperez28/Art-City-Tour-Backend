@@ -130,13 +130,11 @@ public class RouteRepository {
             PreparedStatement statement = connection.prepareStatement(query);
             statement.setString(1, name);
             statement.setLong(2, editionId);
-            statement.setLong(2, id);
+            statement.setLong(3, id);
             statement.executeUpdate();
-
             Route route = new Route();
             route.setId(id);
             route.setName(name);
-
             return route;
         } catch (SQLException e) {
             throw new RuntimeException(e);
