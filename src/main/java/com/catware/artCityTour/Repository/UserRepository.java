@@ -37,7 +37,6 @@ public class UserRepository {
                     user.setPhoneNumber(resultSet.getString(7));
                     user.setAddress(resultSet.getString(8));
                     user.setAge(resultSet.getInt(9));
-                    user.setImageId(resultSet.getLong(10));
                     if (getAdminUserByUserId(user.getId())){
                         user.setTypeUser(TypeUser.ADMIN.getName());
                     }else{
@@ -48,7 +47,6 @@ public class UserRepository {
             } catch (SQLException e) {
                 e.printStackTrace();
             }
-
             return users;
 
         } catch (EmptyResultDataAccessException e) {
@@ -75,7 +73,6 @@ public class UserRepository {
                 user.setPhoneNumber(resultSet.getString(7));
                 user.setAddress(resultSet.getString(8));
                 user.setAge(resultSet.getInt(9));
-                user.setImageId(resultSet.getLong(10));
                 if (getAdminUserByUserId(user.getId())){
                     user.setTypeUser(TypeUser.ADMIN.getName());
                 }else{
@@ -101,14 +98,10 @@ public class UserRepository {
         }
     }
 
-    public Long saveUser(String name, String lastname, String email, String password, String identification, String phoneNumber, String address, Integer age, Long imageId) {
+    public Long saveUser(String name, String lastname, String email, String password, String identification, String phoneNumber, String address, Integer age) {
         try {
-            String query = "";
-            if (imageId == null)
-                query = "INSERT INTO public.user (name, lastname, email, password, identification, phone_number, address, age) VALUES (?, ?, ?, ?, ?, ?, ?, ?)";
-            else {
-                query = "INSERT INTO public.user (name, lastname, email, password, identification, phone_number, address, age, image_id) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)";
-            }
+            String query = "INSERT INTO public.user (name, lastname, email, password, identification, phone_number, address, age) VALUES (?, ?, ?, ?, ?, ?, ?, ?)";
+
             PreparedStatement statement = connection.prepareStatement(query, Statement.RETURN_GENERATED_KEYS);
             statement.setString(1, name);
             statement.setString(2, lastname);
