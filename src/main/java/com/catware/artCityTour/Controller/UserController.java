@@ -1,9 +1,9 @@
 package com.catware.artCityTour.Controller;
 
-import com.catware.artCityTour.Model.User;
 import com.catware.artCityTour.Service.UserService;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.google.zxing.WriterException;
+import lombok.SneakyThrows;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.*;
@@ -59,6 +59,7 @@ public class UserController {
         return userService.forgetPassword(email);
     }
 
+    @SneakyThrows
     @CrossOrigin
     @RequestMapping(value = "/changePassword", method = RequestMethod.POST)
     public boolean changePassword(@RequestParam String email, @RequestParam String previousPass, @RequestParam String newPass){

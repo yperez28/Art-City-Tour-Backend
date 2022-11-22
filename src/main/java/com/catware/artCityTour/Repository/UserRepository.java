@@ -176,12 +176,11 @@ public class UserRepository {
         }
     }
 
-    public User getLogin(String email, String password) {
+    public User getLogin(String email) {
         try {
-            String userQuery = "SELECT * FROM public.user WHERE email=? AND password=?";
+            String userQuery = "SELECT * FROM public.user WHERE email=?";
             PreparedStatement mainStatement = connection.prepareStatement(userQuery, Statement.RETURN_GENERATED_KEYS);
             mainStatement.setString(1, email);
-            mainStatement.setString(2, password);
             ResultSet resultSet = mainStatement.executeQuery();
             while (resultSet.next()){
                 return getUserById(resultSet.getLong(1));
@@ -206,7 +205,7 @@ public class UserRepository {
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }
-        return "";
+        return false;
     }
 
     public void saveNormalUser(long result) {

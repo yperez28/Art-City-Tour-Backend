@@ -74,7 +74,6 @@ public class UserService {
     public String saveUser(String jsonData) throws JsonProcessingException {
         User user =  objectMapper.readValue(jsonData, User.class);
         user.setPassword(hashingService.hashPass(user.getPassword()));
-        userRepository.saveUser(user.getName(), user.getLastname(), user.getEmail(), user.getPassword(), user.getIdentification(), user.getPhoneNumber(), user.getAddress(), user.getAge(), user.getImageId());
         if(checkDuplicateEmail(user.getEmail())) {
             long result = userRepository.saveUser(user.getName(), user.getLastname(), user.getEmail(), user.getPassword(), user.getIdentification(), user.getPhoneNumber(), user.getAddress(), user.getAge());
             if (user.getTypeUser() == null) {
@@ -97,8 +96,6 @@ public class UserService {
         User user =  objectMapper.readValue(jsonData, User.class);
         user.setPassword(hashingService.hashPass(user.getPassword()));
         System.out.println(user.getId());
-        if (user.getImage().getName() != null && user.getImage().getDrivePath() != null){
-            imageService.updateImage(user.getImage());}
         Integer result = userRepository.updateUser(user.getName(), user.getLastname(), user.getEmail(), user.getPassword(), user.getIdentification(), user.getPhoneNumber(), user.getAddress(), user.getAge(), user.getId());
         return objectMapper.writeValueAsString(result);
     }
@@ -114,9 +111,13 @@ public class UserService {
     }
 
     public String getLogin(String email, String password) throws JsonProcessingException {
-        String storedPass = userRepository.getLogin(email);
-        System.out.println(storedPass + "   " + password);
-        return hashingService.comparePass(password, storedPass);
+        User returnedUser = userRepository.getLogin(email);
+        if(hashingService.comparePass(password, returnedUser.getPassword())) {
+            return objectMapper.writeValueAsString(returnedUser);
+        }
+        User wrongPassUser = new User();
+        wrongPassUser.setName("wrong");
+        return objectMapper.writeValueAsString(wrongPassUser);
     }
 
     public boolean forgetPassword(String email){
@@ -125,9 +126,10 @@ public class UserService {
         return userRepository.changePassword(email, hashingService.hashPass(tempPass));
     }
 
-    public boolean changePassword(String email, String currentPass, String newPass){
-        boolean isCorrect = getLogin(email, currentPass);
-        if (isCorrect){
+    public boolean changePassword(String email, String currentPass, String newPass) throws JsonProcessingException {
+        String isCorrect = getLogin(email, currentPass);
+        User checkUser = objectMapper.readValue(isCorrect, User.class);
+        if (checkUser.getName() != "wrong"){
             userRepository.changePassword(email, hashingService.hashPass(newPass));
             return true;
         }
