@@ -7,7 +7,6 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.Arrays;
 import java.util.List;
 
 @Service
@@ -41,4 +40,22 @@ public class MembershipService {
         return imageService.getImageById(membership.getImageId()).getDrivePath();
     }
 
+    public String saveMembershipxUser(Long userId, Long membershipId, String startDate,
+                                      String endDate) throws JsonProcessingException {
+        Integer result = membershipRepository.saveMembershipxUser(userId, membershipId, startDate, endDate);
+
+        return objectMapper.writeValueAsString(result);
+    }
+
+    public String updateMembershipxUser(Long id, String startDate, String endDate) throws JsonProcessingException {
+        Integer result = membershipRepository.updateMembershipxUser(id, startDate, endDate);
+
+        return objectMapper.writeValueAsString(result);
+    }
+
+    public String deleteMembershipxUser(Long id) throws JsonProcessingException {
+        Integer result = membershipRepository.deleteMembershipxUser(id);
+
+        return objectMapper.writeValueAsString(result);
+    }
 }

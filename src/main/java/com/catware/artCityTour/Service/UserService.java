@@ -9,9 +9,11 @@ import com.catware.artCityTour.Repository.UserRepository;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.springframework.beans.factory.FactoryBean;
+import com.google.zxing.WriterException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.io.IOException;
 import java.security.SecureRandom;
 import java.util.List;
 
@@ -35,7 +37,8 @@ public class UserService {
     @Autowired
     private EmailService emailService;
 
-    public String getAll() throws JsonProcessingException {
+    public String getAll() throws IOException, WriterException {
+
         List<User> users = userRepository.getAll();
         for (User user: users) {
             user.setMemberships(membershipRepository.getMembershipsByUser(user.getId()));
