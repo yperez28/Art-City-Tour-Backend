@@ -43,4 +43,12 @@ public class PlaceService {
         }
         return rows;
     }
+
+    public boolean deletePlace(Long valueId) {
+        List<Long> placesInRoutes = placeRepository.getIdsFromRoutes(valueId);
+        for (Long id : placesInRoutes){
+            placeRepository.deletePlaceRoutesById(id);
+        }
+        return placeRepository.deletePlaceById(valueId) == 1;
+    }
 }

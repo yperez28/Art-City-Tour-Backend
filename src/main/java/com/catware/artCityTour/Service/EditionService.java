@@ -91,10 +91,10 @@ public class EditionService {
         return objectMapper.writeValueAsString(edition);
     }
 
-    public String deleteEdition(Long id){
+    public boolean deleteEdition(Long id){
         imageService.deleteImagesByEdition(id);
         sponsorService.deleteSponsorsByEdition(id);
-        return String.valueOf(editionRepository.deleteEdition(id));
+        return editionRepository.deleteEdition(id)==1;
     }
 
     public Grid getGrid() {

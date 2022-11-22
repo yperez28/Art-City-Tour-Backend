@@ -83,4 +83,43 @@ public class PlaceRepository {
             throw new RuntimeException(e);
         }
     }
+    public List<Long> getIdsFromRoutes(Long placeId){
+        List<Long> ids = new ArrayList<>();
+        String placeQuery = "SELECT * FROM placexroute WHERE placeid=?";
+        PreparedStatement statement;
+        try {
+            statement = connection.prepareStatement(placeQuery);
+            statement.setLong(1, placeId);
+            ResultSet resultSet = statement.executeQuery();
+            while (resultSet.next()) {
+                ids.add(resultSet.getLong(1));
+            }
+            return ids;
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    public int deletePlaceRoutesById(Long id) {
+        String placeQuery = "DELETE * FROM placexroute WHERE id=?";
+        PreparedStatement statement;
+        try {
+            statement = connection.prepareStatement(placeQuery);
+            statement.setLong(1, id);
+            return statement.executeUpdate();
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+    }
+    public int deletePlaceById(Long id) {
+        String placeQuery = "DELETE * FROM place WHERE id=?";
+        PreparedStatement statement;
+        try {
+            statement = connection.prepareStatement(placeQuery);
+            statement.setLong(1, id);
+            return statement.executeUpdate();
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+    }
 }

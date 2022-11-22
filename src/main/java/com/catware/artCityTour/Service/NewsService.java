@@ -57,8 +57,8 @@ public class NewsService {
         return "";
     }
 
-    public String deleteNews(Long id){
-        return String.valueOf(newsRepository.deleteNews(id));
+    public boolean deleteNews(Long id){
+        return newsRepository.deleteNews(id) == 1;
     }
 
     public Grid getGrid() {

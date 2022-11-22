@@ -118,7 +118,7 @@ public class SponsorRepository {
         }
     }
 
-    public int deleteSponsorXEdition(Long id) {
+    public int deleteSponsorXEditionById(Long id) {
         String query = "DELETE FROM sponsorxedition WHERE id = ?";
         try {
             PreparedStatement statement  = connection.prepareStatement(query);

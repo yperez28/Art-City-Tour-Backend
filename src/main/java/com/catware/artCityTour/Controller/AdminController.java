@@ -51,7 +51,7 @@ public class AdminController {
 
     @CrossOrigin
     @RequestMapping(value = "/deleteFromGrids", method = RequestMethod.DELETE, produces = MediaType.APPLICATION_JSON_VALUE)
-    public boolean deleteFromAdminGrid(@RequestParam String type, @RequestParam Long valueId){
+    public boolean deleteFromAdminGrid(@RequestParam String type, @RequestParam Long valueId) throws JsonProcessingException {
         AdminSections adminSec = AdminSections.valueOf(type);
         switch (adminSec){
             case SPONSORS:
@@ -59,11 +59,11 @@ public class AdminController {
             case PLACES:
                 return placeService.deletePlace(valueId);
             case NEWS:
-                return newsService.deletePlace(valueId);
+                return newsService.deleteNews(valueId);
             case USERS:
-                return userService.deletePlace(valueId);
+                return userService.deleteUser(valueId);
             case EDITIONS:
-                return editionService.deletePlace(valueId);
+                return editionService.deleteEdition(valueId);
             default:
                 return false;
         }
