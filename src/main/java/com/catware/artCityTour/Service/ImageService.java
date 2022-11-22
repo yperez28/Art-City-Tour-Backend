@@ -42,6 +42,10 @@ public class ImageService {
         return imageRepository.getImageByName("Login");
     }
 
+    public String getPrincipalPage(){
+        return imageRepository.getImageByName("Principal Page");
+    }
+
     public String getAdminPH(AdminSections sectionPH) {
 
         switch (sectionPH){
