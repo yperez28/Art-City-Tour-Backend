@@ -116,11 +116,12 @@ public class ImageRepository {
         }
     }
 
-    public String getLoginImage() {
-        String query = "SELECT drive_path FROM image WHERE name='Login'";
+    public String getImageByName(String name) {
+        String query = "SELECT drive_path FROM image WHERE name=?";
         PreparedStatement statement;
         try {
             statement = connection.prepareStatement(query);
+            statement.setString(1, "Login");
             ResultSet resultSet = statement.executeQuery();
             resultSet.next();
             return resultSet.getString(1);
@@ -128,6 +129,4 @@ public class ImageRepository {
             throw new RuntimeException(e);
         }
     }
-
-
 }

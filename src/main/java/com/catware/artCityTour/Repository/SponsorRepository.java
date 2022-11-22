@@ -83,4 +83,60 @@ public class SponsorRepository {
 
     }
 
+    public List<Sponsor> getAllSponsors() {
+        String query = "SELECT * FROM sponsor";
+        try {
+            PreparedStatement statement = connection.prepareStatement(query);
+            ResultSet resultSet = statement.executeQuery();
+            List<Sponsor> sponsors = new ArrayList<>();
+            while (resultSet.next()){
+                Sponsor sponsor = new Sponsor();
+                sponsor.setId(resultSet.getLong(1));
+                sponsor.setName(resultSet.getString(2));
+                sponsor.setImageId(resultSet.getLong(3));
+                sponsors.add(sponsor);
+            }
+            return sponsors;
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    public List<Long> getSponsorInEditionById(Long valueId) {
+        String query = "SELECT * FROM sponsorxedition WHERE sponsorid = ?";
+        List<Long> ids = new ArrayList<>();
+        try {
+            PreparedStatement statement = connection.prepareStatement(query);
+            statement.setLong(1, valueId);
+            ResultSet resultSet = statement.executeQuery();
+            while (resultSet.next()){
+                ids.add(resultSet.getLong(1));
+            }
+            return ids;
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    public int deleteSponsorXEditionById(Long id) {
+        String query = "DELETE FROM sponsorxedition WHERE id = ?";
+        try {
+            PreparedStatement statement  = connection.prepareStatement(query);
+            statement.setLong(1, id);
+            return statement.executeUpdate();
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    public int deleteSponsorById(Long valueId) {
+        String query = "DELETE FROM sponsor WHERE id = ?";
+        try {
+            PreparedStatement statement  = connection.prepareStatement(query);
+            statement.setLong(1, valueId);
+            return statement.executeUpdate();
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+    }
 }

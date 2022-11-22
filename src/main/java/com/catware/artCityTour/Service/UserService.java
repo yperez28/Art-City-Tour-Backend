@@ -1,6 +1,8 @@
 package com.catware.artCityTour.Service;
 
+import com.catware.artCityTour.Model.Grid;
 import com.catware.artCityTour.Model.Itinerary;
+import com.catware.artCityTour.Model.TypeUser;
 import com.catware.artCityTour.Model.User;
 import com.catware.artCityTour.Repository.EventRepository;
 import com.catware.artCityTour.Repository.ItineraryRepository;
@@ -15,6 +17,8 @@ import org.springframework.stereotype.Service;
 
 import java.io.IOException;
 import java.security.SecureRandom;
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 @Service
@@ -49,7 +53,6 @@ public class UserService {
             }
 
             user.setItineraries(itineraries);
-            user.setImage(imageService.getImageById(user.getImageId()));
         }
 
         return objectMapper.writeValueAsString(users);
@@ -64,44 +67,57 @@ public class UserService {
             itinerary.setEvents(eventRepository.getEventByItinerary(itinerary.getId()));
         }
         user.setItineraries(itineraries);
-        user.setImage(imageService.getImageById(user.getImageId()));
 
         return objectMapper.writeValueAsString(user);
     }
 
     public String saveUser(String jsonData) throws JsonProcessingException {
         User user =  objectMapper.readValue(jsonData, User.class);
-        if (user.getImage().getName() != null && user.getImage().getDrivePath() != null){
-            user.setImageId(imageService.createImage(user.getImage()));}
         user.setPassword(hashingService.hashPass(user.getPassword()));
-        userRepository.saveUser(user.getName(), user.getLastname(), user.getEmail(), user.getPassword(), user.getIdentification(), user.getPhoneNumber(), user.getAddress(), user.getAge(), user.getImageId());
-        return objectMapper.writeValueAsString(user);
+        if(checkDuplicateEmail(user.getEmail())) {
+            long result = userRepository.saveUser(user.getName(), user.getLastname(), user.getEmail(), user.getPassword(), user.getIdentification(), user.getPhoneNumber(), user.getAddress(), user.getAge());
+            if (user.getTypeUser() == null) {
+                user.setTypeUser(TypeUser.NORMAL_USER.getName());
+                userRepository.saveNormalUser(result);
+            } else {
+                userRepository.saveAdmin(result);
+            }
+            return objectMapper.writeValueAsString(user);
+        }
+        return null;
+    }
+
+    private boolean checkDuplicateEmail(String email) {
+        List<String> emails = userRepository.getAllUserEmails();
+        return !emails.contains(email);
     }
 
     public String updateUser(String jsonData) throws JsonProcessingException {
         User user =  objectMapper.readValue(jsonData, User.class);
         user.setPassword(hashingService.hashPass(user.getPassword()));
         System.out.println(user.getId());
-        if (user.getImage().getName() != null && user.getImage().getDrivePath() != null){
-            imageService.updateImage(user.getImage());}
         Integer result = userRepository.updateUser(user.getName(), user.getLastname(), user.getEmail(), user.getPassword(), user.getIdentification(), user.getPhoneNumber(), user.getAddress(), user.getAge(), user.getId());
         return objectMapper.writeValueAsString(result);
     }
 
-    public String deleteUser(Long id) throws JsonProcessingException {
+    public boolean deleteUser(Long id) throws JsonProcessingException {
         ItineraryRepository itineraryRepository = new ItineraryRepository();
         List<Itinerary> itineraries =  itineraryRepository.getItineraryByUserId(id);
         for (Itinerary itinerary:itineraries ) {
             itineraryRepository.deleteItinerary(itinerary.getId());
         }
         Integer result = userRepository.deleteUser(id);
-        return objectMapper.writeValueAsString(result);
+        return result == 1;
     }
 
-    public boolean getLogin(String email, String password) {
-        String storedPass = userRepository.getLogin(email);
-        System.out.println(storedPass + "   " + password);
-        return hashingService.comparePass(password, storedPass);
+    public String getLogin(String email, String password) throws JsonProcessingException {
+        User returnedUser = userRepository.getLogin(email);
+        if(hashingService.comparePass(password, returnedUser.getPassword())) {
+            return objectMapper.writeValueAsString(returnedUser);
+        }
+        User wrongPassUser = new User();
+        wrongPassUser.setName("wrong");
+        return objectMapper.writeValueAsString(wrongPassUser);
     }
 
     public boolean forgetPassword(String email){
@@ -110,9 +126,10 @@ public class UserService {
         return userRepository.changePassword(email, hashingService.hashPass(tempPass));
     }
 
-    public boolean changePassword(String email, String currentPass, String newPass){
-        boolean isCorrect = getLogin(email, currentPass);
-        if (isCorrect){
+    public boolean changePassword(String email, String currentPass, String newPass) throws JsonProcessingException {
+        String isCorrect = getLogin(email, currentPass);
+        User checkUser = objectMapper.readValue(isCorrect, User.class);
+        if (checkUser.getName() != "wrong"){
             userRepository.changePassword(email, hashingService.hashPass(newPass));
             return true;
         }
@@ -135,5 +152,27 @@ public class UserService {
             sb.append(chars.charAt(randomIndex));
         }
         return sb.toString();
+    }
+
+    public Grid getGrid() {
+        List<String> columns = Arrays.asList("ID", "Nombre", "Apellido", "Correo", "Documento de Identidad", "Tipo de Usuario");
+        List<List<String>> rows  = getRows();
+        return new Grid(columns, rows);
+    }
+
+    private List<List<String>> getRows() {
+        List<User> users = userRepository.getAll();
+        List<List<String>> rows = new ArrayList<>();
+        for (User user : users){
+            List<String> row = new ArrayList<>();
+            row.add(String.valueOf(user.getId()));
+            row.add(user.getName());
+            row.add(user.getLastname());
+            row.add(user.getEmail());
+            row.add(user.getIdentification());
+            row.add(user.getTypeUser());
+            rows.add(row);
+        }
+        return rows;
     }
 }

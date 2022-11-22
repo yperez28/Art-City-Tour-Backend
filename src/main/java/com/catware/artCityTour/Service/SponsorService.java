@@ -1,5 +1,6 @@
 package com.catware.artCityTour.Service;
 
+import com.catware.artCityTour.Model.Grid;
 import com.catware.artCityTour.Model.Sponsor;
 import com.catware.artCityTour.Repository.SponsorRepository;
 import com.fasterxml.jackson.core.JsonProcessingException;
@@ -7,6 +8,8 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 @Service
@@ -43,5 +46,37 @@ public class SponsorService {
             return objectMapper.writeValueAsString(sponsor);
         }
         return "";
+    }
+
+    public Grid getGrid() {
+        List<String> columns = Arrays.asList("ID", "Nombre");
+        List<List<String>> rows = getRows();
+        return new Grid(columns, rows);
+    }
+
+    private List<List<String>> getRows() {
+        List<Sponsor> allSponsors = getAllSponsors();
+        List<List<String>> rows = new ArrayList<>();
+        for (Sponsor sponsor : allSponsors){
+            List<String> row = new ArrayList<>();
+            row.add(String.valueOf(sponsor.getId()));
+            row.add(sponsor.getName());
+            rows.add(row);
+        }
+        return rows;
+    }
+
+    private List<Sponsor> getAllSponsors() {
+        List<Sponsor> sponsors = sponsorRepository.getAllSponsors();
+        sponsors.forEach(s -> s.setImage(imageService.getImageById(s.getImageId())));
+        return sponsors;
+    }
+
+    public boolean deleteSponsor(Long valueId) {
+        List<Long> getIdsInEditions = sponsorRepository.getSponsorInEditionById(valueId);
+        for (Long id : getIdsInEditions){
+            sponsorRepository.deleteSponsorXEditionById(id);
+        }
+        return sponsorRepository.deleteSponsorById(valueId) == 1;
     }
 }
