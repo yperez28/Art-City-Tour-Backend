@@ -98,14 +98,14 @@ public class UserService {
         return objectMapper.writeValueAsString(result);
     }
 
-    public String deleteUser(Long id) throws JsonProcessingException {
+    public boolean deleteUser(Long id) throws JsonProcessingException {
         ItineraryRepository itineraryRepository = new ItineraryRepository();
         List<Itinerary> itineraries =  itineraryRepository.getItineraryByUserId(id);
         for (Itinerary itinerary:itineraries ) {
             itineraryRepository.deleteItinerary(itinerary.getId());
         }
         Integer result = userRepository.deleteUser(id);
-        return objectMapper.writeValueAsString(result);
+        return result == 1;
     }
 
     public String getLogin(String email, String password) throws JsonProcessingException {

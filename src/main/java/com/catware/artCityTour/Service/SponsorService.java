@@ -10,7 +10,6 @@ import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.Collections;
 import java.util.List;
 
 @Service
@@ -76,7 +75,7 @@ public class SponsorService {
     public boolean deleteSponsor(Long valueId) {
         List<Long> getIdsInEditions = sponsorRepository.getSponsorInEditionById(valueId);
         for (Long id : getIdsInEditions){
-            sponsorRepository.deleteSponsorXEdition(id);
+            sponsorRepository.deleteSponsorXEditionById(id);
         }
         return sponsorRepository.deleteSponsorById(valueId) == 1;
     }

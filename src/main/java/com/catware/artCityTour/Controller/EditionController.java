@@ -44,7 +44,7 @@ public class EditionController {
 
     @CrossOrigin
     @RequestMapping(value = "/delete", method = RequestMethod.GET)
-    public String deleteEdition(@RequestParam Long id) throws JsonProcessingException {
+    public boolean deleteEdition(@RequestParam Long id) throws JsonProcessingException {
         return editionService.deleteEdition(id);
     }
 

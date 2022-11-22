@@ -38,7 +38,7 @@ public class NewsController {
 
     @CrossOrigin
     @RequestMapping(value = "/delete", method = RequestMethod.GET)
-    public String deleteNews(@RequestParam Long id) throws JsonProcessingException {
+    public boolean deleteNews(@RequestParam Long id) throws JsonProcessingException {
         return newsService.deleteNews(id);
     }
 

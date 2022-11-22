@@ -37,7 +37,7 @@ public class UserController {
 
     @CrossOrigin
     @RequestMapping(value = "/delete", method = RequestMethod.GET)
-    public String deleteUser(@RequestParam Long id) throws JsonProcessingException {
+    public boolean deleteUser(@RequestParam Long id) throws JsonProcessingException {
         return userService.deleteUser(id);
     }
 
