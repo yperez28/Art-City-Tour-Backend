@@ -81,12 +81,10 @@ public class EditionService {
             editionRepository.updateCurrent();
         }
         editionRepository.updateEdition(edition.getId(), edition.getName(), edition.getDetails(), edition.getDate(), edition.getCurrent());
-
         sponsorService.deleteSponsorsByEdition(edition.getId());
         for (Sponsor sponsor:edition.getSponsors()) {
             sponsorService.saveSponsorForEdition(edition.getId(), sponsor.getId());
         }
-
         imageService.deleteImagesByEdition(edition.getId());
         for (Image image: edition.getImages()) {
             image.setImageId(imageService.createImage(image));
@@ -95,11 +93,12 @@ public class EditionService {
         return objectMapper.writeValueAsString(edition);
     }
 
-    public String deleteEdition(Long id) throws JsonProcessingException {
+    public boolean deleteEdition(Long id) throws JsonProcessingException {
         imageService.deleteImagesByEdition(id);
         sponsorService.deleteSponsorsByEdition(id);
         routeService.deleteRoute(id);
-        return String.valueOf(editionRepository.deleteEdition(id));
+        Integer result = editionRepository.deleteEdition(id);
+        return result == 1;
     }
 
     public Grid getGrid() {

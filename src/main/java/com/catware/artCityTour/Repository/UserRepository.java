@@ -73,7 +73,7 @@ public class UserRepository {
                 user.setPhoneNumber(resultSet.getString(7));
                 user.setAddress(resultSet.getString(8));
                 user.setAge(resultSet.getInt(9));
-                if (getAdminUserByUserId(user.getId())){
+                if (true == false){
                     user.setTypeUser(TypeUser.ADMIN.getName());
                 }else{
                     user.setTypeUser(TypeUser.NORMAL_USER.getName());

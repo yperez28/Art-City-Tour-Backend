@@ -56,7 +56,7 @@ public class RouteService {
     public String getRouteByCurrentEdition() throws JsonProcessingException {
         List<Route> routes = routeRepository.getRouteByCurrentEdition();
         for (Route route:routes) {
-            route.setPlaces(placeService.getPlaceById(route.getId()));
+            route.setPlaces(placeService.getPlaceByRouteId(route.getId()));
         }
         return objectMapper.writeValueAsString(routes);
     }
@@ -64,7 +64,7 @@ public class RouteService {
     public List<Route> getRouteByEdition(Long editionId) {
         List<Route> routes = routeRepository.getRouteByEdition(editionId);
         for (Route route:routes) {
-            route.setPlaces(placeService.getPlaceById(route.getId()));
+            route.setPlaces(placeService.getPlaceByRouteId(route.getId()));
         }
         return routes;
     }

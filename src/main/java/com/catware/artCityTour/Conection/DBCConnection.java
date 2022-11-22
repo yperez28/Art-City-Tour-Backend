@@ -12,7 +12,7 @@ public class DBCConnection {
         }
         String dbURL = "jdbc:postgresql://localhost:5432/ACTMainDB";
         String userName = "postgres";
-        String password = "admin";
+        String password = "Admin";
         Connection conn = null;
         try {
             conn = DriverManager.getConnection(dbURL, userName, password);
