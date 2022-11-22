@@ -175,7 +175,6 @@ public class UserRepository {
             membershipStatement.setLong(1, id);
             membershipStatement.executeUpdate();
             Integer result = mainStatement.executeUpdate();
-            connection.close();
 
             return result;
 
@@ -211,10 +210,10 @@ public class UserRepository {
             if (exists){
                 return changePassword(email, newPass);
             }
-            return false;
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }
+        return "";
     }
 
     public void saveNormalUser(long result) {

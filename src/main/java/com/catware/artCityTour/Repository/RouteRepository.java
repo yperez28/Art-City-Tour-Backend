@@ -40,6 +40,55 @@ public class RouteRepository {
         }
     }
 
+    public List<Route> getRouteByEdition(Long editionId){
+        try {
+            String query = "SELECT * FROM route where editionId = ?";
+            PreparedStatement statement;
+            List<Route> resultArray = new ArrayList<>();
+            try {
+                statement = connection.prepareStatement(query);
+                connection.prepareStatement(query);
+                statement.setLong(1, editionId);
+                ResultSet resultSet = statement.executeQuery();
+                while(resultSet.next()) {
+                    Route route = new Route();
+                    route.setId(resultSet.getLong(1));
+                    route.setName(resultSet.getString(2));
+                    resultArray.add(route);
+                }
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+            return resultArray;
+        }catch (EmptyResultDataAccessException e){
+            return new ArrayList<>();
+        }
+    }
+
+    public List<Route> getRouteByCurrentEdition(){
+        try {
+            String query = "SELECT * FROM route INNER JOIN edition ON route.editionid = edition.id where \"current\" = true";
+            PreparedStatement statement;
+            List<Route> resultArray = new ArrayList<>();
+            try {
+                statement = connection.prepareStatement(query);
+                connection.prepareStatement(query);
+                ResultSet resultSet = statement.executeQuery();
+                while(resultSet.next()) {
+                    Route route = new Route();
+                    route.setId(resultSet.getLong(1));
+                    route.setName(resultSet.getString(2));
+                    resultArray.add(route);
+                }
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+            return resultArray;
+        }catch (EmptyResultDataAccessException e){
+            return new ArrayList<>();
+        }
+    }
+
     public Route getRouteById(Long id){
         String query = "SELECT * FROM route WHERE id =?";
         PreparedStatement statement;
@@ -58,11 +107,12 @@ public class RouteRepository {
         }
     }
 
-    public Route saveRoute(String name) {
+    public Route saveRoute(String name, Long editionId) {
         try {
-            String query = "INSERT INTO route (name) VALUES (?)";
+            String query = "INSERT INTO route (name, editionid) VALUES (?, ?)";
             PreparedStatement statement = connection.prepareStatement(query);
             statement.setString(1, name);
+            statement.setLong(2, editionId);
             statement.executeUpdate();
 
             Route route = new Route();
@@ -74,18 +124,17 @@ public class RouteRepository {
         }
     }
 
-    public Route updateRoute(String name, Long id) {
+    public Route updateRoute(String name, Long id, Long editionId) {
         try {
-            String query = "UPDATE route SET name=? WHERE id=?";
+            String query = "UPDATE route SET name=?, editionid = ? WHERE id=?";
             PreparedStatement statement = connection.prepareStatement(query);
             statement.setString(1, name);
-            statement.setLong(2, id);
+            statement.setLong(2, editionId);
+            statement.setLong(3, id);
             statement.executeUpdate();
-
             Route route = new Route();
             route.setId(id);
             route.setName(name);
-
             return route;
         } catch (SQLException e) {
             throw new RuntimeException(e);
@@ -111,4 +160,5 @@ public class RouteRepository {
             throw new RuntimeException(e);
         }
     }
+
 }

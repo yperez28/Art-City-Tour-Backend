@@ -31,10 +31,9 @@ public class MembershipController {
 
     @CrossOrigin
     @RequestMapping(value = "/createMembershipByUser", method=RequestMethod.GET)
-    public String saveMembershipxUser(@RequestParam Long userId, @RequestParam Long membershipId,
-                                      @RequestParam String startDate, @RequestParam String endDate)
+    public String saveMembershipxUser(@RequestParam Long userId, @RequestParam Long membershipId)
             throws JsonProcessingException {
-        return membershipService.saveMembershipxUser(userId, membershipId, startDate, endDate);
+        return membershipService.saveMembershipxUser(userId, membershipId);
     }
 
     @CrossOrigin
@@ -45,7 +44,7 @@ public class MembershipController {
     }
 
     @CrossOrigin
-    @RequestMapping(value="/deleteMembershipByUSer", method = RequestMethod.GET)
+    @RequestMapping(value="/deleteMembershipByUser", method = RequestMethod.GET)
     public String deleteMembershipxUser(@RequestParam Long id) throws JsonProcessingException {
         return membershipService.deleteMembershipxUser(id);
     }

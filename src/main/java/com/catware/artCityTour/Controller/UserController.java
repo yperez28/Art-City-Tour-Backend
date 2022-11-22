@@ -65,3 +65,4 @@ public class UserController {
         return userService.changePassword(email, previousPass, newPass);
     }
 }
+

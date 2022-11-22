@@ -2,6 +2,7 @@ package com.catware.artCityTour.Service;
 
 import com.catware.artCityTour.Model.*;
 import com.catware.artCityTour.Repository.EditionRepository;
+import com.catware.artCityTour.Repository.RouteRepository;
 import com.catware.artCityTour.Repository.SponsorRepository;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -29,6 +30,9 @@ public class EditionService {
 
     @Autowired
     private ImageService imageService;
+
+    @Autowired
+    private RouteService routeService;
 
     public String getAll() throws JsonProcessingException {
         List<Edition> editions = editionRepository.getAll();
@@ -91,10 +95,11 @@ public class EditionService {
         return objectMapper.writeValueAsString(edition);
     }
 
-    public boolean deleteEdition(Long id){
+    public String deleteEdition(Long id) throws JsonProcessingException {
         imageService.deleteImagesByEdition(id);
         sponsorService.deleteSponsorsByEdition(id);
-        return editionRepository.deleteEdition(id)==1;
+        routeService.deleteRoute(id);
+        return String.valueOf(editionRepository.deleteEdition(id));
     }
 
     public Grid getGrid() {

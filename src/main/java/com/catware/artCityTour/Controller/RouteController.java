@@ -15,8 +15,8 @@ public class RouteController {
 
     @CrossOrigin
     @RequestMapping(value="/create", method = RequestMethod.GET)
-    public String createRoute(@RequestParam String name) throws JsonProcessingException {
-        return routeService.saveRoute(name);
+    public String createRoute(@RequestBody String jsonData) throws JsonProcessingException {
+        return routeService.saveRoute(jsonData);
     }
 
     @CrossOrigin
@@ -27,8 +27,8 @@ public class RouteController {
 
     @CrossOrigin
     @RequestMapping(value = "/update", method = RequestMethod.GET)
-    public String updateRoute(@RequestParam String name, @RequestParam Long id) throws JsonProcessingException {
-        return routeService.updateRoute(name, id);
+    public String updateRoute(@RequestBody String jsonData) throws JsonProcessingException {
+        return routeService.updateRoute(jsonData);
     }
 
     @CrossOrigin
@@ -41,5 +41,11 @@ public class RouteController {
     @RequestMapping(value = "/getById", method = RequestMethod.GET)
     public String getRouteById(@RequestParam Long id) throws JsonProcessingException {
         return routeService.getRouteById(id);
+    }
+
+    @CrossOrigin
+    @RequestMapping(value = "/getByCurrent", method = RequestMethod.GET)
+    public String getRouteByCurrentEdition() throws JsonProcessingException {
+        return routeService.getRouteByCurrentEdition();
     }
 }
