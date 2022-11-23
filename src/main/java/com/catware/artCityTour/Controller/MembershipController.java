@@ -49,4 +49,10 @@ public class MembershipController {
         return membershipService.deleteMembershipxUser(id);
     }
 
+    @CrossOrigin
+    @RequestMapping(value = "/getByUserId", method = RequestMethod.GET)
+    public String getMembershipByUser(@RequestParam Long userId) throws JsonProcessingException {
+        return membershipService.getMembershipByUser(userId);
+    }
+
 }
