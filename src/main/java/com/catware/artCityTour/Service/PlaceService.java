@@ -22,6 +22,14 @@ public class PlaceService {
     @Autowired
     private ObjectMapper objectMapper;
 
+    public String getAll() throws JsonProcessingException {
+        List<Place> places = placeRepository.getAllPlaces();
+        for (Place place: places){
+            place.setImage(imageService.getImageById(place.getImageId()));
+        }
+        return objectMapper.writeValueAsString(places);
+    }
+
     public List<Place> getPlaceByRouteId(Long routeId){
         List<Place> places = placeRepository.getPlacesByRoute(routeId);
         for (Place place: places){

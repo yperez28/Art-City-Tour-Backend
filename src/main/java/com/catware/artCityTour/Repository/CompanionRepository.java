@@ -77,7 +77,7 @@ public class CompanionRepository {
                     companion.setIdentification(resultSet.getString(2));
                     companion.setAge(resultSet.getString(3));
                     companion.setName(resultSet.getString(4));
-                    companion.setLast_name(resultSet.getString(5));
+                    companion.setLastName(resultSet.getString(5));
 
                     companionList.add(companion);
                 }
@@ -108,7 +108,7 @@ public class CompanionRepository {
                     companion.setIdentification(resultSet.getString(2));
                     companion.setAge(resultSet.getString(3));
                     companion.setName(resultSet.getString(4));
-                    companion.setLast_name(resultSet.getString(5));
+                    companion.setLastName(resultSet.getString(5));
 
                     companions.add(companion);
                 }

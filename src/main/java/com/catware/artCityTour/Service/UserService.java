@@ -10,7 +10,6 @@ import com.catware.artCityTour.Repository.MembershipRepository;
 import com.catware.artCityTour.Repository.UserRepository;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import org.springframework.beans.factory.FactoryBean;
 import com.google.zxing.WriterException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -75,7 +74,7 @@ public class UserService {
         User user =  objectMapper.readValue(jsonData, User.class);
         user.setPassword(hashingService.hashPass(user.getPassword()));
         if(checkDuplicateEmail(user.getEmail())) {
-            long result = userRepository.saveUser(user.getName(), user.getLastname(), user.getEmail(), user.getPassword(), user.getIdentification(), user.getPhoneNumber(), user.getAddress(), user.getAge());
+            long result = userRepository.saveUser(user.getName(), user.getLastName(), user.getEmail(), user.getPassword(), user.getIdentification(), user.getPhoneNumber(), user.getAddress(), user.getAge());
             if (user.getTypeUser() == null) {
                 user.setTypeUser(TypeUser.NORMAL_USER.getName());
                 userRepository.saveNormalUser(result);
@@ -96,7 +95,7 @@ public class UserService {
         User user =  objectMapper.readValue(jsonData, User.class);
         user.setPassword(hashingService.hashPass(user.getPassword()));
         System.out.println(user.getId());
-        Integer result = userRepository.updateUser(user.getName(), user.getLastname(), user.getEmail(), user.getPassword(), user.getIdentification(), user.getPhoneNumber(), user.getAddress(), user.getAge(), user.getId());
+        Integer result = userRepository.updateUser(user.getName(), user.getLastName(), user.getEmail(), user.getPassword(), user.getIdentification(), user.getPhoneNumber(), user.getAddress(), user.getAge(), user.getId());
         return objectMapper.writeValueAsString(result);
     }
 
@@ -167,7 +166,7 @@ public class UserService {
             List<String> row = new ArrayList<>();
             row.add(String.valueOf(user.getId()));
             row.add(user.getName());
-            row.add(user.getLastname());
+            row.add(user.getLastName());
             row.add(user.getEmail());
             row.add(user.getIdentification());
             row.add(user.getTypeUser());

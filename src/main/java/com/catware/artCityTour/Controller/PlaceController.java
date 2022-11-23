@@ -14,6 +14,11 @@ public class PlaceController {
     private PlaceService placeService;
 
     @CrossOrigin
+    @RequestMapping(value = "/getAll", method = RequestMethod.GET)
+    public String getEdition() throws JsonProcessingException {
+        return placeService.getAll();
+    }
+    @CrossOrigin
     @RequestMapping(value = "/create", method = RequestMethod.GET)
     public String createPlace(@RequestBody String jsonData) throws JsonProcessingException {
         return placeService.createPlace(jsonData);
