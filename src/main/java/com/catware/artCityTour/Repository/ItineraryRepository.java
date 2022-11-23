@@ -40,16 +40,19 @@ public class ItineraryRepository {
         }
     }
 
-    public Integer saveItinerary(Long userId) {
+    public Long saveItinerary(Long userId) {
         try {
-            String query = "INSERT INTO itinerary(userid) VALUES (?)";
+            String query = "INSERT INTO itinerary (userid) VALUES (?) RETURNING id";
             PreparedStatement statement = connection.prepareStatement(query);
             statement.setLong(1, userId);
 
-            int result = statement.executeUpdate();
+            ResultSet resultSet = statement.executeQuery();
+            Long result = null;
             Itinerary itinerary = new Itinerary();
-            if (result > 0) {
+            if (resultSet.next()) {
+                result = resultSet.getLong(1);
                 itinerary.setUserId(userId);
+
             }
 
             return result;
@@ -141,6 +144,21 @@ public class ItineraryRepository {
 
         } catch (EmptyResultDataAccessException e) {
             return new ArrayList<>();
+        }
+    }
+
+    public Integer saveEventXItinerary(Long itineraryId, Long eventId) {
+        try {
+            String query = "INSERT INTO eventxitinerary (itineraryid, eventid) VALUES (?, ?)";
+            PreparedStatement statement = connection.prepareStatement(query);
+
+            statement.setLong(1, itineraryId);
+            statement.setLong(2, eventId);
+
+            return statement.executeUpdate();
+
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
         }
     }
 }

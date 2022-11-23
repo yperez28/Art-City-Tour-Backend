@@ -6,7 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
-@RequestMapping(value="/itinerary")
+@RequestMapping(value = "/itinerary")
 public class ItineraryController {
 
     @Autowired
@@ -14,7 +14,7 @@ public class ItineraryController {
 
     @CrossOrigin
     @RequestMapping(value = "/create", method = RequestMethod.GET)
-    public String createItinerary(@RequestParam Long userId ) throws JsonProcessingException {
+    public String createItinerary(@RequestParam Long userId) throws JsonProcessingException {
         return itineraryService.saveItinerary(userId);
     }
 
@@ -37,14 +37,20 @@ public class ItineraryController {
     }
 
     @CrossOrigin
-    @RequestMapping(value="/getById", method = RequestMethod.GET)
+    @RequestMapping(value = "/getById", method = RequestMethod.GET)
     public String getItineraryById(@RequestParam Long id) throws JsonProcessingException {
         return itineraryService.getItineraryById(id);
     }
 
     @CrossOrigin
-    @RequestMapping(value="/getByUserId", method = RequestMethod.GET)
+    @RequestMapping(value = "/getByUserId", method = RequestMethod.GET)
     public String getItineraryByUserId(@RequestParam Long userId) throws JsonProcessingException {
         return itineraryService.getItineraryByUserId(userId);
+    }
+
+    @CrossOrigin
+    @RequestMapping(value = "/createEventXItinerary", method = RequestMethod.GET)
+    public String saveEventXItinerary(@RequestParam Long itineraryId, @RequestParam Long eventId) throws JsonProcessingException {
+        return itineraryService.saveEventXItinerary(itineraryId, eventId);
     }
 }
