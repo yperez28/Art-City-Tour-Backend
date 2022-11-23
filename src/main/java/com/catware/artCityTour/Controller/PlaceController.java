@@ -18,9 +18,15 @@ public class PlaceController {
     public String createPlace(@RequestBody String jsonData) throws JsonProcessingException {
         return placeService.createPlace(jsonData);
     }
+
     @CrossOrigin
     @RequestMapping(value = "/update", method = RequestMethod.GET)
     public String updatePlace(@RequestBody String jsonData) throws JsonProcessingException {
         return placeService.updatePlace(jsonData);
+    }
+
+    @RequestMapping(value="/getAllCategory", method = RequestMethod.GET)
+    public String getAllCategory(@RequestParam String category) throws JsonProcessingException {
+        return placeService.getAllCategory(category);
     }
 }

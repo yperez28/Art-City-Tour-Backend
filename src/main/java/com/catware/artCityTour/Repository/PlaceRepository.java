@@ -159,4 +159,34 @@ public class PlaceRepository {
             throw new RuntimeException(e);
         }
     }
+
+    public List<Place> getAllCategory(String category) {
+        try {
+            String query = "SELECT * FROM place WHERE category = ?";
+            List<Place> places = new ArrayList<>();
+            PreparedStatement statement = connection.prepareStatement(query);
+            statement.setString(1, category);
+            ResultSet resultSet = statement.executeQuery();
+
+            while (resultSet.next()) {
+                Place place = new Place();
+                place.setId(resultSet.getLong(1));
+                place.setName(resultSet.getString(2));
+                place.setDetails(resultSet.getString(3));
+                place.setImageId(resultSet.getLong(4));
+                place.setLatitude(resultSet.getDouble(5));
+                place.setLongitude(resultSet.getDouble(6));
+                place.setCategory(resultSet.getString(7));
+                place.setPriceRange(resultSet.getLong(8));
+                place.setScore(resultSet.getLong(9));
+                place.setLink(resultSet.getString(10));
+
+                places.add(place);
+            }
+
+            return places;
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+    }
 }

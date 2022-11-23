@@ -6,11 +6,12 @@ import java.sql.SQLException;
 
 public class DBCConnection {
     private static Connection connection;
+
     public static Connection getConnection() {
         if (connection != null) {
             return connection;
         }
-        String dbURL = "jdbc:postgresql://localhost:5432/backup";
+        String dbURL = "jdbc:postgresql://localhost:5432/ArtCityTour2";
         String userName = "postgres";
         String password = "123456";
         Connection conn = null;
