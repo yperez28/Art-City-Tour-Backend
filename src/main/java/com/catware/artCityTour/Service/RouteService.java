@@ -19,11 +19,14 @@ public class RouteService {
     private RouteRepository routeRepository;
     @Autowired
     private PlaceService placeService;
+    @Autowired
+    private ImageService imageService;
 
     public String getAll() throws JsonProcessingException {
         List<Route> routes = routeRepository.getAll();
         for (Route route:routes) {
             route.setPlaces(placeService.getPlaceByRouteId(route.getId()));
+            route.setImage(imageService.getImageById(route.getImageId()));
         }
         return objectMapper.writeValueAsString(routes);
     }
@@ -55,6 +58,7 @@ public class RouteService {
         List<Route> routes = routeRepository.getRouteByCurrentEdition();
         for (Route route:routes) {
             route.setPlaces(placeService.getPlaceByRouteId(route.getId()));
+            route.setImage(imageService.getImageById(route.getImageId()));
         }
         return objectMapper.writeValueAsString(routes);
     }
