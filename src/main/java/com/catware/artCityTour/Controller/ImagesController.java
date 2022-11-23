@@ -21,6 +21,12 @@ public class ImagesController {
     }
 
     @CrossOrigin
+    @RequestMapping(value = "/getPrincipalPageImage", method = RequestMethod.GET)
+    public String getPrincipalPageImage(){
+        return imageService.getPrincipalPage();
+    }
+
+    @CrossOrigin
     @RequestMapping(value = "/getAdminPH", method = RequestMethod.GET)
     public String getAdminPH(@RequestParam String sectionPH){
         return imageService.getAdminPH(AdminSections.valueOf(sectionPH));
