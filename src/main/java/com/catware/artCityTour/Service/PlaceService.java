@@ -1,6 +1,7 @@
 package com.catware.artCityTour.Service;
 
 import com.catware.artCityTour.Model.Grid;
+import com.catware.artCityTour.Model.News;
 import com.catware.artCityTour.Model.Place;
 import com.catware.artCityTour.Repository.PlaceRepository;
 import com.fasterxml.jackson.core.JsonProcessingException;
@@ -73,5 +74,14 @@ public class PlaceService {
             placeRepository.deletePlaceRoutesById(id);
         }
         return placeRepository.deletePlaceById(valueId) == 1;
+    }
+
+    public String getAllCategory(String category) throws JsonProcessingException {
+        List<Place> bar = placeRepository.getAllCategory(category);
+        for (Place place: bar) {
+            place.setImage(imageService.getImageById(place.getImageId()));
+        }
+
+        return objectMapper.writeValueAsString(bar);
     }
 }

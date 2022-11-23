@@ -94,7 +94,6 @@ public class ItineraryRepository {
             eventStatement.executeUpdate();
 
             Integer result = mainStatement.executeUpdate();
-            connection.close();
 
             return result;
         } catch (SQLException e) {
