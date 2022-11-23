@@ -83,7 +83,7 @@ public class PlaceRepository {
     }
 
     public int updatePlace(Long placeId, String name, String details, Long imageId, Double latitude, Double longitude){
-        String query = "UPDATE place name = ?, details = ?, image_id = ?, latitude = ?, longitude = ? WHERE id = ?";
+        String query = "UPDATE place SET name = ?, details = ?, image_id = ?, latitude = ?, longitude = ? WHERE id = ?";
         try {
             PreparedStatement statement = connection.prepareStatement(query);
             statement.setString(1, name);
@@ -155,6 +155,26 @@ public class PlaceRepository {
             statement = connection.prepareStatement(placeQuery);
             statement.setLong(1, id);
             return statement.executeUpdate();
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    public Place getPlaceById(Long placeid){
+        String placeQuery = "SELECT * FROM place where id = ?";
+        PreparedStatement statementPlace;
+        try {
+            statementPlace = connection.prepareStatement(placeQuery);
+            statementPlace.setLong(1, placeid);
+            ResultSet placeResult = statementPlace.executeQuery();
+            Place place = new Place();
+            while (placeResult.next()) {
+                place.setId(placeResult.getLong(1));
+                place.setName(placeResult.getString(2));
+                place.setDetails(placeResult.getString(3));
+                place.setImageId(placeResult.getLong(4));
+            }
+            return place;
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }

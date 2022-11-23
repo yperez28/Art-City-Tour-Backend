@@ -13,19 +13,18 @@ import org.springframework.web.bind.annotation.*;
 public class AdminController {
     @Autowired
     private PlaceService placeService;
-
     @Autowired
     private SponsorService sponsorService;
-
     @Autowired
     private UserService userService;
-
     @Autowired
     private NewsService newsService;
-
     @Autowired
     private EditionService editionService;
-
+    @Autowired
+    private EventService eventService;
+    @Autowired
+    private RouteService routeService;
     @Autowired
     private ObjectMapper objectMapper;
 
@@ -44,6 +43,10 @@ public class AdminController {
                 return objectMapper.writeValueAsString(placeService.getAllPlacesGrid());
             case SPONSORS:
                 return objectMapper.writeValueAsString(sponsorService.getGrid());
+            case EVENTS:
+                return objectMapper.writeValueAsString(eventService.getGrid());
+            case ROUTES:
+                return objectMapper.writeValueAsString(routeService.getGrid());
             default:
                 return "Not Found";
         }

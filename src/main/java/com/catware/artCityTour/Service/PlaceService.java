@@ -29,6 +29,12 @@ public class PlaceService {
         return places;
     }
 
+    public Place getPlaceById(Long placeId) {
+        Place place = placeRepository.getPlaceById(placeId);
+        place.setImage(imageService.getImageById(place.getImageId()));
+        return place;
+    }
+
     public String createPlace(String jsonData) throws JsonProcessingException {
         Place place = objectMapper.readValue(jsonData, Place.class);
         place.setImageId(imageService.createImage(place.getImage()));
@@ -74,5 +80,9 @@ public class PlaceService {
             placeRepository.deletePlaceRoutesById(id);
         }
         return placeRepository.deletePlaceById(valueId) == 1;
+    }
+
+    public String getPlaceByIdStr(Long id) throws JsonProcessingException {
+        return objectMapper.writeValueAsString(getPlaceById(id));
     }
 }

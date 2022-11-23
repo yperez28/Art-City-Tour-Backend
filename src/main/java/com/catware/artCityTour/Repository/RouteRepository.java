@@ -29,6 +29,7 @@ public class RouteRepository {
                     Route route = new Route();
                     route.setId(resultSet.getLong(1));
                     route.setName(resultSet.getString(2));
+                    route.setEditionId(resultSet.getLong(3));
                     resultArray.add(route);
                 }
             } catch (SQLException e) {
