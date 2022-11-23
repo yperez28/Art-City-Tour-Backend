@@ -28,7 +28,7 @@ public class RouteService {
 
     public String getAll() throws JsonProcessingException {
         List<Route> routes = routeRepository.getAll();
-        for (Route route:routes) {
+        for (Route route : routes) {
             route.setPlaces(placeService.getPlaceByRouteId(route.getId()));
             route.setImage(imageService.getImageById(route.getImageId()));
         }
@@ -55,12 +55,13 @@ public class RouteService {
     public String getRouteById(Long id) throws JsonProcessingException {
         Route route = routeRepository.getRouteById(id);
         route.setPlaces(placeService.getPlaceByRouteId(route.getId()));
+        route.setImage(imageService.getImageById(route.getImageId()));
         return objectMapper.writeValueAsString(route);
     }
 
     public String getRouteByCurrentEdition() throws JsonProcessingException {
         List<Route> routes = routeRepository.getRouteByCurrentEdition();
-        for (Route route:routes) {
+        for (Route route : routes) {
             route.setPlaces(placeService.getPlaceByRouteId(route.getId()));
             route.setImage(imageService.getImageById(route.getImageId()));
         }
@@ -69,32 +70,34 @@ public class RouteService {
 
     public List<Route> getRouteByEdition(Long editionId) {
         List<Route> routes = routeRepository.getRouteByEdition(editionId);
-        for (Route route:routes) {
+        for (Route route : routes) {
             route.setPlaces(placeService.getPlaceByRouteId(route.getId()));
+            route.setImage(imageService.getImageById(route.getImageId()));
         }
         return routes;
     }
 
     public void deleteRouteByEdition(Long editionId) throws JsonProcessingException {
         List<Route> routes = getRouteByEdition(editionId);
-        for (Route route:routes) {
+        for (Route route : routes) {
             deleteRoute(route.getId());
         }
     }
 
     public Grid getGrid() {
-        List<String> columns = Arrays.asList("ID", "Nombre", "ID Edición","Lugares");
+        List<String> columns = Arrays.asList("ID", "Nombre", "ID Edición", "Lugares");
         List<List<String>> rows = getRows();
         return new Grid(columns, rows);
     }
-    private List<Route> getAllList(){
+
+    private List<Route> getAllList() {
         return routeRepository.getAll();
     }
 
     private List<List<String>> getRows() {
         List<List<String>> rows = new ArrayList<>();
         List<Route> events = getAllList();
-        for (Route route : events){
+        for (Route route : events) {
             List<String> row = new ArrayList<>();
             row.add(String.valueOf(route.getId()));
             row.add(route.getName());
@@ -108,8 +111,8 @@ public class RouteService {
     private String getPlacesByRoute(Long id) {
         List<Place> placesByRoute = placeService.getPlaceByRouteId(id);
         String placesString = "";
-        for (Place place: placesByRoute){
-            placesString= placesString + place.getName() + ", ";
+        for (Place place : placesByRoute) {
+            placesString = placesString + place.getName() + ", ";
         }
         return placesString;
     }
