@@ -1,6 +1,7 @@
 package com.catware.artCityTour.Service;
 
 import com.catware.artCityTour.Model.Grid;
+import com.catware.artCityTour.Model.News;
 import com.catware.artCityTour.Model.Sponsor;
 import com.catware.artCityTour.Repository.SponsorRepository;
 import com.fasterxml.jackson.core.JsonProcessingException;
@@ -32,6 +33,16 @@ public class SponsorService {
 
     public int saveSponsorForEdition(Long editionId, Long sponsorId){
         return sponsorRepository.saveSponsorForEdition(editionId, sponsorId);
+    }
+
+    public String updateSponsor(String jsonData) throws JsonProcessingException {
+        Sponsor sponsor = objectMapper.readValue(jsonData, Sponsor.class);
+        imageService.updateImage(sponsor.getImage());
+        int result = sponsorRepository.updateSponsor(sponsor.getId(), sponsor.getName(), sponsor.getImageId());
+        if (result > 0) {
+            return objectMapper.writeValueAsString(sponsor);
+        }
+        return "";
     }
 
     public String deleteSponsorsByEdition(Long editionId){

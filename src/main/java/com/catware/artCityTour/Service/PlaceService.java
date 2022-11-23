@@ -2,6 +2,7 @@ package com.catware.artCityTour.Service;
 
 import com.catware.artCityTour.Model.Grid;
 import com.catware.artCityTour.Model.Place;
+import com.catware.artCityTour.Model.Sponsor;
 import com.catware.artCityTour.Repository.PlaceRepository;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;

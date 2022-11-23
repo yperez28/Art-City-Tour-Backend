@@ -19,5 +19,17 @@ public class SponsorController {
     public String createSponsor(@RequestBody String jsonData) throws JsonProcessingException {
         return sponsorService.createSponsor(jsonData);
     }
+    @CrossOrigin
+    @RequestMapping(value = "/update", method = RequestMethod.GET)
+    public String updateSponsor(@RequestBody String jsonData) throws JsonProcessingException {
+        return sponsorService.updateSponsor(jsonData);
+    }
+
+    @CrossOrigin
+    @RequestMapping(value = "/delete", method = RequestMethod.GET)
+    public Boolean deleteSponsor(@RequestParam Long id) throws JsonProcessingException {
+        return sponsorService.deleteSponsor(id);
+    }
+
 
 }
