@@ -30,6 +30,7 @@ public class PlaceController {
         return placeService.updatePlace(jsonData);
     }
 
+    @CrossOrigin
     @RequestMapping(value="/getAllCategory", method = RequestMethod.GET)
     public String getAllCategory(@RequestParam String category) throws JsonProcessingException {
         return placeService.getAllCategory(category);
