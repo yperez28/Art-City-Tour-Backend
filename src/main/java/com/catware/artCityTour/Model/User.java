@@ -11,7 +11,7 @@ public class User {
 
     private Long id;
     private String name;
-    private String lastname;
+    private String lastName;
     private String email;
     private String password;
     private String identification;
@@ -23,10 +23,10 @@ public class User {
 
     private String typeUser;
 
-    public User(Long id, String name, String lastname, String email, String password, String identification, String phoneNumber, String address, Integer age, List<Membership> memberships, List<Itinerary> itineraries, String typeUser) {
+    public User(Long id, String name, String lastName, String email, String password, String identification, String phoneNumber, String address, Integer age, List<Membership> memberships, List<Itinerary> itineraries, String typeUser) {
         this.id = id;
         this.name = name;
-        this.lastname = lastname;
+        this.lastName = lastName;
         this.email = email;
         this.password = password;
         this.identification = identification;

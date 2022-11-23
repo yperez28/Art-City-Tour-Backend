@@ -12,14 +12,14 @@ public class Companion {
     private String identification;
     private String age;
     private String name;
-    private String last_name;
+    private String lastName;
 
-    public Companion(Long id, String identification, String age, String name, String last_name) {
+    public Companion(Long id, String identification, String age, String name, String lastName) {
         this.id = id;
         this.identification = identification;
         this.age = age;
         this.name = name;
-        this.last_name = last_name;
+        this.lastName = lastName;
     }
 
     public Companion() {}

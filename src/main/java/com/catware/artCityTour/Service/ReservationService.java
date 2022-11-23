@@ -8,7 +8,6 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.google.zxing.WriterException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import org.springframework.web.bind.annotation.RequestParam;
 
 import javax.mail.MessagingException;
 import java.io.File;
@@ -35,22 +34,22 @@ public class ReservationService {
         List<Long> companionIds = new ArrayList<>();
         for (Companion companion:reservation.getCompanion()) {
             Long id = companionService.saveCompanion(companion.getIdentification(), companion.getAge(),
-                    companion.getName(), companion.getLast_name());
+                    companion.getName(), companion.getLastName());
             companionIds.add(id);
         }
         Integer result = reservationRepository.saveReservation(reservation.getPlaceId(), reservation.getIdentification(),
                 reservation.getAge(), reservation.getName(), reservation.getLastName(), reservation.getEmail(),
                 reservation.getPhoneNumber(), reservation.getIsFirstTime(), reservation.getUserId(), companionIds);
 
-        if (result == 1) {
-            String emailBody = "Hola,\nGracias por reservar tu espacio en la edición en curso del Art City Tour."
-                    + "A continuación puede encontar el código QR de la confirmación de entrada.\n";
-            String qrContent = "La persona " + reservation.getName() + " " + reservation.getLastName() + " con identificación " + reservation.getIdentification().toString() + " tiene una reservación en el evento.";
-            String path = "./src/main/java/com/catware/artCityTour/Img/" + reservation.getName() + "_" + reservation.getLastName() + ".png";
-
-            qrCodeService.generateQRCode(qrContent, path);
-            emailService.sendEmailWithAttach(reservation.getEmail(), "Confirmación de reservación Art City Tour", emailBody, new File(path));
-        }
+//        if (result == 1) {
+//            String emailBody = "Hola,\nGracias por reservar tu espacio en la edición en curso del Art City Tour."
+//                    + "A continuación puede encontar el código QR de la confirmación de entrada.\n";
+//            String qrContent = "La persona " + reservation.getName() + " " + reservation.getLastName() + " con identificación " + reservation.getIdentification().toString() + " tiene una reservación en el evento.";
+//            String path = "./src/main/java/com/catware/artCityTour/Img/" + reservation.getName() + "_" + reservation.getLastName() + ".png";
+//
+//            qrCodeService.generateQRCode(qrContent, path);
+//            emailService.sendEmailWithAttach(reservation.getEmail(), "Confirmación de reservación Art City Tour", emailBody, new File(path));
+//        }
 
         return objectMapper.writeValueAsString(result);
     }
@@ -70,7 +69,7 @@ public class ReservationService {
         List<Long> companionIds = new ArrayList<>();
         for (Companion companion:reservation.getCompanion()) {
             Long idCompanion = companionService.saveCompanion(companion.getIdentification(), companion.getAge(),
-                    companion.getName(), companion.getLast_name());
+                    companion.getName(), companion.getLastName());
             companionIds.add(idCompanion);
         }
 
