@@ -58,12 +58,10 @@ public class ItineraryService {
     }
 
     public String getItineraryByUserId(Long userId) throws JsonProcessingException {
-        List<Itinerary> itineraries = itineraryRepository.getItineraryByUserId(userId);
-        for (Itinerary itinerary : itineraries) {
-            itinerary.setEvents(eventRepository.getEventByItinerary(itinerary.getId()));
-        }
+        Itinerary itinerary = itineraryRepository.getItineraryByUserId(userId);
+        itinerary.setEvents(eventRepository.getEventByItinerary(itinerary.getId()));
 
-        return objectMapper.writeValueAsString(itineraries);
+        return objectMapper.writeValueAsString(itinerary);
     }
 
     public String saveEventXItinerary(Long itineraryId, Long eventId) throws JsonProcessingException {
@@ -74,10 +72,8 @@ public class ItineraryService {
 
     public String saveFullItinerary(Long userId, String jsonData) throws JsonProcessingException {
         Event[] events = objectMapper.readValue(jsonData, Event[].class);
-        List<Itinerary> itineraries = itineraryRepository.getItineraryByUserId(userId);
-        for (Itinerary itinerary : itineraries) {
-            itineraryRepository.deleteItinerary(itinerary.getId());
-        }
+        Itinerary itinerary = itineraryRepository.getItineraryByUserId(userId);
+        itineraryRepository.deleteItinerary(itinerary.getId());
         Long idItinerary = itineraryRepository.saveItinerary(userId);
         Integer result = null;
         for (Event event : events) {

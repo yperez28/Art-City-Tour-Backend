@@ -45,13 +45,10 @@ public class UserService {
         List<User> users = userRepository.getAll();
         for (User user: users) {
             user.setMemberships(membershipRepository.getMembershipsByUser(user.getId()));
-            List<Itinerary> itineraries = itineraryRepository.getItineraryByUserId(user.getId());
+            Itinerary itinerary = itineraryRepository.getItineraryByUserId(user.getId());
+            itinerary.setEvents(eventRepository.getEventByItinerary(itinerary.getId()));
 
-            for (Itinerary itinerary:itineraries) {
-                itinerary.setEvents(eventRepository.getEventByItinerary(itinerary.getId()));
-            }
-
-            user.setItineraries(itineraries);
+            user.setItinerary(itinerary);
         }
 
         return objectMapper.writeValueAsString(users);
@@ -60,12 +57,9 @@ public class UserService {
     public String getUserById(Long id) throws JsonProcessingException {
         User user = userRepository.getUserById(id);
         user.setMemberships(membershipRepository.getMembershipsByUser(id));
-        List<Itinerary> itineraries = itineraryRepository.getItineraryByUserId(id);
-
-        for (Itinerary itinerary:itineraries) {
-            itinerary.setEvents(eventRepository.getEventByItinerary(itinerary.getId()));
-        }
-        user.setItineraries(itineraries);
+        Itinerary itinerary = itineraryRepository.getItineraryByUserId(user.getId());
+        itinerary.setEvents(eventRepository.getEventByItinerary(itinerary.getId()));
+        user.setItinerary(itinerary);
 
         return objectMapper.writeValueAsString(user);
     }
@@ -101,10 +95,8 @@ public class UserService {
 
     public boolean deleteUser(Long id) throws JsonProcessingException {
         ItineraryRepository itineraryRepository = new ItineraryRepository();
-        List<Itinerary> itineraries =  itineraryRepository.getItineraryByUserId(id);
-        for (Itinerary itinerary:itineraries ) {
-            itineraryRepository.deleteItinerary(itinerary.getId());
-        }
+        Itinerary itinerary =  itineraryRepository.getItineraryByUserId(id);
+        itineraryRepository.deleteItinerary(itinerary.getId());
         Integer result = userRepository.deleteUser(id);
         return result == 1;
     }

@@ -29,12 +29,14 @@ public class EventRepository {
                 statement = connection.prepareStatement(query);
                 statement.setLong(1, id);
                 ResultSet resultSet = statement.executeQuery();
+                PlaceRepository placeRepository = new PlaceRepository();
                 while (resultSet.next()) {
                     Event event = new Event();
                     event.setId(resultSet.getLong(1));
                     event.setPlaceId(resultSet.getLong(2));
                     event.setStartHour((resultSet.getTime(3)).toLocalTime());
                     event.setEndHour(((resultSet.getTime(4)).toLocalTime()));
+                    event.setPlace(placeRepository.getPlaceByEvent(event.getPlaceId()));
                     events.add(event);
                 }
             } catch (SQLException e) {

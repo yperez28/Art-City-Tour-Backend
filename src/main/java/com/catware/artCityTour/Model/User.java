@@ -19,11 +19,11 @@ public class User {
     private String address;
     private Integer age;
     private List<Membership> memberships;
-    private List<Itinerary> itineraries;
+    private Itinerary itinerary;
 
     private String typeUser;
 
-    public User(Long id, String name, String lastName, String email, String password, String identification, String phoneNumber, String address, Integer age, List<Membership> memberships, List<Itinerary> itineraries, String typeUser) {
+    public User(Long id, String name, String lastName, String email, String password, String identification, String phoneNumber, String address, Integer age, List<Membership> memberships, Itinerary itinerary, String typeUser) {
         this.id = id;
         this.name = name;
         this.lastName = lastName;
@@ -34,7 +34,7 @@ public class User {
         this.address = address;
         this.age = age;
         this.memberships = memberships;
-        this.itineraries = itineraries;
+        this.itinerary = itinerary;
         this.typeUser = typeUser;
     }
 
