@@ -25,7 +25,7 @@ public class PlaceController {
     }
 
     @CrossOrigin
-    @RequestMapping(value = "/update", method = RequestMethod.GET)
+    @RequestMapping(value = "/update", method = RequestMethod.POST)
     public String updatePlace(@RequestBody String jsonData) throws JsonProcessingException {
         return placeService.updatePlace(jsonData);
     }
@@ -33,5 +33,11 @@ public class PlaceController {
     @RequestMapping(value="/getAllCategory", method = RequestMethod.GET)
     public String getAllCategory(@RequestParam String category) throws JsonProcessingException {
         return placeService.getAllCategory(category);
+    }
+
+    @CrossOrigin
+    @RequestMapping(value = "/getById", method = RequestMethod.GET)
+    public String getPlaceById(@RequestParam Long id) throws JsonProcessingException {
+        return placeService.getPlaceByIdStr(id);
     }
 }

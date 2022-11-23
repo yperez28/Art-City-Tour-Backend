@@ -5,7 +5,9 @@ public enum AdminSections {
     SPONSORS("Patrocinadores"),
     EDITIONS("Ediciones"),
     NEWS("Noticias"),
-    USERS("Usuarios");
+    USERS("Usuarios"),
+    ROUTES("Rutas"),
+    EVENTS("Eventos");
 
     private String name;
 

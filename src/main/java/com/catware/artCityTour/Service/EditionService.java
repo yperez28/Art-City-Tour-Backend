@@ -45,11 +45,17 @@ public class EditionService {
     }
 
     public String getEditionById(Long id) throws JsonProcessingException {
+        Edition edition = getEditionByIdObject(id);
+        return objectMapper.writeValueAsString(edition);
+    }
+
+    public Edition getEditionByIdObject(Long id){
         Edition edition = editionRepository.getEditionById(id);
         edition.setSponsors(sponsorService.getSponsorByEditionId(edition.getId()));
         edition.setImages(imageService.getImagesByEditionId(id));
-        return objectMapper.writeValueAsString(edition);
+        return edition;
     }
+
 
     public String getCurrentEdition() throws JsonProcessingException {
         Edition edition = editionRepository.getCurrentEdition();
