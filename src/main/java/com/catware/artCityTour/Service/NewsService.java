@@ -25,7 +25,7 @@ public class NewsService {
 
     public String getAll() throws JsonProcessingException {
         List<News> newsList = newsRepository.getAll();
-        for (News news:newsList) {
+        for (News news : newsList) {
             news.setImage(imageService.getImageById(news.getImageId()));
         }
         return objectMapper.writeValueAsString(newsList);
@@ -57,7 +57,7 @@ public class NewsService {
         return "";
     }
 
-    public boolean deleteNews(Long id){
+    public boolean deleteNews(Long id) {
         return newsRepository.deleteNews(id) == 1;
     }
 
@@ -70,7 +70,7 @@ public class NewsService {
     private List<List<String>> getRows() {
         List<List<String>> rows = new ArrayList<>();
         List<News> allNews = newsRepository.getAll();
-        for (News news : allNews){
+        for (News news : allNews) {
             List<String> row = new ArrayList<>();
             row.add(String.valueOf(news.getId()));
             row.add(news.getTitle());
