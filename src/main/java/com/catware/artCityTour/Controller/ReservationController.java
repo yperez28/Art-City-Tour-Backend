@@ -4,6 +4,7 @@ import com.catware.artCityTour.Service.ReservationService;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.google.zxing.WriterException;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.*;
 
 import javax.mail.MessagingException;
@@ -29,7 +30,7 @@ public class ReservationController {
     }
 
     @CrossOrigin
-    @RequestMapping(value="/update", method = RequestMethod.GET)
+    @RequestMapping(value="/update", method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_VALUE)
     public String updateReservation(@RequestBody String jsonData) throws JsonProcessingException {
         return reservationService.updateReservation(jsonData);
     }

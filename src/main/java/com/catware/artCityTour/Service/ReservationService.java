@@ -111,6 +111,7 @@ public class ReservationService {
         List<Reservation> reservations = reservationRepository.getActiveByUser(userId, edition.getDate().toString());
         for(Reservation reservation:reservations) {
             reservation.setCompanion(companionService.getCompanionByUser(reservation.getId()));
+            reservation.setPuntoInicial(placeRepository.getPlaceById(reservation.getPlaceId()).getName());
         }
 
         return objectMapper.writeValueAsString(reservations);
