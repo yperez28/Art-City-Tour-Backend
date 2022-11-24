@@ -4,6 +4,7 @@ import com.catware.artCityTour.Service.PlaceService;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.*;
 
 @RestController()
@@ -19,13 +20,14 @@ public class PlaceController {
         return placeService.getAll();
     }
     @CrossOrigin
-    @RequestMapping(value = "/create", method = RequestMethod.GET)
+    @RequestMapping(value = "/create", method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_VALUE)
     public String createPlace(@RequestBody String jsonData) throws JsonProcessingException {
+        System.out.println("json " + jsonData);
         return placeService.createPlace(jsonData);
     }
 
     @CrossOrigin
-    @RequestMapping(value = "/update", method = RequestMethod.POST)
+    @RequestMapping(value = "/update", method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_VALUE)
     public String updatePlace(@RequestBody String jsonData) throws JsonProcessingException {
         return placeService.updatePlace(jsonData);
     }

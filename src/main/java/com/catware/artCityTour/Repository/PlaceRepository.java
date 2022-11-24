@@ -138,7 +138,7 @@ public class PlaceRepository {
     }
 
     public int deletePlaceRoutesById(Long id) {
-        String placeQuery = "DELETE * FROM placexroute WHERE id=?";
+        String placeQuery = "DELETE FROM placexroute WHERE id=?";
         PreparedStatement statement;
         try {
             statement = connection.prepareStatement(placeQuery);
@@ -149,7 +149,7 @@ public class PlaceRepository {
         }
     }
     public int deletePlaceById(Long id) {
-        String placeQuery = "DELETE * FROM place WHERE id=?";
+        String placeQuery = "DELETE FROM place WHERE id=?";
         PreparedStatement statement;
         try {
             statement = connection.prepareStatement(placeQuery);
@@ -203,6 +203,9 @@ public class PlaceRepository {
                 place.setName(placeResult.getString(2));
                 place.setDetails(placeResult.getString(3));
                 place.setImageId(placeResult.getLong(4));
+                place.setLatitude(placeResult.getDouble(5));
+                place.setLongitude(placeResult.getDouble(6));
+                place.setCategory(placeResult.getString(7));
             }
             return place;
         } catch (SQLException e) {

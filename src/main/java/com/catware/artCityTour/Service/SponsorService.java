@@ -90,4 +90,10 @@ public class SponsorService {
         }
         return sponsorRepository.deleteSponsorById(valueId) == 1;
     }
+
+    public Sponsor getSponsorById(Long id) {
+        Sponsor sponsor = sponsorRepository.getSponsorById(id);
+        sponsor.setImage(imageService.getImageById(sponsor.getImageId()));
+        return sponsor;
+    }
 }

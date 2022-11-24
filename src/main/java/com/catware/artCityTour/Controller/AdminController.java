@@ -67,6 +67,10 @@ public class AdminController {
                 return userService.deleteUser(valueId);
             case EDITIONS:
                 return editionService.deleteEdition(valueId);
+            case EVENTS:
+                return eventService.deleteEvent(valueId);
+            case ROUTES:
+                return routeService.deleteRoute(valueId);
             default:
                 return false;
         }

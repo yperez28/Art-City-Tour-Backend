@@ -33,7 +33,7 @@ public class RouteController {
 
     @CrossOrigin
     @RequestMapping(value = "/delete", method = RequestMethod.GET)
-    public String deleteUser(@RequestParam Long id) throws JsonProcessingException {
+    public boolean deleteUser(@RequestParam Long id) throws JsonProcessingException {
         return routeService.deleteRoute(id);
     }
 
