@@ -20,6 +20,7 @@ public class Reservation {
     private Long placeId;
     private Long userId;
     private String date;
+    private Place place;
     private List<Companion> companion;
 
     public Reservation(Long id, String identification, String age, String name, String lastName, String email,
