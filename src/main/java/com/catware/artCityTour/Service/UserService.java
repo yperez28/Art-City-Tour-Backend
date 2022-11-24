@@ -45,12 +45,12 @@ public class UserService {
         List<User> users = userRepository.getAll();
         for (User user: users) {
             user.setMemberships(membershipRepository.getMembershipsByUser(user.getId()));
-            Itinerary itinerary = itineraryRepository.getItineraryByUserId(user.getId());
-            itinerary.setEvents(eventRepository.getEventByItinerary(itinerary.getId()));
-
-            user.setItinerary(itinerary);
+            if (itineraryRepository.verifyUserItinerary(user.getId()) > 0) {
+                Itinerary itinerary = itineraryRepository.getItineraryByUserId(user.getId());
+                itinerary.setEvents(eventRepository.getEventByItinerary(itinerary.getId()));
+                user.setItinerary(itinerary);
+            }
         }
-
         return objectMapper.writeValueAsString(users);
     }
 
@@ -87,9 +87,8 @@ public class UserService {
 
     public String updateUser(String jsonData) throws JsonProcessingException {
         User user =  objectMapper.readValue(jsonData, User.class);
-        user.setPassword(hashingService.hashPass(user.getPassword()));
-        System.out.println(user.getId());
-        Integer result = userRepository.updateUser(user.getName(), user.getLastName(), user.getEmail(), user.getPassword(), user.getIdentification(), user.getPhoneNumber(), user.getAddress(), user.getAge(), user.getId());
+        System.out.println(user.getName()+" "+user.getAge());
+        Integer result = userRepository.updateUser(user.getName(), user.getLastName(), user.getEmail(), user.getIdentification(), user.getPhoneNumber(), user.getAddress(), user.getAge(), user.getId());
         return objectMapper.writeValueAsString(result);
     }
 

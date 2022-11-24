@@ -126,19 +126,18 @@ public class UserRepository {
         }
     }
 
-    public Integer updateUser (String name, String lastname, String email, String password, String identification, String phoneNumber, String address, Integer age, Long id) {
+    public Integer updateUser (String name, String lastname, String email, String identification, String phoneNumber, String address, Integer age, Long id) {
         try {
-            String query = "UPDATE public.user SET name=?, lastname=?, email=?, password=?, identification=?, phone_number=?, address=?, age=? WHERE id= ?";
+            String query = "UPDATE public.user SET name=?, lastname=?, email=?, identification=?, phone_number=?, address=?, age=? WHERE id= ?";
             PreparedStatement statement = connection.prepareStatement(query);
             statement.setString(1, name);
             statement.setString(2, lastname);
             statement.setString(3, email);
-            statement.setString(4, password);
-            statement.setString(5, identification);
-            statement.setString(6, phoneNumber);
-            statement.setString(7, address);
-            statement.setInt(8, age);
-            statement.setLong(9, id);
+            statement.setString(4, identification);
+            statement.setString(5, phoneNumber);
+            statement.setString(6, address);
+            statement.setInt(7, age);
+            statement.setLong(8, id);
             return statement.executeUpdate();
         } catch (SQLException e) {
             throw new RuntimeException(e);
