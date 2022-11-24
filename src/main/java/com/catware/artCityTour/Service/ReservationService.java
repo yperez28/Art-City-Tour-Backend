@@ -1,7 +1,9 @@
 package com.catware.artCityTour.Service;
 
 import com.catware.artCityTour.Model.Companion;
+import com.catware.artCityTour.Model.Edition;
 import com.catware.artCityTour.Model.Reservation;
+import com.catware.artCityTour.Repository.EditionRepository;
 import com.catware.artCityTour.Repository.ReservationRepository;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -28,6 +30,8 @@ public class ReservationService {
     private EmailService emailService;
     @Autowired
     private QRCodeService qrCodeService;
+    @Autowired
+    private EditionRepository editionRepository;
 
     public String saveReservation(String jsonData) throws IOException, WriterException, MessagingException {
         Reservation reservation = objectMapper.readValue(jsonData, Reservation.class);
@@ -41,15 +45,15 @@ public class ReservationService {
                 reservation.getAge(), reservation.getName(), reservation.getLastName(), reservation.getEmail(),
                 reservation.getPhoneNumber(), reservation.getIsFirstTime(), reservation.getUserId(), companionIds);
 
-//        if (result == 1) {
-//            String emailBody = "Hola,\nGracias por reservar tu espacio en la edición en curso del Art City Tour."
-//                    + "A continuación puede encontar el código QR de la confirmación de entrada.\n";
-//            String qrContent = "La persona " + reservation.getName() + " " + reservation.getLastName() + " con identificación " + reservation.getIdentification().toString() + " tiene una reservación en el evento.";
-//            String path = "./src/main/java/com/catware/artCityTour/Img/" + reservation.getName() + "_" + reservation.getLastName() + ".png";
-//
-//            qrCodeService.generateQRCode(qrContent, path);
-//            emailService.sendEmailWithAttach(reservation.getEmail(), "Confirmación de reservación Art City Tour", emailBody, new File(path));
-//        }
+        if (result == 1) {
+            String emailBody = "Hola,\nGracias por reservar tu espacio en la edición en curso del Art City Tour."
+                    + "A continuación puede encontar el código QR de la confirmación de entrada.\n";
+            String qrContent = "La persona " + reservation.getName() + " " + reservation.getLastName() + " con identificación " + reservation.getIdentification().toString() + " tiene una reservación en el evento.";
+            String path = "./src/main/java/com/catware/artCityTour/Img/" + reservation.getName() + "_" + reservation.getLastName() + ".png";
+
+            qrCodeService.generateQRCode(qrContent, path);
+            emailService.sendEmailWithAttach(reservation.getEmail(), "Confirmación de reservación Art City Tour", emailBody, new File(path));
+        }
 
         return objectMapper.writeValueAsString(result);
     }
@@ -94,6 +98,26 @@ public class ReservationService {
     public String getReservationByUser(Long idUser) throws JsonProcessingException {
         List<Reservation> reservations = reservationRepository.getReservationByUser(idUser);
 
+        for(Reservation reservation:reservations) {
+            reservation.setCompanion(companionService.getCompanionByUser(reservation.getId()));
+        }
+
+        return objectMapper.writeValueAsString(reservations);
+    }
+
+    public String getActiveByUser(Long userId) throws JsonProcessingException {
+        Edition edition = editionRepository.getCurrentEdition();
+        List<Reservation> reservations = reservationRepository.getActiveByUser(userId, edition.getDate().toString());
+        for(Reservation reservation:reservations) {
+            reservation.setCompanion(companionService.getCompanionByUser(reservation.getId()));
+        }
+
+        return objectMapper.writeValueAsString(reservations);
+    }
+
+    public String getRecordByUser(Long userId) throws JsonProcessingException {
+        Edition edition = editionRepository.getCurrentEdition();
+        List<Reservation> reservations = reservationRepository.getRecordByUser(userId, edition.getDate().toString());
         for(Reservation reservation:reservations) {
             reservation.setCompanion(companionService.getCompanionByUser(reservation.getId()));
         }

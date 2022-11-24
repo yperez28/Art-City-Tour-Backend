@@ -41,10 +41,20 @@ public class ReservationController {
     }
 
     @CrossOrigin
-    @RequestMapping(value="/getByUser", method = RequestMethod.GET)
+    @RequestMapping(value="/getAllByUser", method = RequestMethod.GET)
     public String getByUser(@RequestParam Long idUser) throws JsonProcessingException {
         return reservationService.getReservationByUser(idUser);
     }
 
+    @CrossOrigin
+    @RequestMapping(value="/getActiveByUSer", method = RequestMethod.GET)
+    public String getActiveByUser(@RequestParam Long userId) throws JsonProcessingException {
+        return reservationService.getActiveByUser(userId);
+    }
 
+    @CrossOrigin
+    @RequestMapping(value="/getRecordByUSer", method = RequestMethod.GET)
+    public String getRecordByUser(@RequestParam Long userId) throws JsonProcessingException {
+        return reservationService.getRecordByUser(userId);
+    }
 }
