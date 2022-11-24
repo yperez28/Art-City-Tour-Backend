@@ -10,7 +10,6 @@ import com.catware.artCityTour.Repository.MembershipRepository;
 import com.catware.artCityTour.Repository.UserRepository;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import org.springframework.beans.factory.FactoryBean;
 import com.google.zxing.WriterException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -46,13 +45,10 @@ public class UserService {
         List<User> users = userRepository.getAll();
         for (User user: users) {
             user.setMemberships(membershipRepository.getMembershipsByUser(user.getId()));
-            List<Itinerary> itineraries = itineraryRepository.getItineraryByUserId(user.getId());
+            Itinerary itinerary = itineraryRepository.getItineraryByUserId(user.getId());
+            itinerary.setEvents(eventRepository.getEventByItinerary(itinerary.getId()));
 
-            for (Itinerary itinerary:itineraries) {
-                itinerary.setEvents(eventRepository.getEventByItinerary(itinerary.getId()));
-            }
-
-            user.setItineraries(itineraries);
+            user.setItinerary(itinerary);
         }
 
         return objectMapper.writeValueAsString(users);
@@ -61,12 +57,9 @@ public class UserService {
     public String getUserById(Long id) throws JsonProcessingException {
         User user = userRepository.getUserById(id);
         user.setMemberships(membershipRepository.getMembershipsByUser(id));
-        List<Itinerary> itineraries = itineraryRepository.getItineraryByUserId(id);
-
-        for (Itinerary itinerary:itineraries) {
-            itinerary.setEvents(eventRepository.getEventByItinerary(itinerary.getId()));
-        }
-        user.setItineraries(itineraries);
+        Itinerary itinerary = itineraryRepository.getItineraryByUserId(user.getId());
+        itinerary.setEvents(eventRepository.getEventByItinerary(itinerary.getId()));
+        user.setItinerary(itinerary);
 
         return objectMapper.writeValueAsString(user);
     }
@@ -75,7 +68,7 @@ public class UserService {
         User user =  objectMapper.readValue(jsonData, User.class);
         user.setPassword(hashingService.hashPass(user.getPassword()));
         if(checkDuplicateEmail(user.getEmail())) {
-            long result = userRepository.saveUser(user.getName(), user.getLastname(), user.getEmail(), user.getPassword(), user.getIdentification(), user.getPhoneNumber(), user.getAddress(), user.getAge());
+            long result = userRepository.saveUser(user.getName(), user.getLastName(), user.getEmail(), user.getPassword(), user.getIdentification(), user.getPhoneNumber(), user.getAddress(), user.getAge());
             if (user.getTypeUser() == null) {
                 user.setTypeUser(TypeUser.NORMAL_USER.getName());
                 userRepository.saveNormalUser(result);
@@ -96,16 +89,14 @@ public class UserService {
         User user =  objectMapper.readValue(jsonData, User.class);
         user.setPassword(hashingService.hashPass(user.getPassword()));
         System.out.println(user.getId());
-        Integer result = userRepository.updateUser(user.getName(), user.getLastname(), user.getEmail(), user.getPassword(), user.getIdentification(), user.getPhoneNumber(), user.getAddress(), user.getAge(), user.getId());
+        Integer result = userRepository.updateUser(user.getName(), user.getLastName(), user.getEmail(), user.getPassword(), user.getIdentification(), user.getPhoneNumber(), user.getAddress(), user.getAge(), user.getId());
         return objectMapper.writeValueAsString(result);
     }
 
     public boolean deleteUser(Long id) throws JsonProcessingException {
         ItineraryRepository itineraryRepository = new ItineraryRepository();
-        List<Itinerary> itineraries =  itineraryRepository.getItineraryByUserId(id);
-        for (Itinerary itinerary:itineraries ) {
-            itineraryRepository.deleteItinerary(itinerary.getId());
-        }
+        Itinerary itinerary =  itineraryRepository.getItineraryByUserId(id);
+        itineraryRepository.deleteItinerary(itinerary.getId());
         Integer result = userRepository.deleteUser(id);
         return result == 1;
     }
@@ -167,7 +158,7 @@ public class UserService {
             List<String> row = new ArrayList<>();
             row.add(String.valueOf(user.getId()));
             row.add(user.getName());
-            row.add(user.getLastname());
+            row.add(user.getLastName());
             row.add(user.getEmail());
             row.add(user.getIdentification());
             row.add(user.getTypeUser());

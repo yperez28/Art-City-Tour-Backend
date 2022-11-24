@@ -94,7 +94,6 @@ public class ItineraryRepository {
             eventStatement.executeUpdate();
 
             Integer result = mainStatement.executeUpdate();
-            connection.close();
 
             return result;
         } catch (SQLException e) {
@@ -120,10 +119,10 @@ public class ItineraryRepository {
         return itinerary;
     }
 
-    public List<Itinerary> getItineraryByUserId(Long userId) {
+    public Itinerary getItineraryByUserId(Long userId) {
         try {
             String query = "SELECT * FROM itinerary WHERE userid = ?";
-            List<Itinerary> itineraries = new ArrayList<>();
+            Itinerary itinerary = new Itinerary();
 
             try {
                 PreparedStatement statement;
@@ -131,19 +130,17 @@ public class ItineraryRepository {
                 statement.setLong(1, userId);
                 ResultSet resultSet = statement.executeQuery();
                 while (resultSet.next()) {
-                    Itinerary itinerary = new Itinerary();
                     itinerary.setId(resultSet.getLong(1));
                     itinerary.setUserId(resultSet.getLong(2));
-                    itineraries.add(itinerary);
                 }
             } catch (SQLException e) {
                 e.printStackTrace();
             }
 
-            return itineraries;
+            return itinerary;
 
         } catch (EmptyResultDataAccessException e) {
-            return new ArrayList<>();
+            throw new RuntimeException(e);
         }
     }
 

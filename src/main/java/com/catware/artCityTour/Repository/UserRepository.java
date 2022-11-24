@@ -30,7 +30,7 @@ public class UserRepository {
 
                     user.setId(resultSet.getLong(1));
                     user.setName(resultSet.getString(2));
-                    user.setLastname(resultSet.getString(3));
+                    user.setLastName(resultSet.getString(3));
                     user.setEmail(resultSet.getString(4));
                     user.setPassword(resultSet.getString(5));
                     user.setIdentification(resultSet.getString(6));
@@ -66,7 +66,7 @@ public class UserRepository {
             while(resultSet.next()) {
                 user.setId(resultSet.getLong(1));
                 user.setName(resultSet.getString(2));
-                user.setLastname(resultSet.getString(3));
+                user.setLastName(resultSet.getString(3));
                 user.setEmail(resultSet.getString(4));
                 user.setPassword(resultSet.getString(5));
                 user.setIdentification(resultSet.getString(6));

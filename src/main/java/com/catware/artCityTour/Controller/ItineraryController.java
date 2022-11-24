@@ -3,7 +3,10 @@ package com.catware.artCityTour.Controller;
 import com.catware.artCityTour.Service.ItineraryService;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 @RestController
 @RequestMapping(value = "/itinerary")
@@ -49,8 +52,8 @@ public class ItineraryController {
     }
 
     @CrossOrigin
-    @RequestMapping(value = "/createEventXItinerary", method = RequestMethod.GET)
-    public String saveEventXItinerary(@RequestParam Long itineraryId, @RequestParam Long eventId) throws JsonProcessingException {
-        return itineraryService.saveEventXItinerary(itineraryId, eventId);
+    @RequestMapping(value = "/createFullItinerary", method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_VALUE)
+    public String saveFullItinerary(@RequestParam Long userId, @RequestBody String jsonData) throws JsonProcessingException {
+        return itineraryService.saveFullItinerary(userId, jsonData);
     }
 }

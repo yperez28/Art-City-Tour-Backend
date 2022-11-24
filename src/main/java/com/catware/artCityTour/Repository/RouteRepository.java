@@ -30,6 +30,8 @@ public class RouteRepository {
                     route.setId(resultSet.getLong(1));
                     route.setName(resultSet.getString(2));
                     route.setEditionId(resultSet.getLong(3));
+                    route.setImageId(resultSet.getLong(4));
+
                     resultArray.add(route);
                 }
             } catch (SQLException e) {
@@ -55,6 +57,9 @@ public class RouteRepository {
                     Route route = new Route();
                     route.setId(resultSet.getLong(1));
                     route.setName(resultSet.getString(2));
+                    route.setEditionId(resultSet.getLong(3));
+                    route.setImageId(resultSet.getLong(4));
+
                     resultArray.add(route);
                 }
             } catch (SQLException e) {
@@ -73,12 +78,14 @@ public class RouteRepository {
             List<Route> resultArray = new ArrayList<>();
             try {
                 statement = connection.prepareStatement(query);
-                connection.prepareStatement(query);
                 ResultSet resultSet = statement.executeQuery();
                 while(resultSet.next()) {
                     Route route = new Route();
                     route.setId(resultSet.getLong(1));
                     route.setName(resultSet.getString(2));
+                    route.setEditionId(resultSet.getLong(3));
+                    route.setImageId(resultSet.getLong(4));
+
                     resultArray.add(route);
                 }
             } catch (SQLException e) {

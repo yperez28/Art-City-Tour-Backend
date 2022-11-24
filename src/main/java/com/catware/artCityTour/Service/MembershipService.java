@@ -64,4 +64,13 @@ public class MembershipService {
 
         return objectMapper.writeValueAsString(result);
     }
+
+    public String getMembershipByUser(Long userId) throws JsonProcessingException {
+        List<Membership> membership = membershipRepository.getMembershipsByUser(userId);
+        for (Membership mem:membership) {
+            mem.setPhoto(imageService.getImageById(mem.getImageId()));
+        }
+
+        return objectMapper.writeValueAsString(membership);
+    }
 }

@@ -1,6 +1,7 @@
 package com.catware.artCityTour.Service;
 
 import com.catware.artCityTour.Model.Grid;
+import com.catware.artCityTour.Model.News;
 import com.catware.artCityTour.Model.Place;
 import com.catware.artCityTour.Model.Sponsor;
 import com.catware.artCityTour.Repository.PlaceRepository;
@@ -20,6 +21,14 @@ public class PlaceService {
     private ImageService imageService;
     @Autowired
     private ObjectMapper objectMapper;
+
+    public String getAll() throws JsonProcessingException {
+        List<Place> places = placeRepository.getAllPlaces();
+        for (Place place: places){
+            place.setImage(imageService.getImageById(place.getImageId()));
+        }
+        return objectMapper.writeValueAsString(places);
+    }
 
     public List<Place> getPlaceByRouteId(Long routeId){
         List<Place> places = placeRepository.getPlacesByRoute(routeId);
@@ -80,6 +89,15 @@ public class PlaceService {
             placeRepository.deletePlaceRoutesById(id);
         }
         return placeRepository.deletePlaceById(valueId) == 1;
+    }
+
+    public String getAllCategory(String category) throws JsonProcessingException {
+        List<Place> bar = placeRepository.getAllCategory(category);
+        for (Place place: bar) {
+            place.setImage(imageService.getImageById(place.getImageId()));
+        }
+
+        return objectMapper.writeValueAsString(bar);
     }
 
     public String getPlaceByIdStr(Long id) throws JsonProcessingException {

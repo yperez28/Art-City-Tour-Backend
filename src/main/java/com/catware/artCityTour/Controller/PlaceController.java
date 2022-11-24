@@ -14,14 +14,26 @@ public class PlaceController {
     private PlaceService placeService;
 
     @CrossOrigin
+    @RequestMapping(value = "/getAll", method = RequestMethod.GET)
+    public String getEdition() throws JsonProcessingException {
+        return placeService.getAll();
+    }
+    @CrossOrigin
     @RequestMapping(value = "/create", method = RequestMethod.GET)
     public String createPlace(@RequestBody String jsonData) throws JsonProcessingException {
         return placeService.createPlace(jsonData);
     }
+
     @CrossOrigin
     @RequestMapping(value = "/update", method = RequestMethod.POST)
     public String updatePlace(@RequestBody String jsonData) throws JsonProcessingException {
         return placeService.updatePlace(jsonData);
+    }
+
+    @CrossOrigin
+    @RequestMapping(value="/getAllCategory", method = RequestMethod.GET)
+    public String getAllCategory(@RequestParam String category) throws JsonProcessingException {
+        return placeService.getAllCategory(category);
     }
 
     @CrossOrigin

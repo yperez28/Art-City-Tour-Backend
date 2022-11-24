@@ -1,5 +1,6 @@
 package com.catware.artCityTour.Service;
 
+import com.catware.artCityTour.Model.Event;
 import com.catware.artCityTour.Model.Itinerary;
 import com.catware.artCityTour.Repository.EventRepository;
 import com.catware.artCityTour.Repository.ItineraryRepository;
@@ -57,16 +58,27 @@ public class ItineraryService {
     }
 
     public String getItineraryByUserId(Long userId) throws JsonProcessingException {
-        List<Itinerary> itineraries = itineraryRepository.getItineraryByUserId(userId);
-        for (Itinerary itinerary : itineraries) {
-            itinerary.setEvents(eventRepository.getEventByItinerary(itinerary.getId()));
-        }
+        Itinerary itinerary = itineraryRepository.getItineraryByUserId(userId);
+        itinerary.setEvents(eventRepository.getEventByItinerary(itinerary.getId()));
 
-        return objectMapper.writeValueAsString(itineraries);
+        return objectMapper.writeValueAsString(itinerary);
     }
 
     public String saveEventXItinerary(Long itineraryId, Long eventId) throws JsonProcessingException {
         Integer result = itineraryRepository.saveEventXItinerary(itineraryId, eventId);
+
+        return objectMapper.writeValueAsString(result);
+    }
+
+    public String saveFullItinerary(Long userId, String jsonData) throws JsonProcessingException {
+        Event[] events = objectMapper.readValue(jsonData, Event[].class);
+        Itinerary itinerary = itineraryRepository.getItineraryByUserId(userId);
+        itineraryRepository.deleteItinerary(itinerary.getId());
+        Long idItinerary = itineraryRepository.saveItinerary(userId);
+        Integer result = null;
+        for (Event event : events) {
+            result = itineraryRepository.saveEventXItinerary(idItinerary, event.getId());
+        }
 
         return objectMapper.writeValueAsString(result);
     }
