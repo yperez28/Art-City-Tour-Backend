@@ -77,7 +77,7 @@ public class SponsorService {
         return rows;
     }
 
-    private List<Sponsor> getAllSponsors() {
+    public List<Sponsor> getAllSponsors() {
         List<Sponsor> sponsors = sponsorRepository.getAllSponsors();
         sponsors.forEach(s -> s.setImage(imageService.getImageById(s.getImageId())));
         return sponsors;

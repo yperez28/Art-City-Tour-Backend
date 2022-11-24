@@ -3,6 +3,7 @@ package com.catware.artCityTour.Controller;
 import com.catware.artCityTour.Model.Sponsor;
 import com.catware.artCityTour.Service.SponsorService;
 import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.*;
@@ -13,6 +14,9 @@ public class SponsorController {
 
     @Autowired
     private SponsorService sponsorService;
+
+    @Autowired
+    private ObjectMapper objectMapper;
 
     @CrossOrigin
     @RequestMapping(value = "/create", method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_VALUE)
@@ -35,6 +39,12 @@ public class SponsorController {
     @RequestMapping(value = "/getById", method = RequestMethod.GET)
     public Sponsor getSponsorById(@RequestParam Long id) throws JsonProcessingException {
         return sponsorService.getSponsorById(id);
+    }
+
+    @CrossOrigin
+    @RequestMapping(value = "/getAll", method = RequestMethod.GET)
+    public String getAll() throws JsonProcessingException {
+        return objectMapper.writeValueAsString(sponsorService.getAllSponsors());
     }
 
 
