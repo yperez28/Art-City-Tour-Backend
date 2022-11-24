@@ -15,7 +15,7 @@ public class EditionRepository {
     private final Connection connection = DBCConnection.getConnection();
     public List<Edition> getAll(){
         try {
-            String query = "SELECT * FROM edition";
+            String query = "SELECT * FROM edition ORDER BY date";
             PreparedStatement statement;
             List<Edition> editions = new ArrayList<>();
 
