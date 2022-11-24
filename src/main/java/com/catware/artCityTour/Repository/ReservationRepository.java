@@ -240,7 +240,6 @@ public class ReservationRepository {
                 reservation.setDate(resultSet.getString(10));
                 reservation.setEditionId(resultSet.getLong(11));
                 reservation.setUserId(resultSet.getLong(12));
-                reservation.setPlace(placeRepository.getPlaceByEvent(reservation.getPlaceId()));
 
                 reservations.add(reservation);
             }
