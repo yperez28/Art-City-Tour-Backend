@@ -83,6 +83,7 @@ public class ReservationRepository {
                     reservation.setEmail(resultSet.getString(7));
                     reservation.setPhoneNumber(resultSet.getString(8));
                     reservation.setIsFirstTime(resultSet.getBoolean(9));
+                    reservation.setEditionId(resultSet.getLong(10));
 
                     reservations.add(reservation);
                 }
@@ -170,7 +171,75 @@ public class ReservationRepository {
                 reservation.setEmail(resultSet.getString(7));
                 reservation.setPhoneNumber(resultSet.getString(8));
                 reservation.setIsFirstTime(resultSet.getBoolean(9));
-                reservation.setUserId(resultSet.getLong(10));
+                reservation.setDate(resultSet.getString(10));
+                reservation.setUserId(resultSet.getLong(12));
+
+                reservations.add(reservation);
+            }
+
+            return reservations;
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    public List<Reservation> getActiveByUser(Long userId, String date) {
+        try {
+            String query = "SELECT * FROM reservation INNER JOIN reservationxuser ON reservation.id = reservationxuser.reservation_id WHERE reservationxuser.user_id = ? AND ? = date";
+            List<Reservation> reservations = new ArrayList<>();
+            PreparedStatement statement = connection.prepareStatement(query);
+            statement.setLong(1, userId);
+            statement.setString(2, date);
+            ResultSet resultSet = statement.executeQuery();
+
+            while(resultSet.next()) {
+                Reservation reservation = new Reservation();
+                reservation.setId(resultSet.getLong(1));
+                reservation.setPlaceId(resultSet.getLong(2));
+                reservation.setIdentification(resultSet.getString(3));
+                reservation.setAge(resultSet.getString(4));
+                reservation.setName(resultSet.getString(5));
+                reservation.setLastName(resultSet.getString(6));
+                reservation.setEmail(resultSet.getString(7));
+                reservation.setPhoneNumber(resultSet.getString(8));
+                reservation.setIsFirstTime(resultSet.getBoolean(9));
+                reservation.setDate(resultSet.getString(10));
+                reservation.setUserId(resultSet.getLong(12));
+
+                reservations.add(reservation);
+            }
+
+            return reservations;
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    public List<Reservation> getRecordByUser(Long userId, String date) {
+        try {
+            String query = "SELECT * FROM reservation INNER JOIN reservationxuser ON reservation.id = reservationxuser.reservation_id WHERE reservationxuser.user_id = ? AND ? != date";
+            List<Reservation> reservations = new ArrayList<>();
+            PreparedStatement statement = connection.prepareStatement(query);
+            statement.setLong(1, userId);
+            statement.setString(2, date);
+            ResultSet resultSet = statement.executeQuery();
+
+
+            while(resultSet.next()) {
+                Reservation reservation = new Reservation();
+                PlaceRepository placeRepository = new PlaceRepository();
+                reservation.setId(resultSet.getLong(1));
+                reservation.setPlaceId(resultSet.getLong(2));
+                reservation.setIdentification(resultSet.getString(3));
+                reservation.setAge(resultSet.getString(4));
+                reservation.setName(resultSet.getString(5));
+                reservation.setLastName(resultSet.getString(6));
+                reservation.setEmail(resultSet.getString(7));
+                reservation.setPhoneNumber(resultSet.getString(8));
+                reservation.setIsFirstTime(resultSet.getBoolean(9));
+                reservation.setDate(resultSet.getString(10));
+                reservation.setEditionId(resultSet.getLong(11));
+                reservation.setUserId(resultSet.getLong(12));
 
                 reservations.add(reservation);
             }

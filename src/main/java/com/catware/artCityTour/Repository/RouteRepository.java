@@ -19,7 +19,7 @@ public class RouteRepository {
 
     public List<Route> getAll(){
         try {
-            String query = "SELECT * FROM route";
+            String query = "SELECT * FROM route ORDER BY id";
             PreparedStatement statement;
             List<Route> resultArray = new ArrayList<>();
             try {

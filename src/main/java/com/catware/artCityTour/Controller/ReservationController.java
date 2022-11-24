@@ -4,6 +4,7 @@ import com.catware.artCityTour.Service.ReservationService;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.google.zxing.WriterException;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.*;
 
 import javax.mail.MessagingException;
@@ -17,7 +18,7 @@ public class ReservationController {
     private ReservationService reservationService;
 
     @CrossOrigin
-    @RequestMapping(value="/create", method= RequestMethod.GET)
+    @RequestMapping(value="/create", method= RequestMethod.POST, produces = MediaType.APPLICATION_JSON_VALUE)
     public String createReservation(@RequestBody String jsonData) throws IOException, WriterException, MessagingException {
         return reservationService.saveReservation(jsonData);
     }
@@ -29,7 +30,7 @@ public class ReservationController {
     }
 
     @CrossOrigin
-    @RequestMapping(value="/update", method = RequestMethod.GET)
+    @RequestMapping(value="/update", method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_VALUE)
     public String updateReservation(@RequestBody String jsonData) throws JsonProcessingException {
         return reservationService.updateReservation(jsonData);
     }
@@ -41,10 +42,20 @@ public class ReservationController {
     }
 
     @CrossOrigin
-    @RequestMapping(value="/getByUser", method = RequestMethod.GET)
+    @RequestMapping(value="/getAllByUser", method = RequestMethod.GET)
     public String getByUser(@RequestParam Long idUser) throws JsonProcessingException {
         return reservationService.getReservationByUser(idUser);
     }
 
+    @CrossOrigin
+    @RequestMapping(value="/getActiveByUser", method = RequestMethod.GET)
+    public String getActiveByUser(@RequestParam Long userId) throws JsonProcessingException {
+        return reservationService.getActiveByUser(userId);
+    }
 
+    @CrossOrigin
+    @RequestMapping(value="/getRecordByUser", method = RequestMethod.GET)
+    public String getRecordByUser(@RequestParam Long userId) throws JsonProcessingException {
+        return reservationService.getRecordByUser(userId);
+    }
 }
