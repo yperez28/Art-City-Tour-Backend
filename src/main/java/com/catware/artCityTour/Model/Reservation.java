@@ -19,10 +19,11 @@ public class Reservation {
     private Boolean isFirstTime;
     private Long placeId;
     private Long userId;
+    private String date;
     private List<Companion> companion;
 
     public Reservation(Long id, String identification, String age, String name, String lastName, String email,
-                       String phoneNumber, Boolean isFirstTime, Long placeId, Long userId, List<Companion> companion) {
+                       String phoneNumber, Boolean isFirstTime, Long placeId, Long userId, String date, List<Companion> companion) {
         this.id = id;
         this.identification = identification;
         this.age = age;
@@ -33,6 +34,7 @@ public class Reservation {
         this.isFirstTime = isFirstTime;
         this.placeId = placeId;
         this.userId = userId;
+        this.date = date;
         this.companion = companion;
     }
 
