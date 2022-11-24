@@ -32,6 +32,10 @@ public class PlaceRepository {
                 place.setImageId(placeResult.getLong(4));
                 place.setLatitude(placeResult.getDouble(5));
                 place.setLongitude(placeResult.getDouble(6));
+                place.setCategory(placeResult.getString(7));
+                place.setPriceRange(placeResult.getLong(8));
+                place.setScore(placeResult.getLong(9));
+                place.setLink(placeResult.getString(10));
             }
             return place;
         } catch (SQLException e) {
@@ -56,6 +60,10 @@ public class PlaceRepository {
                     place.setImageId(resultSet.getLong(4));
                     place.setLatitude(resultSet.getDouble(5));
                     place.setLongitude(resultSet.getDouble(6));
+                    place.setCategory(resultSet.getString(7));
+                    place.setPriceRange(resultSet.getLong(8));
+                    place.setScore(resultSet.getLong(9));
+                    place.setLink(resultSet.getString(10));
                     resultArray.add(place);
                 }
             } catch (SQLException e) {
@@ -113,6 +121,10 @@ public class PlaceRepository {
                 place.setImageId(placeResult.getLong(4));
                 place.setLatitude(placeResult.getDouble(5));
                 place.setLongitude(placeResult.getDouble(6));
+                place.setCategory(placeResult.getString(7));
+                place.setPriceRange(placeResult.getLong(8));
+                place.setScore(placeResult.getLong(9));
+                place.setLink(placeResult.getString(10));
                 places.add(place);
             }
             return places;
