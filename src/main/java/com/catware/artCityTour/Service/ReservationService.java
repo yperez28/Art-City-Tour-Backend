@@ -4,6 +4,7 @@ import com.catware.artCityTour.Model.Companion;
 import com.catware.artCityTour.Model.Edition;
 import com.catware.artCityTour.Model.Reservation;
 import com.catware.artCityTour.Repository.EditionRepository;
+import com.catware.artCityTour.Repository.PlaceRepository;
 import com.catware.artCityTour.Repository.ReservationRepository;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -32,6 +33,8 @@ public class ReservationService {
     private QRCodeService qrCodeService;
     @Autowired
     private EditionRepository editionRepository;
+    @Autowired
+    private PlaceRepository placeRepository;
 
     public String saveReservation(String jsonData) throws IOException, WriterException, MessagingException {
         Reservation reservation = objectMapper.readValue(jsonData, Reservation.class);
@@ -60,11 +63,9 @@ public class ReservationService {
 
     public String getAll() throws  JsonProcessingException {
         List<Reservation> reservations = reservationRepository.getAll();
-
         for(Reservation reservation:reservations) {
             reservation.setCompanion(companionService.getCompanionByUser(reservation.getId()));
         }
-
         return objectMapper.writeValueAsString(reservations);
     }
 
@@ -120,6 +121,8 @@ public class ReservationService {
         List<Reservation> reservations = reservationRepository.getRecordByUser(userId, edition.getDate().toString());
         for(Reservation reservation:reservations) {
             reservation.setCompanion(companionService.getCompanionByUser(reservation.getId()));
+            reservation.setEditionName(editionRepository.getEditionById(reservation.getEditionId()).getName());
+            reservation.setPuntoInicial(placeRepository.getPlaceById(reservation.getPlaceId()).getName());
         }
 
         return objectMapper.writeValueAsString(reservations);

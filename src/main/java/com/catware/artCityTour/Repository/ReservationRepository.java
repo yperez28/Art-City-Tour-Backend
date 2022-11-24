@@ -83,6 +83,7 @@ public class ReservationRepository {
                     reservation.setEmail(resultSet.getString(7));
                     reservation.setPhoneNumber(resultSet.getString(8));
                     reservation.setIsFirstTime(resultSet.getBoolean(9));
+                    reservation.setEditionId(resultSet.getLong(10));
 
                     reservations.add(reservation);
                 }
@@ -235,6 +236,7 @@ public class ReservationRepository {
                 reservation.setPhoneNumber(resultSet.getString(8));
                 reservation.setIsFirstTime(resultSet.getBoolean(9));
                 reservation.setDate(resultSet.getString(10));
+                reservation.setEditionId(resultSet.getLong(11));
                 reservation.setUserId(resultSet.getLong(12));
 
                 reservations.add(reservation);
