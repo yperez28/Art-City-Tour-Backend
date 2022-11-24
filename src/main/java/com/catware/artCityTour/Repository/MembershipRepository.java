@@ -78,7 +78,7 @@ public class MembershipRepository {
                     membership.setId(resultSet.getLong(1));
                     membership.setName(resultSet.getString(2));
                     membership.setDetails(resultSet.getString(3));
-                    membership.setPrice(resultSet.getInt(4));
+                    membership.setPrice(resultSet.getDouble(4));
                     membership.setImageId(resultSet.getLong(5));
 
                     memberships.add(membership);
