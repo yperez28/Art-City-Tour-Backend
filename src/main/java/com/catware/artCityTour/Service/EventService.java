@@ -24,6 +24,7 @@ public class EventService {
 
     @Autowired
     private PlaceService placeService;
+
     public List<Event> getEventByItinerary(Long itineraryId) throws JsonProcessingException {
         List<Event> events = eventRepository.getEventByItinerary(itineraryId);
         for (Event event: events){
@@ -65,4 +66,7 @@ public class EventService {
         return events;
     }
 
+    public boolean deleteEvent(Long valueId) {
+        return eventRepository.deleteEventById(valueId);
+    }
 }

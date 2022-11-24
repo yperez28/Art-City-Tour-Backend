@@ -60,12 +60,11 @@ public class SponsorRepository {
     }
 
     public int updateSponsor(Long sponsorId, String sponsorName, Long ImageId){
-        String query = "UPDATE sponsor set name = ?, image_id = ? WHERE id = ?";
+        String query = "UPDATE sponsor set name = ? WHERE id = ?";
         try {
             PreparedStatement statement = connection.prepareStatement(query);
             statement.setString(1, sponsorName);
-            statement.setLong(2, ImageId);
-            statement.setLong(3, sponsorId);
+            statement.setLong(2, sponsorId);
             return statement.executeUpdate();
         } catch (SQLException e) {
             throw new RuntimeException(e);
@@ -148,6 +147,24 @@ public class SponsorRepository {
             PreparedStatement statement  = connection.prepareStatement(query);
             statement.setLong(1, valueId);
             return statement.executeUpdate();
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    public Sponsor getSponsorById(Long id) {
+        String query = "SELECT * FROM sponsor WHERE id = ?";
+        Sponsor sponsor = new Sponsor();
+        try {
+            PreparedStatement statement = connection.prepareStatement(query);
+            statement.setLong(1, id);
+            ResultSet resultSet = statement.executeQuery();
+            while (resultSet.next()){
+                sponsor.setId(resultSet.getLong(1));
+                sponsor.setName(resultSet.getString(2));
+                sponsor.setImageId(resultSet.getLong(3));
+            }
+            return sponsor;
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }

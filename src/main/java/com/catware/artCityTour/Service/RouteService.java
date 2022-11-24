@@ -30,7 +30,6 @@ public class RouteService {
         List<Route> routes = routeRepository.getAll();
         for (Route route : routes) {
             route.setPlaces(placeService.getPlaceByRouteId(route.getId()));
-            route.setImage(imageService.getImageById(route.getImageId()));
         }
         return objectMapper.writeValueAsString(routes);
     }
@@ -47,15 +46,14 @@ public class RouteService {
         return objectMapper.writeValueAsString(route);
     }
 
-    public String deleteRoute(Long id) throws JsonProcessingException {
+    public boolean deleteRoute(Long id) throws JsonProcessingException {
         Integer result = routeRepository.deleteRoute(id);
-        return objectMapper.writeValueAsString(result);
+        return result == 1;
     }
 
     public String getRouteById(Long id) throws JsonProcessingException {
         Route route = routeRepository.getRouteById(id);
         route.setPlaces(placeService.getPlaceByRouteId(route.getId()));
-        route.setImage(imageService.getImageById(route.getImageId()));
         return objectMapper.writeValueAsString(route);
     }
 
@@ -63,7 +61,6 @@ public class RouteService {
         List<Route> routes = routeRepository.getRouteByCurrentEdition();
         for (Route route : routes) {
             route.setPlaces(placeService.getPlaceByRouteId(route.getId()));
-            route.setImage(imageService.getImageById(route.getImageId()));
         }
         return objectMapper.writeValueAsString(routes);
     }
@@ -72,7 +69,6 @@ public class RouteService {
         List<Route> routes = routeRepository.getRouteByEdition(editionId);
         for (Route route : routes) {
             route.setPlaces(placeService.getPlaceByRouteId(route.getId()));
-            route.setImage(imageService.getImageById(route.getImageId()));
         }
         return routes;
     }

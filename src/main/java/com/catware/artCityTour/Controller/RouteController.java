@@ -3,6 +3,7 @@ package com.catware.artCityTour.Controller;
 import com.catware.artCityTour.Service.MembershipService;
 import com.catware.artCityTour.Service.RouteService;
 import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -11,7 +12,10 @@ import org.springframework.web.bind.annotation.*;
 public class RouteController {
 
     @Autowired
-    RouteService routeService;
+    private RouteService routeService;
+
+    @Autowired
+    private ObjectMapper objectMapper;
 
     @CrossOrigin
     @RequestMapping(value="/create", method = RequestMethod.GET)
@@ -26,6 +30,12 @@ public class RouteController {
     }
 
     @CrossOrigin
+    @RequestMapping(value = "/getRoutesByEditionId", method = RequestMethod.GET)
+    public String getRoutesByEditionId(@RequestParam Long id) throws JsonProcessingException {
+        return objectMapper.writeValueAsString(routeService.getRouteByEdition(id));
+    }
+
+    @CrossOrigin
     @RequestMapping(value = "/update", method = RequestMethod.GET)
     public String updateRoute(@RequestBody String jsonData) throws JsonProcessingException {
         return routeService.updateRoute(jsonData);
@@ -33,7 +43,7 @@ public class RouteController {
 
     @CrossOrigin
     @RequestMapping(value = "/delete", method = RequestMethod.GET)
-    public String deleteUser(@RequestParam Long id) throws JsonProcessingException {
+    public boolean deleteUser(@RequestParam Long id) throws JsonProcessingException {
         return routeService.deleteRoute(id);
     }
 

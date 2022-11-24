@@ -77,7 +77,7 @@ public class SponsorService {
         return rows;
     }
 
-    private List<Sponsor> getAllSponsors() {
+    public List<Sponsor> getAllSponsors() {
         List<Sponsor> sponsors = sponsorRepository.getAllSponsors();
         sponsors.forEach(s -> s.setImage(imageService.getImageById(s.getImageId())));
         return sponsors;
@@ -89,5 +89,11 @@ public class SponsorService {
             sponsorRepository.deleteSponsorXEditionById(id);
         }
         return sponsorRepository.deleteSponsorById(valueId) == 1;
+    }
+
+    public Sponsor getSponsorById(Long id) {
+        Sponsor sponsor = sponsorRepository.getSponsorById(id);
+        sponsor.setImage(imageService.getImageById(sponsor.getImageId()));
+        return sponsor;
     }
 }

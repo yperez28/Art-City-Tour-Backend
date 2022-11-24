@@ -27,7 +27,8 @@ public class ImageService {
     }
 
     public Long createImage(Image image){
-        return imageRepository.createImage(image.getName(), image.getDrivePath());
+        String drivePath = getLinkToSaveInDB(image.getDrivePath());
+        return imageRepository.createImage(image.getName(), drivePath);
     }
 
     public int updateImage(Image image){
@@ -62,5 +63,12 @@ public class ImageService {
             default:
                 return "Not Image Found";
         }
+    }
+
+    public String getLinkToSaveInDB(String googleDriveShareLink){
+        System.out.println(googleDriveShareLink + " link");
+        String[] imgLinkSplit = googleDriveShareLink.split("/");
+        String id = imgLinkSplit[imgLinkSplit.length-2];
+        return "https://drive.google.com/uc?id=" + id;
     }
 }

@@ -3,8 +3,6 @@ package com.catware.artCityTour.Repository;
 
 import com.catware.artCityTour.Conection.DBCConnection;
 import com.catware.artCityTour.Model.Event;
-import com.catware.artCityTour.Model.Itinerary;
-import com.catware.artCityTour.Model.Place;
 import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.stereotype.Repository;
 
@@ -73,6 +71,26 @@ public class EventRepository {
             return events;
         } catch (EmptyResultDataAccessException e) {
             return new ArrayList<>();
+        }
+    }
+
+    public boolean deleteEventById(Long valueId) {
+        try {
+            String placeQuery = "DELETE FROM eventxitinerary WHERE eventid=?";
+            String mainQuery = "DELETE FROM place WHERE id=?";
+            PreparedStatement placeStatement = connection.prepareStatement(placeQuery);
+            PreparedStatement mainStatement = connection.prepareStatement(mainQuery);
+
+            placeStatement.setLong(1, valueId);
+            mainStatement.setLong(1, valueId);
+
+            placeStatement.executeUpdate();
+            Integer result = mainStatement.executeUpdate();
+            connection.close();
+
+            return result == 1;
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
         }
     }
 }

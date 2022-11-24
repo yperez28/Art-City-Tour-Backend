@@ -15,6 +15,10 @@ import java.util.*;
 @Service
 public class PlaceService {
 
+    private final String BAR = "Bar";
+    private final String RESTAURANTE = "Restaurante";
+    private final String ENTRETENIMIENTO = "Entretenimiento";
+
     @Autowired
     private PlaceRepository placeRepository;
     @Autowired
@@ -102,5 +106,9 @@ public class PlaceService {
 
     public String getPlaceByIdStr(Long id) throws JsonProcessingException {
         return objectMapper.writeValueAsString(getPlaceById(id));
+    }
+
+    public List<String> getCategories() {
+        return Arrays.asList(BAR, RESTAURANTE, ENTRETENIMIENTO);
     }
 }

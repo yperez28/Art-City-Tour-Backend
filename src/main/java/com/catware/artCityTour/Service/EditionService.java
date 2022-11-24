@@ -123,10 +123,20 @@ public class EditionService {
             row.add(edition.getDetails());
             row.add(String.valueOf(edition.getDate()));
             row.add(getSponsors(edition));
+            row.add(getRoutes(edition.getId()));
             row.add(edition.getCurrent() ? "Si" : "No");
             rows.add(row);
         }
         return rows;
+    }
+
+    private String getRoutes(Long id) {
+        String routes = "";
+        List<Route> routesByEdition = routeService.getRouteByEdition(id);
+        for(Route route : routesByEdition){
+            routes = routes + route.getName() + ", ";
+        }
+        return routes;
     }
 
     private List<Edition> getAllEditions() {
@@ -150,6 +160,6 @@ public class EditionService {
     }
 
     private List<String> getColumns() {
-        return Arrays.asList("ID", "Nombre", "Detalles", "Fecha", "Patrocinadores", "Actual");
+        return Arrays.asList("ID", "Nombre", "Detalles", "Fecha", "Patrocinadores", "Rutas", "Actual");
     }
 }
