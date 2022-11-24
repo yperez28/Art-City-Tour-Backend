@@ -224,8 +224,10 @@ public class ReservationRepository {
             statement.setString(2, date);
             ResultSet resultSet = statement.executeQuery();
 
+
             while(resultSet.next()) {
                 Reservation reservation = new Reservation();
+                PlaceRepository placeRepository = new PlaceRepository();
                 reservation.setId(resultSet.getLong(1));
                 reservation.setPlaceId(resultSet.getLong(2));
                 reservation.setIdentification(resultSet.getString(3));
@@ -238,6 +240,7 @@ public class ReservationRepository {
                 reservation.setDate(resultSet.getString(10));
                 reservation.setEditionId(resultSet.getLong(11));
                 reservation.setUserId(resultSet.getLong(12));
+                reservation.setPlace(placeRepository.getPlaceByEvent(reservation.getPlaceId()));
 
                 reservations.add(reservation);
             }
