@@ -18,7 +18,7 @@ public class ReservationController {
     private ReservationService reservationService;
 
     @CrossOrigin
-    @RequestMapping(value="/create", method= RequestMethod.GET)
+    @RequestMapping(value="/create", method= RequestMethod.POST, produces = MediaType.APPLICATION_JSON_VALUE)
     public String createReservation(@RequestBody String jsonData) throws IOException, WriterException, MessagingException {
         return reservationService.saveReservation(jsonData);
     }

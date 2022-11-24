@@ -40,10 +40,10 @@ public class ReservationService {
         Reservation reservation = objectMapper.readValue(jsonData, Reservation.class);
         List<Long> companionIds = new ArrayList<>();
         for (Companion companion:reservation.getCompanion()) {
-            Long id = companionService.saveCompanion(companion.getIdentification(), companion.getAge(),
-                    companion.getName(), companion.getLastName());
+            Long id = companionService.saveCompanion(companion.getIdentification(), companion.getAge(), companion.getName(), companion.getLastName());
             companionIds.add(id);
         }
+        reservation.setDate(editionRepository.getCurrentEdition().getDate().toString());
         Integer result = reservationRepository.saveReservation(reservation.getPlaceId(), reservation.getIdentification(),
                 reservation.getAge(), reservation.getName(), reservation.getLastName(), reservation.getEmail(),
                 reservation.getPhoneNumber(), reservation.getIsFirstTime(), reservation.getUserId(), companionIds);
