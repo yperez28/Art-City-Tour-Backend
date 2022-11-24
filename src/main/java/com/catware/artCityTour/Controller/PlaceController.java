@@ -7,6 +7,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+
 @RestController()
 @RequestMapping(value = "/places")
 public class PlaceController {
@@ -42,5 +44,11 @@ public class PlaceController {
     @RequestMapping(value = "/getById", method = RequestMethod.GET)
     public String getPlaceById(@RequestParam Long id) throws JsonProcessingException {
         return placeService.getPlaceByIdStr(id);
+    }
+
+    @CrossOrigin
+    @RequestMapping(value = "/getCategories", method = RequestMethod.GET)
+    public List<String> getCategories() throws JsonProcessingException {
+        return placeService.getCategories();
     }
 }
