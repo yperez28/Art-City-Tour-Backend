@@ -144,6 +144,26 @@ public class ItineraryRepository {
         }
     }
 
+    public Integer verifyUserItinerary(Long userId) {
+        try {
+            String query = "SELECT COUNT(id) FROM itinerary WHERE userid = ?";
+            try {
+                PreparedStatement statement;
+                statement = connection.prepareStatement(query);
+                statement.setLong(1, userId);
+                ResultSet resultSet = statement.executeQuery();
+                while (resultSet.next()) {
+                    return resultSet.getInt(1);
+                }
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+            return 0;
+        } catch (EmptyResultDataAccessException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
     public Integer saveEventXItinerary(Long itineraryId, Long eventId) {
         try {
             String query = "INSERT INTO eventxitinerary (itineraryid, eventid) VALUES (?, ?)";

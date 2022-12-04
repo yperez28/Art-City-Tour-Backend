@@ -30,7 +30,7 @@ public class UserController {
     }
 
     @CrossOrigin
-    @RequestMapping(value = "/update", method = RequestMethod.GET)
+    @RequestMapping(value = "/update", method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_VALUE)
     public String updateUser(@RequestBody String jsonData) throws JsonProcessingException {
         return userService.updateUser(jsonData);
     }
