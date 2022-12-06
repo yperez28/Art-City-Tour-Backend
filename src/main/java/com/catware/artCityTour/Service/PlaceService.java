@@ -61,7 +61,7 @@ public class PlaceService {
     public String updatePlace(String jsonData) throws JsonProcessingException {
         Place place = objectMapper.readValue(jsonData, Place.class);
         imageService.updateImage(place.getImage());
-        int result = placeRepository.updatePlace(place.getId(), place.getName(), place.getDetails(), place.getImageId(), place.getLatitude(), place.getLongitude());
+        int result = placeRepository.updatePlace(place.getId(), place.getName(), place.getDetails(), place.getImageId(), place.getLatitude(), place.getLongitude(), place.getCategory(), place.getLink(), place.getPriceRange(), place.getScore());
         if (result > 0) {
             return objectMapper.writeValueAsString(place);
         }

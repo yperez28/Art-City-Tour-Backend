@@ -32,6 +32,12 @@ public class ImageService {
     }
 
     public int updateImage(Image image){
+
+        Image current = imageRepository.getImageById(image.getImageId());
+        if (!current.getDrivePath().equals(image.getDrivePath())){
+            String link = getLinkToSaveInDB(image.getDrivePath());
+            image.setDrivePath(link);
+        }
         return imageRepository.updateImage(image.getImageId(), image.getName(), image.getDrivePath());
     }
 
