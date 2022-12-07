@@ -24,7 +24,6 @@ public class PlaceController {
     @CrossOrigin
     @RequestMapping(value = "/create", method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_VALUE)
     public String createPlace(@RequestBody String jsonData) throws JsonProcessingException {
-        System.out.println("json " + jsonData);
         return placeService.createPlace(jsonData);
     }
 

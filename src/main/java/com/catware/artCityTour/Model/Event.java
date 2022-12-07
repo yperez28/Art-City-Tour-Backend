@@ -10,12 +10,12 @@ import java.time.LocalTime;
 public class Event {
 
     private Long id;
-    private LocalTime startHour;
-    private LocalTime endHour;
+    private String startHour;
+    private String endHour;
     private Place place;
     private Long placeId;
 
-    public Event(Long id, LocalTime startHour, LocalTime endHour, Place place, Long placeId) {
+    public Event(Long id, String startHour, String endHour, Place place, Long placeId) {
         this.id = id;
         this.startHour = startHour;
         this.endHour = endHour;

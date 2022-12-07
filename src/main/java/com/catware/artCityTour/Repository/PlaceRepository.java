@@ -34,8 +34,10 @@ public class PlaceRepository {
                 place.setLongitude(placeResult.getDouble(6));
                 place.setCategory(placeResult.getString(7));
                 place.setPriceRange(placeResult.getLong(8));
-                place.setScore(placeResult.getLong(9));
-                place.setLink(placeResult.getString(10));
+                place.setLink(placeResult.getString(9));
+                place.setReservationId(placeResult.getLong(10));
+                place.setScore(placeResult.getLong(11));
+
             }
             return place;
         } catch (SQLException e) {
@@ -62,8 +64,9 @@ public class PlaceRepository {
                     place.setLongitude(resultSet.getDouble(6));
                     place.setCategory(resultSet.getString(7));
                     place.setPriceRange(resultSet.getLong(8));
-                    place.setScore(resultSet.getLong(9));
-                    place.setLink(resultSet.getString(10));
+                    place.setLink(resultSet.getString(9));
+                    place.setReservationId(resultSet.getLong(10));
+                    place.setScore(resultSet.getLong(11));
                     resultArray.add(place);
                 }
             } catch (SQLException e) {
@@ -75,8 +78,8 @@ public class PlaceRepository {
         }
     }
 
-    public int createPlace(String name, String details, Long imageId, Double latitude, Double longitude){
-        String query = "INSERT INTO place(name, details, image_id, latitude, longitude)values(?, ?, ?, ?, ?)";
+    public int createPlace(String name, String details, Long imageId, Double latitude, Double longitude, String category, String link, Long priceRange, Long score){
+        String query = "INSERT INTO place(name, details, image_id, latitude, longitude, category, link, pricerange, score)values(?, ?, ?, ?, ?, ?, ?, ?, ?)";
         try {
             PreparedStatement statement = connection.prepareStatement(query);
             statement.setString(1, name);
@@ -84,6 +87,10 @@ public class PlaceRepository {
             statement.setLong(3, imageId);
             statement.setDouble(4, latitude);
             statement.setDouble(5, longitude);
+            statement.setString(6, category);
+            statement.setString(7, link);
+            statement.setLong(8, priceRange);
+            statement.setLong(9, score);
             return statement.executeUpdate();
         } catch (SQLException e) {
             throw new RuntimeException(e);
@@ -127,8 +134,9 @@ public class PlaceRepository {
                 place.setLongitude(placeResult.getDouble(6));
                 place.setCategory(placeResult.getString(7));
                 place.setPriceRange(placeResult.getLong(8));
-                place.setScore(placeResult.getLong(9));
-                place.setLink(placeResult.getString(10));
+                place.setLink(placeResult.getString(9));
+                place.setReservationId(placeResult.getLong(10));
+                place.setScore(placeResult.getLong(11));
                 places.add(place);
             }
             return places;
@@ -194,8 +202,9 @@ public class PlaceRepository {
                 place.setLongitude(resultSet.getDouble(6));
                 place.setCategory(resultSet.getString(7));
                 place.setPriceRange(resultSet.getLong(8));
-                place.setScore(resultSet.getLong(9));
-                place.setLink(resultSet.getString(10));
+                place.setLink(resultSet.getString(9));
+                place.setReservationId(resultSet.getLong(10));
+                place.setScore(resultSet.getLong(11));
 
                 places.add(place);
             }
@@ -222,6 +231,10 @@ public class PlaceRepository {
                 place.setLatitude(placeResult.getDouble(5));
                 place.setLongitude(placeResult.getDouble(6));
                 place.setCategory(placeResult.getString(7));
+                place.setPriceRange(placeResult.getLong(8));
+                place.setLink(placeResult.getString(9));
+                place.setReservationId(placeResult.getLong(10));
+                place.setScore(placeResult.getLong(11));
             }
             return place;
         } catch (SQLException e) {

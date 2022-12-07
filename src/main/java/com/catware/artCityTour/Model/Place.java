@@ -17,6 +17,7 @@ public class Place {
     private Long priceRange;
     private Long score;
     private String link;
+    private Long reservationId;
 
 
     public Place(long id, String name, String details, Long photo, Double latitude, Double longitude) {

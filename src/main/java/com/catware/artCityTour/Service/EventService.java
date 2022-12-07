@@ -35,6 +35,9 @@ public class EventService {
 
     public String getAll() throws JsonProcessingException {
         List<Event> events = eventRepository.getAll();
+        for (Event event: events){
+            event.setPlace(placeService.getPlaceById(event.getPlaceId()));
+        }
         return objectMapper.writeValueAsString(events);
     }
 
@@ -68,5 +71,19 @@ public class EventService {
 
     public boolean deleteEvent(Long valueId) {
         return eventRepository.deleteEventById(valueId);
+    }
+
+    public String getEventById(Long eventId) throws JsonProcessingException {
+        Event event = eventRepository.getEventById(eventId);
+        event.setPlace(placeService.getPlaceById(event.getPlaceId()));
+        return objectMapper.writeValueAsString(event);
+    }
+
+    public String createEvent(String jsonData) throws JsonProcessingException {
+        return objectMapper.writeValueAsString(eventRepository.insertEvent(objectMapper.readValue(jsonData, Event.class)));
+    }
+
+    public String updateEvent(String jsonData)throws JsonProcessingException{
+        return objectMapper.writeValueAsString(eventRepository.updateEvent(objectMapper.readValue(jsonData, Event.class)));
     }
 }

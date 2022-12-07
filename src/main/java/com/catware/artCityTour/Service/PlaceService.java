@@ -51,7 +51,7 @@ public class PlaceService {
     public String createPlace(String jsonData) throws JsonProcessingException {
         Place place = objectMapper.readValue(jsonData, Place.class);
         place.setImageId(imageService.createImage(place.getImage()));
-        int result = placeRepository.createPlace(place.getName(), place.getDetails(), place.getImageId(), place.getLatitude(), place.getLongitude());
+        int result = placeRepository.createPlace(place.getName(), place.getDetails(), place.getImageId(), place.getLatitude(), place.getLongitude(), place.getCategory(), place.getLink(), place.getPriceRange(), place.getScore());
         if (result > 0) {
             return objectMapper.writeValueAsString(place);
         }
