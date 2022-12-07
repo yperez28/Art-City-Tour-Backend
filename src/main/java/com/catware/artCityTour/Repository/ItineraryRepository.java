@@ -54,7 +54,6 @@ public class ItineraryRepository {
                 itinerary.setUserId(userId);
 
             }
-
             return result;
 
         } catch (SQLException e) {

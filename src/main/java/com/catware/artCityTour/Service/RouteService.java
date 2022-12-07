@@ -29,14 +29,20 @@ public class RouteService {
     public String getAll() throws JsonProcessingException {
         List<Route> routes = routeRepository.getAll();
         for (Route route : routes) {
-            route.setPlaces(placeService.getPlaceByRouteId(route.getId()));
+            List<Long> ids = new ArrayList<>();
+            List<Place> places = placeService.getPlaceByRouteId(route.getId());
+            route.setPlaces(places);
+            for (Place p : places){
+                ids.add(p.getId());
+            }
+            route.setPlaceIds(ids);
         }
         return objectMapper.writeValueAsString(routes);
     }
 
     public String saveRoute(String jsonData) throws JsonProcessingException {
         Route route = objectMapper.readValue(jsonData, Route.class);
-        routeRepository.saveRoute(route.getName(), route.getEditionId());
+        routeRepository.saveRoute(route.getName(), route.getEditionId(), route.getPlaceIds());
         return objectMapper.writeValueAsString(route);
     }
 
@@ -53,14 +59,27 @@ public class RouteService {
 
     public String getRouteById(Long id) throws JsonProcessingException {
         Route route = routeRepository.getRouteById(id);
-        route.setPlaces(placeService.getPlaceByRouteId(route.getId()));
+        List<Place> places = placeService.getPlaceByRouteId(route.getId());
+        List<Long> ids = new ArrayList<>();
+        route.setPlaces(places);
+        for (Place p : places){
+            ids.add(p.getId());
+        }
+        route.setPlaceIds(ids);
+        route.setPlaces(places);
         return objectMapper.writeValueAsString(route);
     }
 
     public String getRouteByCurrentEdition() throws JsonProcessingException {
         List<Route> routes = routeRepository.getRouteByCurrentEdition();
         for (Route route : routes) {
-            route.setPlaces(placeService.getPlaceByRouteId(route.getId()));
+            List<Long> ids = new ArrayList<>();
+            List<Place> places = placeService.getPlaceByRouteId(route.getId());
+            route.setPlaces(places);
+            for (Place p : places){
+                ids.add(p.getId());
+            }
+            route.setPlaceIds(ids);
         }
         return objectMapper.writeValueAsString(routes);
     }
@@ -68,7 +87,13 @@ public class RouteService {
     public List<Route> getRouteByEdition(Long editionId) {
         List<Route> routes = routeRepository.getRouteByEdition(editionId);
         for (Route route : routes) {
-            route.setPlaces(placeService.getPlaceByRouteId(route.getId()));
+            List<Long> ids = new ArrayList<>();
+            List<Place> places = placeService.getPlaceByRouteId(route.getId());
+            route.setPlaces(places);
+            for (Place p : places){
+                ids.add(p.getId());
+            }
+            route.setPlaceIds(ids);
         }
         return routes;
     }

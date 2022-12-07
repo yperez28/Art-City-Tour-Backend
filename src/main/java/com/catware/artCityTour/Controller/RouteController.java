@@ -5,7 +5,10 @@ import com.catware.artCityTour.Service.RouteService;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.*;
+
+import java.awt.*;
 
 @RestController()
 @RequestMapping(value = "/routes")
@@ -18,7 +21,7 @@ public class RouteController {
     private ObjectMapper objectMapper;
 
     @CrossOrigin
-    @RequestMapping(value="/create", method = RequestMethod.GET)
+    @RequestMapping(value="/create", method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_VALUE)
     public String createRoute(@RequestBody String jsonData) throws JsonProcessingException {
         return routeService.saveRoute(jsonData);
     }
@@ -36,7 +39,7 @@ public class RouteController {
     }
 
     @CrossOrigin
-    @RequestMapping(value = "/update", method = RequestMethod.GET)
+    @RequestMapping(value = "/update", method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_VALUE)
     public String updateRoute(@RequestBody String jsonData) throws JsonProcessingException {
         return routeService.updateRoute(jsonData);
     }

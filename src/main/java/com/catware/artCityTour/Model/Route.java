@@ -12,6 +12,7 @@ public class Route {
     private String name;
     private List<Place> places;
     private Long editionId;
+    private List<Long> placeIds;
 
     public Route(Long id, String name, List<Place> places, Long editionId) {
         this.id = id;

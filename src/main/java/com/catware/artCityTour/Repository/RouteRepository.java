@@ -1,6 +1,7 @@
 package com.catware.artCityTour.Repository;
 
 import com.catware.artCityTour.Conection.DBCConnection;
+import com.catware.artCityTour.Model.Itinerary;
 import com.catware.artCityTour.Model.Route;
 import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.stereotype.Repository;
@@ -81,7 +82,6 @@ public class RouteRepository {
                     route.setId(resultSet.getLong(1));
                     route.setName(resultSet.getString(2));
                     route.setEditionId(resultSet.getLong(3));
-
                     resultArray.add(route);
                 }
             } catch (SQLException e) {
@@ -104,6 +104,7 @@ public class RouteRepository {
             while(resultSet.next()) {
                 route.setId(resultSet.getLong(1));
                 route.setName(resultSet.getString(2));
+                route.setEditionId(resultSet.getLong(3));
             }
             return route;
         } catch (SQLException e) {
@@ -111,17 +112,30 @@ public class RouteRepository {
         }
     }
 
-    public Route saveRoute(String name, Long editionId) {
+    public Route saveRoute(String name, Long editionId, List<Long> placesIds) {
         try {
-            String query = "INSERT INTO route (name, editionid) VALUES (?, ?)";
+            String query = "INSERT INTO route (name, editionid) VALUES (?, ?) RETURNING id";
+
             PreparedStatement statement = connection.prepareStatement(query);
             statement.setString(1, name);
             statement.setLong(2, editionId);
-            statement.executeUpdate();
+            ResultSet resultSet = statement.executeQuery();
 
+            Long result = null;
             Route route = new Route();
+            if (resultSet.next()) {
+                result = resultSet.getLong(1);
+            }
             route.setName(name);
+            route.setId(result);
 
+            String query2 = "INSERT INTO placexroute (routeid, placeid) VALUES(?, ?)";
+            PreparedStatement statement2 = connection.prepareStatement(query2);
+            for (Long id: placesIds){
+                statement2.setLong(1, result);
+                statement2.setLong(2, id);
+                statement2.executeUpdate();
+            }
             return route;
         } catch (SQLException e) {
             throw new RuntimeException(e);
@@ -130,7 +144,7 @@ public class RouteRepository {
 
     public Route updateRoute(String name, Long id, Long editionId) {
         try {
-            String query = "UPDATE route SET name=?, editionid = ? WHERE id=?";
+            String query = "UPDATE route SET name = ?, editionid = ? WHERE id = ?";
             PreparedStatement statement = connection.prepareStatement(query);
             statement.setString(1, name);
             statement.setLong(2, editionId);
