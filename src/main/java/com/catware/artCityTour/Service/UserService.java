@@ -19,6 +19,7 @@ import java.security.SecureRandom;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.Objects;
 
 @Service
 public class UserService {
@@ -93,9 +94,9 @@ public class UserService {
     }
 
     public boolean deleteUser(Long id) throws JsonProcessingException {
-        ItineraryRepository itineraryRepository = new ItineraryRepository();
         Itinerary itinerary =  itineraryRepository.getItineraryByUserId(id);
-        itineraryRepository.deleteItinerary(itinerary.getId());
+        if(!Objects.isNull(itinerary.getId())){
+            itineraryRepository.deleteItinerary(itinerary.getId());}
         Integer result = userRepository.deleteUser(id);
         return result == 1;
     }

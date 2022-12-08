@@ -171,7 +171,6 @@ public class RouteRepository {
 
             placeStatement.executeUpdate();
             Integer result = mainStatement.executeUpdate();
-            connection.close();
 
             return result;
         } catch (SQLException e) {
