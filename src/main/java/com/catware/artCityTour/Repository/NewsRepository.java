@@ -33,7 +33,7 @@ public class NewsRepository {
                 news.setId(resultSet.getLong(1));
                 news.setTitle(resultSet.getString(2));
                 news.setDescription(description);
-                news.setDate(resultSet.getDate(4).toLocalDate());
+                news.setDate(resultSet.getString(4));
                 news.setImageId(resultSet.getLong(5));
                 news.setLink(resultSet.getString(6));
                 newsList.add(news);
@@ -45,7 +45,7 @@ public class NewsRepository {
     }
 
     public News getNewsById(Long id) {
-        String query = "SELECT id, title, description, date, image_id FROM news WHERE id = ?";
+        String query = "SELECT id, title, description, date, image_id, link FROM news WHERE id = ?";
         try {
             PreparedStatement statement = connection.prepareStatement(query);
             statement.setLong(1, id);
@@ -55,7 +55,7 @@ public class NewsRepository {
                 news.setId(resultSet.getLong(1));
                 news.setTitle(resultSet.getString(2));
                 news.setDescription(resultSet.getString(3));
-                news.setDate(resultSet.getDate(4).toLocalDate());
+                news.setDate(resultSet.getString(4));
                 news.setImageId(resultSet.getLong(5));
                 news.setLink(resultSet.getString(6));
             }
@@ -65,14 +65,14 @@ public class NewsRepository {
         }
     }
 
-    public int createNews(String title, String description, Long imageId, LocalDate date, String link) {
-        String query = "INSERT INTO news (title, description, image_id, date) values(?, ?, ?, ?)";
+    public int createNews(String title, String description, Long imageId, String date, String link) {
+        String query = "INSERT INTO news (title, description, image_id, date, link) values(?, ?, ?, ?, ?)";
         try {
             PreparedStatement statement = connection.prepareStatement(query);
             statement.setString(1, title);
             statement.setString(2, description);
             statement.setLong(3, imageId);
-            statement.setDate(4, Date.valueOf(date));
+            statement.setString(4, date);
             statement.setString(5, link);
             return statement.executeUpdate();
         } catch (SQLException e) {
@@ -80,16 +80,16 @@ public class NewsRepository {
         }
     }
 
-    public int updateNews(Long id, String title, String description, LocalDate date, Long imageId, String link) {
+    public int updateNews(Long id, String title, String description, String date, Long imageId, String link) {
         String query = "UPDATE news set title = ?, description = ?, date = ?, image_id=?, link=? WHERE id = ?";
         try {
             PreparedStatement statement = connection.prepareStatement(query);
             statement.setString(1, title);
             statement.setString(2, description);
-            statement.setDate(3, Date.valueOf(date));
-            statement.setLong(4, id);
-            statement.setLong(5, imageId);
-            statement.setString(6, link);
+            statement.setString(3, date);
+            statement.setLong(4, imageId);
+            statement.setString(5, link);
+            statement.setLong(6, id);
             return statement.executeUpdate();
         } catch (SQLException e) {
             throw new RuntimeException(e);
