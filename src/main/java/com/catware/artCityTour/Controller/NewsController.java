@@ -4,6 +4,7 @@ import com.catware.artCityTour.Service.EditionService;
 import com.catware.artCityTour.Service.NewsService;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.*;
 
 @RestController()
@@ -26,13 +27,13 @@ public class NewsController {
     }
 
     @CrossOrigin
-    @RequestMapping(value = "/create", method = RequestMethod.GET)
+    @RequestMapping(value = "/create", method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_VALUE)
     public String createNews(@RequestBody String jsonData) throws JsonProcessingException {
         return newsService.createNews(jsonData);
     }
 
     @CrossOrigin
-    @RequestMapping(value = "/update", method = RequestMethod.GET)
+    @RequestMapping(value = "/update", method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_VALUE)
     public String updateNews(@RequestBody String jsonData) throws JsonProcessingException {
         return newsService.updateNews(jsonData);
     }

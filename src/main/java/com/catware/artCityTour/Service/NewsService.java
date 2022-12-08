@@ -40,7 +40,7 @@ public class NewsService {
     public String createNews(String jsonData) throws JsonProcessingException {
         News news = objectMapper.readValue(jsonData, News.class);
         news.setImageId(imageService.createImage(news.getImage()));
-        int result = newsRepository.createNews(news.getTitle(), news.getDescription(), news.getImageId(), news.getDate());
+        int result = newsRepository.createNews(news.getTitle(), news.getDescription(), news.getImageId(), news.getDate(), news.getLink());
         if (result > 0) {
             return objectMapper.writeValueAsString(news);
         }
@@ -50,7 +50,7 @@ public class NewsService {
     public String updateNews(String jsonData) throws JsonProcessingException {
         News news = objectMapper.readValue(jsonData, News.class);
         imageService.updateImage(news.getImage());
-        int result = newsRepository.updateNews(news.getId(), news.getTitle(), news.getDescription(), news.getDate());
+        int result = newsRepository.updateNews(news.getId(), news.getTitle(), news.getDescription(), news.getDate(), news.getImageId(), news.getLink());
         if (result > 0) {
             return objectMapper.writeValueAsString(news);
         }
