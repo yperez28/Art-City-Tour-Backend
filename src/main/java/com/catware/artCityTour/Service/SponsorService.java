@@ -37,6 +37,7 @@ public class SponsorService {
 
     public String updateSponsor(String jsonData) throws JsonProcessingException {
         Sponsor sponsor = objectMapper.readValue(jsonData, Sponsor.class);
+
         imageService.updateImage(sponsor.getImage());
         int result = sponsorRepository.updateSponsor(sponsor.getId(), sponsor.getName(), sponsor.getImageId());
         if (result > 0) {
