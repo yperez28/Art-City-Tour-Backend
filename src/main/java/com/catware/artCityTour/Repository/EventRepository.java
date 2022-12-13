@@ -72,7 +72,7 @@ public class EventRepository {
     public boolean deleteEventById(Long valueId) {
         try {
             String placeQuery = "DELETE FROM eventxitinerary WHERE eventid=?";
-            String mainQuery = "DELETE FROM place WHERE id=?";
+            String mainQuery = "DELETE FROM event WHERE id=?";
             PreparedStatement placeStatement = connection.prepareStatement(placeQuery);
             PreparedStatement mainStatement = connection.prepareStatement(mainQuery);
 
@@ -81,7 +81,6 @@ public class EventRepository {
 
             placeStatement.executeUpdate();
             Integer result = mainStatement.executeUpdate();
-            connection.close();
 
             return result == 1;
         } catch (SQLException e) {
