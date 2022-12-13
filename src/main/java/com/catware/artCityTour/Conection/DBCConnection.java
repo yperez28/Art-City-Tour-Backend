@@ -11,9 +11,9 @@ public class DBCConnection {
         if (connection != null) {
             return connection;
         }
-        String dbURL = "jdbc:postgresql://localhost:5432/ACTMainDB";
+        String dbURL = "jdbc:postgresql://localhost:5432/PERRRA";
         String userName = "postgres";
-        String password = "Admin";
+        String password = "admin";
         Connection conn = null;
         try {
             conn = DriverManager.getConnection(dbURL, userName, password);
