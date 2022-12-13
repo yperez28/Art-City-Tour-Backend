@@ -28,8 +28,8 @@ public class EditionRepository {
                      edition.setId(resultSet.getLong(1));
                      edition.setName(resultSet.getString(2));
                      edition.setDetails(resultSet.getString(3));
-                     edition.setDate(resultSet.getDate(4).toLocalDate());
-                     edition.setCurrent(resultSet.getBoolean(5));
+                     edition.setDate(resultSet.getString(5));
+                     edition.setCurrent(resultSet.getBoolean(4));
                      editions.add(edition);
                  }
             } catch (SQLException e) {
@@ -54,8 +54,8 @@ public class EditionRepository {
                 edition.setId(resultSet.getLong(1));
                 edition.setName(resultSet.getString(2));
                 edition.setDetails(resultSet.getString(3));
-                edition.setDate(resultSet.getDate(4).toLocalDate());
-                edition.setCurrent(resultSet.getBoolean(5));
+                edition.setDate(resultSet.getString(5));
+                edition.setCurrent(resultSet.getBoolean(4));
             }
 
             return edition;
@@ -77,8 +77,8 @@ public class EditionRepository {
                 edition.setId(resultSet.getLong(1));
                 edition.setName(resultSet.getString(2));
                 edition.setDetails(resultSet.getString(3));
-                edition.setDate(resultSet.getDate(4).toLocalDate());
-                edition.setCurrent(resultSet.getBoolean(5));
+                edition.setDate(resultSet.getString(5));
+                edition.setCurrent(resultSet.getBoolean(4));
             }
 
             return edition;
@@ -87,14 +87,14 @@ public class EditionRepository {
         }
     }
 
-    public Long createEdition(String name, String details, LocalDate date, Boolean current){
+    public Long createEdition(String name, String details, String date, Boolean current){
         String query = "INSERT INTO edition (name, details, date, current) VALUES (?, ?, ?, ?)";
         PreparedStatement statement = null;
         try {
             statement = connection.prepareStatement(query, Statement.RETURN_GENERATED_KEYS);
             statement.setString(1, name);
             statement.setString(2, details);
-            statement.setDate(3, Date.valueOf(date));
+            statement.setString(3, date);
             statement.setBoolean(4, current);
             int affectedRows = statement.executeUpdate();
             if (affectedRows == 0) {
@@ -114,14 +114,14 @@ public class EditionRepository {
         }
     }
 
-    public int updateEdition(Long id, String name, String details, LocalDate date, Boolean current) {
+    public int updateEdition(Long id, String name, String details, String date, Boolean current) {
         String query = "UPDATE edition set name = ?, details = ?, date = ?, current = ? WHERE id = ?";
         PreparedStatement statement = null;
         try {
             statement = connection.prepareStatement(query, Statement.RETURN_GENERATED_KEYS);
             statement.setString(1, name);
             statement.setString(2, details);
-            statement.setDate(3, Date.valueOf(date));
+            statement.setString(3, date);
             statement.setBoolean(4, current);
             statement.setLong(5, id);
             return statement.executeUpdate();

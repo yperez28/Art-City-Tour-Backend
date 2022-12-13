@@ -3,6 +3,7 @@ package com.catware.artCityTour.Controller;
 import com.catware.artCityTour.Service.EditionService;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.*;
 
 @RestController()
@@ -31,7 +32,7 @@ public class EditionController {
     }
 
     @CrossOrigin
-    @RequestMapping(value = "/create", method = RequestMethod.GET)
+    @RequestMapping(value = "/create", method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_VALUE)
     public String createEdition(@RequestBody String jsonData) throws JsonProcessingException {
         return editionService.createEdition(jsonData);
     }
