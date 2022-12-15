@@ -65,15 +65,23 @@ public class EditionService {
     }
 
     public String createEdition(String jsonData) throws JsonProcessingException {
+        System.out.println(jsonData);
         Edition edition = objectMapper.readValue(jsonData, Edition.class);
         if(edition.getCurrent()){
             editionRepository.updateCurrent();
         }
         edition.setId( editionRepository.createEdition(edition.getName(), edition.getDetails(), edition.getDate(), edition.getCurrent()));
 
-        for (Sponsor sponsor: edition.getSponsors()) {
-            sponsorService.saveSponsorForEdition(edition.getId(), sponsor.getId());
+        for (Long sponsorId: edition.getSponsorIds()) {
+            sponsorService.saveSponsorForEdition(edition.getId(), sponsorId);
         }
+
+        for(Long routeId: edition.getRoutesIds()){
+            Route route = objectMapper.readValue(routeService.getRouteById(routeId), Route.class);
+            route.setEditionId(edition.getId());
+            routeService.updateRoute(objectMapper.writeValueAsString(route));
+        }
+
         for (Image image: edition.getImages()) {
             image.setImageId(imageService.createImage(image));
             imageService.createImageForEdition(edition.getId(),image.getImageId());
