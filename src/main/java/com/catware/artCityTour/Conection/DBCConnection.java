@@ -4,6 +4,8 @@ import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
 
+import static com.catware.artCityTour.Constants.Constants.*;
+
 public class DBCConnection {
     private static Connection connection;
 
@@ -11,9 +13,9 @@ public class DBCConnection {
         if (connection != null) {
             return connection;
         }
-        String dbURL = "jdbc:postgresql://localhost:5432/ACTMainDB";
-        String userName = "postgres";
-        String password = "Admin";
+        String dbURL = DB_URL;
+        String userName = DB_USERNAME;
+        String password = DB_PASSWORD;
         Connection conn = null;
         try {
             conn = DriverManager.getConnection(dbURL, userName, password);

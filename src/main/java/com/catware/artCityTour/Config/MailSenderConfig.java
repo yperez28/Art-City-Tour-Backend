@@ -7,6 +7,8 @@ import org.springframework.mail.javamail.JavaMailSenderImpl;
 
 import java.util.Properties;
 
+import static com.catware.artCityTour.Constants.Constants.*;
+
 @Configuration
 public class MailSenderConfig {
 
@@ -14,9 +16,9 @@ public class MailSenderConfig {
     public JavaMailSender javaMailSender() {
         JavaMailSenderImpl sender = new JavaMailSenderImpl();
         sender.setHost("smtp.gmail.com");
-        sender.setPort(587);
-        sender.setUsername("pruebasparaprogras@gmail.com");
-        sender.setPassword("wzeovekajabjrfjh");
+        sender.setPort(MAIL_PORT);
+        sender.setUsername(MAIL_USERNAME);
+        sender.setPassword(MAIL_PASSWORD);
 
         Properties props = sender.getJavaMailProperties();
         props.put("mail.transport.protocol", "smtp");
