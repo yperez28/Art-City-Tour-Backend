@@ -58,9 +58,11 @@ public class UserService {
     public String getUserById(Long id) throws JsonProcessingException {
         User user = userRepository.getUserById(id);
         user.setMemberships(membershipRepository.getMembershipsByUser(id));
-        Itinerary itinerary = itineraryRepository.getItineraryByUserId(user.getId());
-        itinerary.setEvents(eventRepository.getEventByItinerary(itinerary.getId()));
-        user.setItinerary(itinerary);
+        if (itineraryRepository.verifyUserItinerary(user.getId()) > 0) {
+            Itinerary itinerary = itineraryRepository.getItineraryByUserId(user.getId());
+            itinerary.setEvents(eventRepository.getEventByItinerary(itinerary.getId()));
+            user.setItinerary(itinerary);
+        }
 
         return objectMapper.writeValueAsString(user);
     }
@@ -74,7 +76,10 @@ public class UserService {
                 user.setTypeUser(TypeUser.NORMAL_USER.getName());
                 userRepository.saveNormalUser(result);
             } else {
-                userRepository.saveAdmin(result);
+                if (Objects.equals(user.getTypeUser(), "Normal User"))
+                    userRepository.saveNormalUser(result);
+                else
+                    userRepository.saveAdmin(result);
             }
             return objectMapper.writeValueAsString(user);
         }

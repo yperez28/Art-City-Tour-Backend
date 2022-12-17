@@ -22,6 +22,10 @@ public class ImageService {
         return imageRepository.getImageById(imageId);
     }
 
+    public String getMembershipImage() {
+        return imageRepository.getImageByName("Membership");
+    }
+
     public String deleteImagesByEdition(Long editionId){
         return String.valueOf(imageRepository.deleteImagesByEdition(editionId));
     }

@@ -39,8 +39,7 @@ public class MembershipService {
     }
 
     public String getPrincipalMembership() throws JsonProcessingException {
-        Membership membership = membershipRepository.getPrincipalMembership();
-        return imageService.getImageById(membership.getImageId()).getDrivePath();
+        return imageService.getMembershipImage();
     }
 
     public String saveMembershipxUser(Long userId, Long membershipId) throws JsonProcessingException {
